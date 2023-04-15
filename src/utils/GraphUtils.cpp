@@ -5,7 +5,7 @@
 #include <sstream>
 
 #include "consts/Consts.h"
-#include "data_structures/Edge.h"
+#include "data_structures/graph/Edge.h"
 
 namespace utils {
     data_structures::Graph GraphUtils::createGraphFromFile(string file_name) {

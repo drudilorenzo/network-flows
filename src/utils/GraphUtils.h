@@ -2,7 +2,7 @@
 #define MINIMUM_COST_FLOWS_PROBLEM_GRAPHUTILS_H
 
 #include <string>
-#include "data_structures/Graph.h"
+#include "data_structures/graph/Graph.h"
 
 using namespace std;
 

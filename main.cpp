@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "data_structures/Graph.h"
+#include "data_structures/graph/Graph.h"
 #include "utils/GraphUtils.h"
 #include "consts/Consts.h"
 

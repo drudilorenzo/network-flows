@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "data_structures/Edge.h"
+#include "data_structures/graph/Edge.h"
 
 using namespace std;
 
@@ -16,7 +16,7 @@ namespace data_structures {
             /**
              * Graph constructor.
              *
-             * @param V Number of vertices
+             * @param V Number of nodes
              */
             Graph(const int V);
 
@@ -31,6 +31,28 @@ namespace data_structures {
              * Pretty print the graph.
              */
             void PrintGraph();
+
+            /**
+             * Get the number of nodes.
+             *
+             * @return the num of nodes of the graph
+             */
+            int GetNumNodes() const;
+
+            /**
+             * Get the adjacent list of the graph.
+             *
+             * @return the adjacent list of the graph
+             */
+            vector<Edge> *GetAdjList() const;
+
+            /**
+             * Get the adjacent list of the node u.
+             *
+             * @param u the node
+             * @return the adjacent list of the node u
+             */
+            vector<Edge> GetNodeAdjList(int i) const;
 
             /**
              * Overload of the == operator
@@ -49,7 +71,7 @@ namespace data_structures {
             bool operator!=(const Graph& other) const;
 
         private:
-            int num_vertices; // num of vertices of the graph
+            int num_nodes; // num of vertices of the graph
             vector<Edge> *adj_list; // adjacent list used to store the graph
     };
 }

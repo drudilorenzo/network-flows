@@ -6,8 +6,8 @@
 namespace data_structures {
 
     Graph::Graph(const int V) :
-        num_vertices(V) {
-            this->adj_list = new vector<Edge>[num_vertices];
+            num_nodes(V) {
+            this->adj_list = new vector<Edge>[num_nodes];
     }
 
     void Graph::AddEdge(Edge e) {
@@ -15,12 +15,12 @@ namespace data_structures {
         int tail = e.GetTail();
 
         // Check if the head of the edge is out of range
-        if (head < 0 || head >= this->num_vertices) {
+        if (head < 0 || head >= this->num_nodes) {
             throw std::invalid_argument("head of the edge is out of range");
         }
 
         // Check if the tail of the edge is out of range
-        if (tail < 0 || tail >= this->num_vertices) {
+        if (tail < 0 || tail >= this->num_nodes) {
             throw std::invalid_argument("tail of the edge is out of range");
         }
 
@@ -28,13 +28,17 @@ namespace data_structures {
     }
 
     void Graph::PrintGraph() {
-        for (int u = 0; u < this->num_vertices; u++) {
+        for (int u = 0; u < this->num_nodes; u++) {
             printf("Vertex %d:\n", u);
             for (auto e : adj_list[u]) {
                 e.ToString();
             }
             printf("\n");
         }
+    }
+
+    int Graph::GetNumNodes() const {
+        return this->num_nodes;
     }
 
     bool Graph::operator==(const data_structures::Graph &other) const {
@@ -44,10 +48,10 @@ namespace data_structures {
         if (this == nullptr || &other == nullptr) {
             return false;
         }
-        if (this->num_vertices != other.num_vertices) {
+        if (this->num_nodes != other.num_nodes) {
             return false;
         }
-        for (int u = 0; u < this->num_vertices; u++) {
+        for (int u = 0; u < this->num_nodes; u++) {
             if (this->adj_list[u].size() != other.adj_list[u].size()) {
                 return false;
             }
