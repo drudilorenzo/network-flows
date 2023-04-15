@@ -19,7 +19,7 @@ namespace  utils {
              * @param file_name name of the file to read
              * @return (data_structure::Graph) graph created from the file inputs
              */
-            static  data_structures::Graph createGraphFromFile(string file_name);
+            static data_structures::Graph createGraphFromFile(string file_name);
     };
 }
 

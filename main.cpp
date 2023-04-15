@@ -12,13 +12,15 @@ int main(int argc, char **argv) {
         return 1;
     }
     const string filename = argv[1];
-    data_structures::Graph g = utils::GraphUtils::createGraphFromFile(filename);
 
-    if (g == EMPTY_GRAPH) {
-        return 1;
+    // Read graph from file
+    try {
+        data_structures::Graph g = utils::GraphUtils::createGraphFromFile(filename);
+        g.PrintGraph();
+    } catch (std::invalid_argument& e) {
+        std::cout << "ERROR: " << e.what() << std::endl;
+        return -1;
     }
-
-    g.PrintGraph();
 
     return 0;
 }

@@ -44,15 +44,15 @@ namespace data_structures {
         if (this == nullptr || &other == nullptr) {
             return false;
         }
-        if (num_vertices != other.num_vertices) {
+        if (this->num_vertices != other.num_vertices) {
             return false;
         }
-        for (int u = 0; u < num_vertices; u++) {
-            if (adj_list[u].size() != other.adj_list[u].size()) {
+        for (int u = 0; u < this->num_vertices; u++) {
+            if (this->adj_list[u].size() != other.adj_list[u].size()) {
                 return false;
             }
-            for (int i = 0; i < adj_list[u].size(); i++) {
-                if (adj_list[u][i] != other.adj_list[u][i]) {
+            for (int i = 0; i < this->adj_list[u].size(); i++) {
+                if (this->adj_list[u][i] != other.adj_list[u][i]) {
                     return false;
                 }
             }

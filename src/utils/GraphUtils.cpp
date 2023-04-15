@@ -1,9 +1,11 @@
 #include "GraphUtils.h"
-#include "consts/Consts.h"
 
 #include <iostream>
 #include <fstream>
 #include <sstream>
+
+#include "consts/Consts.h"
+#include "data_structures/Edge.h"
 
 namespace utils {
     data_structures::Graph GraphUtils::createGraphFromFile(string file_name) {
@@ -17,25 +19,27 @@ namespace utils {
             istringstream iss (line);
 
             if ( !(iss >> num_vertices) ) {
-                cout << "ERROR: Wrong file formatting";
-                return EMPTY_GRAPH;
+                throw std::invalid_argument("Wrong file formatting (num vertices)");
             }
 
             data_structures::Graph g = data_structures::Graph(num_vertices);
-            int u, v;
+            int h, t, ca, cs;
             while (getline(infile, line)) {
                 iss.clear();
                 iss.str(line);
-                if ( !(iss >> u >> v) ) {
-                    cout << "ERROR: Wrong file formatting";
-                    return EMPTY_GRAPH;
+                if ( !(iss >> h >> t >> ca >> cs) ) {
+                    throw std::invalid_argument("Wrong file formatting (edge)");
                 }
-                g.AddEdge(u, v);
+                data_structures::Edge e = data_structures::Edge(h, t, ca, cs);
+                try {
+                    g.AddEdge(e);
+                } catch (std::invalid_argument& e) {
+                    throw std::invalid_argument("Wrong edge parameters");
+                }
             }
             return g;
         } else {
-            cout << "ERROR: File " << file_name << " not found!";
-            return EMPTY_GRAPH;
+            throw std::invalid_argument("File not found");
         }
 
     }

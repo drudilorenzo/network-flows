@@ -27,7 +27,7 @@ namespace data_structures {
     }
 
     void Edge::ToString() {
-        printf("Edge: head = %d, tail = %d, capacity = %d, cost = %d", head, tail, capacity, cost);
+        printf("Edge: head = %d, tail = %d, capacity = %d, cost = %d\n", head, tail, capacity, cost);
     }
 
     bool Edge::operator==(const Edge& other) const {
@@ -37,7 +37,7 @@ namespace data_structures {
         if (this == nullptr || &other == nullptr) {
             return false;
         }
-        return head == other.head && tail == other.tail && capacity == other.capacity && cost == other.cost;
+        return this->head == other.head && this->tail == other.tail && this->capacity == other.capacity && this->cost == other.cost;
     }
 
     bool Edge::operator!=(const Edge& other) const {
