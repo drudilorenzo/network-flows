@@ -2,7 +2,7 @@
 
 #include "data_structures/graph/Graph.h"
 #include "utils/GraphUtils.h"
-#include "consts/Consts.h"
+#include "algorithms/MaximumFlowAlgorithms.h"
 
 int main(int argc, char **argv) {
 
@@ -15,8 +15,14 @@ int main(int argc, char **argv) {
 
     // Read graph from file
     try {
-        data_structures::Graph g = utils::GraphUtils::createGraphFromFile(filename);
-        g.PrintGraph();
+        data_structures::Graph graph = utils::GraphUtils::CreateGraphFromFile(filename);
+        graph.PrintGraph();
+
+        int source = 0;
+        int sink = 5;
+        int max_flow = algorithms::MaximumFlowAlgorithms::EdmondsKarp(graph, source, sink);
+
+        std::cout << "Max flow: " << max_flow << std::endl;
     } catch (std::invalid_argument& e) {
         std::cout << "ERROR: " << e.what() << std::endl;
         return -1;
