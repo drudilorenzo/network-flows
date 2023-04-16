@@ -1,30 +1,37 @@
 #include "GraphBaseAlgorithms.h"
 
 #include <queue>
+#include <cstring>
 
 namespace algorithms {
-    int GraphBaseAlgorithms::BFS(data_structures::Graph graph, int source, int sink) {
+    bool GraphBaseAlgorithms::BFS(data_structures::Graph graph, int source, int sink, int parent[]) {
         int u;
         queue<int> q;
         int num_nodes = graph.GetNumNodes();
         bool visited[num_nodes];
 
-        for (int i = 0; i < num_nodes; i++) {
-            visited[i] = false;
-        }
-        visited[source] = true;
+
+
+        memset(visited, false, sizeof(visited));
         q.push(source);
+        visited[source] = true;
+        parent[source] = -1;
 
         while (!q.empty()) {
             u = q.front();
             q.pop();
             for (auto e : graph.GetNodeAdjList(u)) {
-                if (!visited[e.GetTail()]) {
+                if (!visited[e.GetTail()] && e.GetCapacity() > 0) {
+                    parent[e.GetTail()] = u;
+                    if (e.GetTail() == sink) {
+                        return true;
+                    }
                     visited[e.GetTail()] = true;
                     q.push(e.GetTail());
                 }
             }
         }
+        return false;
     }
 
     int GraphBaseAlgorithms::DFS(data_structures::Graph graph, int source, int sink) {
