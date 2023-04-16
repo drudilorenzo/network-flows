@@ -10,6 +10,40 @@ namespace data_structures {
             this->adj_list = new vector<Edge>[num_nodes];
     }
 
+    int Graph::GetNumNodes() const {
+        return this->num_nodes;
+    }
+
+    vector<Edge> *Graph::GetAdjList() const {
+        return this->adj_list;
+    }
+
+    vector<Edge> Graph::GetNodeAdjList(int i) const {
+        if (i < 0 || i >= this->num_nodes) {
+            throw std::invalid_argument("node is out of range");
+        }
+        return this->adj_list[i];
+    }
+
+    Edge Graph::GetEdge(int u, int v) const {
+        for (auto e : this->adj_list[u]) {
+            if (e.GetTail() == v) {
+                return e;
+            }
+        }
+        throw std::invalid_argument("no edge between u and v");
+    }
+
+    void Graph::SetEdgeCapacity(int u, int v, int capacity) {
+        for (auto &e : this->adj_list[u]) {
+            if (e.GetTail() == v) {
+                e.SetCapacity(capacity);
+                return;
+            }
+        }
+        throw std::invalid_argument("no edge between u and v");
+    }
+
     void Graph::AddEdge(Edge e) {
         int head = e.GetHead();
         int tail = e.GetTail();
@@ -37,10 +71,6 @@ namespace data_structures {
         }
     }
 
-    int Graph::GetNumNodes() const {
-        return this->num_nodes;
-    }
-
     bool Graph::operator==(const data_structures::Graph &other) const {
         if (this == &other) {
             return true;
@@ -62,5 +92,9 @@ namespace data_structures {
             }
         }
         return true;
+    }
+
+    bool Graph::operator!=(const data_structures::Graph &other) const {
+        return !(*this == other);
     }
 }

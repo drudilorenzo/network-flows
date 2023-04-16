@@ -52,6 +52,13 @@ namespace data_structures {
         int GetCost();
 
         /**
+         * Set the capacity of the edge.
+         *
+         * @param capacity the new capacity of the edge
+         */
+        void SetCapacity(int capacity);
+
+        /**
          * Pretty print the edge.
          */
         void ToString();

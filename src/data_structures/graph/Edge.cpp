@@ -26,6 +26,10 @@ namespace data_structures {
         return this->cost;
     }
 
+    void Edge::SetCapacity(int capacity) {
+        this->capacity = capacity;
+    }
+
     void Edge::ToString() {
         printf("Edge: head = %d, tail = %d, capacity = %d, cost = %d\n", head, tail, capacity, cost);
     }

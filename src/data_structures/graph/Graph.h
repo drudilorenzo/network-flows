@@ -16,7 +16,7 @@ namespace data_structures {
             /**
              * Graph constructor.
              *
-             * @param V Number of nodes
+             * @param V Number of vertices
              */
             Graph(const int V);
 
@@ -51,8 +51,29 @@ namespace data_structures {
              *
              * @param u the node
              * @return the adjacent list of the node u
+             * @throws invalid_argument if the node does not exist
              */
             vector<Edge> GetNodeAdjList(int i) const;
+
+            /**
+             * Get the edge between the nodes u and v.
+             *
+             * @param u the first node
+             * @param b the second node
+             * @return the edge between the nodes u and v
+             * @throws invalid_argument if the edge does not exist
+             */
+            data_structures::Edge GetEdge(int u, int v) const;
+
+            /**
+             * Set the capacity of the edge between the nodes u and v.
+             *
+             * @param u the first node
+             * @param v the second node
+             * @param capacity the new capacity of the edge
+             * @throws invalid_argument if the edge does not exist
+             */
+            void SetEdgeCapacity(int u, int v, int capacity);
 
             /**
              * Overload of the == operator
