@@ -3,66 +3,95 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-
-#include "consts/Consts.h"
+#include <algorithm>
+#include <memory>
+#include "json.hpp"
 #include "data_structures/graph/Edge.h"
 
+using json = nlohmann::json;
+
 namespace utils {
-    data_structures::Graph GraphUtils::CreateGraphFromFile(string file_name) {
+    std::shared_ptr<data_structures::Graph> GraphUtils::CreateGraphFromJSON(string file_name) {
+        // check if the extension is .json
+        if (file_name.substr(file_name.find_last_of(".") + 1) != "json") {
+            throw std::invalid_argument("File extension is not .json");
+        }
+
+        // open the file
         ifstream infile (file_name);
 
         if (infile) {
-            string line;
-            int num_vertices;
+            try {
+                std::cout << "Reading file: " << file_name << endl;
+                // parse json
+                json data = json::parse(infile);
 
-            getline(infile, line);
-            istringstream iss (line);
+                // create graph
+                int num_nodes = data["Num_nodes"];
+                std::cout << "Number of nodes: " << num_nodes << endl;
 
-            if ( !(iss >> num_vertices) ) {
-                throw std::invalid_argument("Wrong file formatting (num vertices)");
-            }
+                nlohmann::json edges = data["Edges"];
+                std::cout << "Number of edges: " << edges.size() << endl;
+                auto graph = make_shared<data_structures::Graph>(num_nodes);
+                int source, sink, capacity, cost;
+                for (auto& e : edges) {
+                    source = e["Source"];
+                    sink = e["Sink"];
+                    capacity = e["Capacity"];
+                    cost = e["Cost"];
+                    cout << "Adding edge: " << source << " -> " << sink << " (capacity: " << capacity << ", cost: " << cost << ")" << endl;
 
-            data_structures::Graph g = data_structures::Graph(num_vertices);
-            int h, t, ca, cs;
-            while (getline(infile, line)) {
-                iss.clear();
-                iss.str(line);
-                if ( !(iss >> h >> t >> ca >> cs) ) {
-                    throw std::invalid_argument("Wrong file formatting (edge)");
+                    auto edge = data_structures::Edge(source, sink, capacity, cost);
+                    graph->AddEdge(edge);
                 }
-                data_structures::Edge e = data_structures::Edge(h, t, ca, cs);
-                try {
-                    g.AddEdge(e);
-                } catch (std::invalid_argument& e) {
-                    throw std::invalid_argument("Wrong edge parameters");
-                }
+                return graph;
+                // catch json parse error
+            } catch (json::parse_error& e) {
+                throw std::invalid_argument("File is not a valid JSON file: " + string(e.what()));
             }
-            return g;
         } else {
             throw std::invalid_argument("File not found");
         }
     }
 
-    data_structures::Graph GraphUtils::GetResidualGraph(data_structures::Graph graph) {
-        data_structures::Graph residual_graph = data_structures::Graph(graph.GetNumNodes());
+    std::shared_ptr<data_structures::Graph> GraphUtils::GetResidualGraph(std::shared_ptr<data_structures::Graph> graph) {
+        auto residual_graph = make_shared<data_structures::Graph>(graph->GetNumNodes());
 
-        for (int u = 0; u < graph.GetNumNodes(); u++) {
-            for (auto e : graph.GetNodeAdjList(u)) {
+        for (int u = 0; u < graph->GetNumNodes(); u++) {
+            for (auto e : *graph->GetNodeAdjList(u)) {
                 int head = e.GetHead();
                 int tail = e.GetTail();
                 int ca = e.GetCapacity();
-                int cs = e.GetCost();
+                int cs = e.GetWeight();
 
                 // Add the edge to the residual graph
-                data_structures::Edge edge = data_structures::Edge(head, tail, ca, cs);
-                residual_graph.AddEdge(edge);
+                auto  edge = data_structures::Edge(head, tail, ca, cs);
+                residual_graph->AddEdge(edge);
 
                 // Add the reverse edge to the residual graph
-                data_structures::Edge rev_edge = data_structures::Edge(tail, head, 0, -cs);
-                residual_graph.AddEdge(rev_edge);
+                auto rev_edge = data_structures::Edge(tail, head, 0, -cs);
+                residual_graph->AddEdge(rev_edge);
             }
         }
 
         return residual_graph;
+    }
+
+    std::shared_ptr<std::vector<int>> GraphUtils::RetrievePath(std::shared_ptr<std::vector<int>> parent, int node) {
+        auto path = make_shared<std::vector<int>>();
+        int num_nodes = parent->size();
+        for (int i = 0; i <= num_nodes; i++) {
+            node = parent->at(node);
+        }
+
+        int tmp = node;
+        path->push_back(tmp);
+        while (tmp != node || tmp != -1) {
+            tmp = parent->at(tmp);
+            path->push_back(tmp);
+        }
+
+        reverse(path->begin(), path->end());
+        return path;
     }
 }

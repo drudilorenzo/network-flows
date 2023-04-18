@@ -15,8 +15,8 @@ int main(int argc, char **argv) {
 
     // Read graph from file
     try {
-        data_structures::Graph graph = utils::GraphUtils::CreateGraphFromFile(filename);
-        graph.PrintGraph();
+        std::shared_ptr<data_structures::Graph> graph = utils::GraphUtils::CreateGraphFromJSON(filename);
+        graph->PrintGraph();
 
         int source = 0;
         int sink = 5;
