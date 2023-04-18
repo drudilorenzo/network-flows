@@ -8,7 +8,7 @@
 #include "utils/GraphUtils.h"
 
 namespace algorithms {
-    int MaximumFlowAlgorithms::EdmondsKarp(std::shared_ptr<data_structures::Graph> graph, int source, int sink) {
+     std::shared_ptr<dto::EdmondsKarpResult> MaximumFlowAlgorithms::EdmondsKarp(std::shared_ptr<data_structures::Graph> graph, int source, int sink) {
         int max_flow = 0; // the maximum flow
         int u, v;
         int num_nodes = graph->GetNumNodes();
@@ -34,6 +34,7 @@ namespace algorithms {
             // update the max flow
             max_flow += path_flow;
             }
-        return max_flow;
+
+        return make_shared<dto::EdmondsKarpResult>(residual_graph, max_flow);
     }
 }
