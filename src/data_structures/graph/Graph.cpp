@@ -7,26 +7,30 @@ namespace data_structures {
 
     Graph::Graph(const int V) :
             num_nodes(V) {
-            this->adj_list = new vector<Edge>[num_nodes];
+            this->adj_list = std::vector<std::shared_ptr<std::vector<Edge>>>(num_nodes);
+
+            for (int i = 0; i < num_nodes; i++) {
+                this->adj_list[i] = std::make_shared<std::vector<Edge>>();
+            }
     }
 
     int Graph::GetNumNodes() const {
         return this->num_nodes;
     }
 
-    vector<Edge> *Graph::GetAdjList() const {
+    std::vector<std::shared_ptr<std::vector<Edge>>> Graph::GetAdjList() const {
         return this->adj_list;
     }
 
-    vector<Edge> Graph::GetNodeAdjList(int i) const {
+    std::shared_ptr<std::vector<Edge>> Graph::GetNodeAdjList(int i) const {
         if (i < 0 || i >= this->num_nodes) {
             throw std::invalid_argument("node is out of range");
         }
-        return this->adj_list[i];
+        return this->adj_list.at(i);
     }
 
     Edge Graph::GetEdge(int u, int v) const {
-        for (auto e : this->adj_list[u]) {
+        for (auto e : *this->adj_list.at(u)) {
             if (e.GetTail() == v) {
                 return e;
             }
@@ -35,7 +39,7 @@ namespace data_structures {
     }
 
     void Graph::SetEdgeCapacity(int u, int v, int capacity) {
-        for (auto &e : this->adj_list[u]) {
+        for (auto &e : *this->adj_list.at(u)) {
             if (e.GetTail() == v) {
                 e.SetCapacity(capacity);
                 return;
@@ -58,13 +62,13 @@ namespace data_structures {
             throw std::invalid_argument("tail of the edge is out of range");
         }
 
-        this->adj_list[head].push_back(e);
+        this->adj_list[head]->push_back(e);
     }
 
     void Graph::PrintGraph() {
         for (int u = 0; u < this->num_nodes; u++) {
             printf("Vertex %d:\n", u);
-            for (auto e : adj_list[u]) {
+            for (auto e : *this->adj_list.at(u)) {
                 e.ToString();
             }
             printf("\n");
@@ -82,11 +86,11 @@ namespace data_structures {
             return false;
         }
         for (int u = 0; u < this->num_nodes; u++) {
-            if (this->adj_list[u].size() != other.adj_list[u].size()) {
+            if (this->adj_list[u]->size() != other.adj_list[u]->size()) {
                 return false;
             }
-            for (int i = 0; i < this->adj_list[u].size(); i++) {
-                if (this->adj_list[u][i] != other.adj_list[u][i]) {
+            for (int i = 0; i < this->adj_list[u]->size(); i++) {
+                if (this->adj_list.at(u)->at(i) != other.adj_list.at(u)->at(i)) {
                     return false;
                 }
             }

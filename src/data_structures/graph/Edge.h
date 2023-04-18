@@ -9,7 +9,7 @@ namespace data_structures {
      *  - head (the start node)
      *  - tail (the end node)
      *  - capacity (maximum amount that can flow on the edge)
-     *  - cost (cost per unit flow on the edge).
+     *  - weight (weight per unit flow on the edge).
      */
     class Edge {
     public:
@@ -19,7 +19,7 @@ namespace data_structures {
          * @param head The head of the edge
          * @param tail The tail of the edge
          * @param capacity The capacity of the edge
-         * @param cost The cost of the edge
+         * @param cost The weight of the edge
          */
         Edge(const int head, const int tail, const int capacity, const int cost);
 
@@ -45,11 +45,11 @@ namespace data_structures {
         int GetCapacity();
 
         /**
-         * Get the cost of the edge.
+         * Get the weight of the edge.
          *
-         * @return the cost of the edge
+         * @return the weight of the edge
          */
-        int GetCost();
+        int GetWeight();
 
         /**
          * Set the capacity of the edge.
@@ -83,7 +83,7 @@ namespace data_structures {
         int head; // head of the edge
         int tail; // tail of the edge
         int capacity; // capacity of the edge
-        int cost; // cost of the edge
+        int weight; // weight of the edge
     };
 }
 

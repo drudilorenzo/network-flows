@@ -2,6 +2,7 @@
 #define MINIMUM_COST_FLOWS_PROBLEM_GRAPH_H
 
 #include <vector>
+#include <memory>
 
 #include "data_structures/graph/Edge.h"
 
@@ -44,7 +45,7 @@ namespace data_structures {
              *
              * @return the adjacent list of the graph
              */
-            vector<Edge> *GetAdjList() const;
+            std::vector<std::shared_ptr<std::vector<Edge>>> GetAdjList() const;
 
             /**
              * Get the adjacent list of the node u.
@@ -53,7 +54,7 @@ namespace data_structures {
              * @return the adjacent list of the node u
              * @throws invalid_argument if the node does not exist
              */
-            vector<Edge> GetNodeAdjList(int i) const;
+            std::shared_ptr<std::vector<Edge>> GetNodeAdjList(int i) const;
 
             /**
              * Get the edge between the nodes u and v.
@@ -93,7 +94,7 @@ namespace data_structures {
 
         private:
             int num_nodes; // num of vertices of the graph
-            vector<Edge> *adj_list; // adjacent list used to store the graph
+            std::vector<std::shared_ptr<std::vector<Edge>>> adj_list; // adjacent list used to store the graph
     };
 }
 #endif //MINIMUM_COST_FLOWS_PROBLEM_GRAPH_H

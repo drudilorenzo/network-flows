@@ -3,11 +3,11 @@
 #include <iostream>
 
 namespace data_structures {
-    Edge::Edge(const int head, const int tail, const int capacity, const int cost) :
-        head(head),
-        tail(tail),
-        capacity(capacity),
-        cost(cost) {}
+    Edge::Edge(const int head, const int tail, const int capacity, const int weight) :
+            head(head),
+            tail(tail),
+            capacity(capacity),
+            weight(weight) {}
 
 
     int Edge::GetHead() {
@@ -22,8 +22,8 @@ namespace data_structures {
         return this->capacity;
     }
 
-    int Edge::GetCost() {
-        return this->cost;
+    int Edge::GetWeight() {
+        return this->weight;
     }
 
     void Edge::SetCapacity(int capacity) {
@@ -31,7 +31,7 @@ namespace data_structures {
     }
 
     void Edge::ToString() {
-        printf("Edge: head = %d, tail = %d, capacity = %d, cost = %d\n", head, tail, capacity, cost);
+        printf("Edge: head = %d, tail = %d, capacity = %d, weight = %d\n", head, tail, capacity, weight);
     }
 
     bool Edge::operator==(const Edge& other) const {
@@ -41,7 +41,7 @@ namespace data_structures {
         if (this == nullptr || &other == nullptr) {
             return false;
         }
-        return this->head == other.head && this->tail == other.tail && this->capacity == other.capacity && this->cost == other.cost;
+        return this->head == other.head && this->tail == other.tail && this->capacity == other.capacity && this->weight == other.weight;
     }
 
     bool Edge::operator!=(const Edge& other) const {

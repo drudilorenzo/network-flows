@@ -22,7 +22,7 @@ namespace algorithms {
              * @param sink the sink node
              * @return the maximum flow
              */
-            static int EdmondsKarp(data_structures::Graph graph, int source, int sink);
+            static int EdmondsKarp(std::shared_ptr<data_structures::Graph> graph, int source, int sink);
     };
 }
 
