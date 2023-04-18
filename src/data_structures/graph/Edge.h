@@ -1,6 +1,8 @@
 #ifndef MINIMUM_COST_FLOWS_PROBLEM_EDGE_H
 #define MINIMUM_COST_FLOWS_PROBLEM_EDGE_H
 
+#include <string>
+
 namespace data_structures {
     /**
      * Class representing an edge of the graph.
@@ -16,26 +18,26 @@ namespace data_structures {
         /**
          * Edge constructor.
          *
-         * @param head The head of the edge
-         * @param tail The tail of the edge
+         * @param source The source of the edge
+         * @param sink The sink of the edge
          * @param capacity The capacity of the edge
          * @param cost The weight of the edge
          */
-        Edge(const int head, const int tail, const int capacity, const int cost);
+        Edge(const int source, const int sink, const int capacity, const int cost);
 
         /**
-         * Get the head of the edge.
+         * Get the source of the edge.
          *
-         * @return the head of the edge
+         * @return the source of the edge
          */
-        int GetHead();
+        int GetSource();
 
         /**
-         * Get the tail of the edge.
+         * Get the sink of the edge.
          *
-         * @return the tail of the edge
+         * @return the sink of the edge
          */
-        int GetTail();
+        int GetSink();
 
         /**
          * Get the capacity of the edge.
@@ -59,9 +61,9 @@ namespace data_structures {
         void SetCapacity(int capacity);
 
         /**
-         * Pretty print the edge.
+         * Print the edge in JSON format.
          */
-        void ToString();
+        std::string ToString();
 
         /**
          * Overload of the == operator

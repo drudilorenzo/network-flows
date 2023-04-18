@@ -1,7 +1,11 @@
 #include "Graph.h"
 
 #include <vector>
+#include <memory>
+#include <stdexcept>
+#include <utils/json.hpp>
 #include <iostream>
+using json = nlohmann::ordered_json;
 
 namespace data_structures {
 
@@ -31,7 +35,7 @@ namespace data_structures {
 
     Edge Graph::GetEdge(int u, int v) const {
         for (auto e : *this->adj_list.at(u)) {
-            if (e.GetTail() == v) {
+            if (e.GetSink() == v) {
                 return e;
             }
         }
@@ -40,7 +44,7 @@ namespace data_structures {
 
     void Graph::SetEdgeCapacity(int u, int v, int capacity) {
         for (auto &e : *this->adj_list.at(u)) {
-            if (e.GetTail() == v) {
+            if (e.GetSink() == v) {
                 e.SetCapacity(capacity);
                 return;
             }
@@ -49,8 +53,8 @@ namespace data_structures {
     }
 
     void Graph::AddEdge(Edge e) {
-        int head = e.GetHead();
-        int tail = e.GetTail();
+        int head = e.GetSource();
+        int tail = e.GetSink();
 
         // Check if the head of the edge is out of range
         if (head < 0 || head >= this->num_nodes) {
@@ -65,14 +69,22 @@ namespace data_structures {
         this->adj_list[head]->push_back(e);
     }
 
-    void Graph::PrintGraph() {
+    std::string Graph::ToString() {
+        string s = "{";
+        s += "\"Num_nodes\": " + std::to_string(this->num_nodes) + ", ";
+        s += "\"Edges\": [";
         for (int u = 0; u < this->num_nodes; u++) {
-            printf("Vertex %d:\n", u);
             for (auto e : *this->adj_list.at(u)) {
-                e.ToString();
+                s += e.ToString();
+                s += ", ";
             }
-            printf("\n");
         }
+        // Remove the last comma
+        s = s.substr(0, s.size() - 2);
+        s += "]}";
+        // Beautify the json
+        s = json::parse(s).dump(4);
+        return s;
     }
 
     bool Graph::operator==(const data_structures::Graph &other) const {

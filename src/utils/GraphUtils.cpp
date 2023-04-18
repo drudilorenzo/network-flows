@@ -12,15 +12,15 @@ using json = nlohmann::json;
 
 namespace utils {
     std::shared_ptr<data_structures::Graph> GraphUtils::CreateGraphFromJSON(string file_name) {
-        // check if the extension is .json
-        if (file_name.substr(file_name.find_last_of(".") + 1) != "json") {
-            throw std::invalid_argument("File extension is not .json");
-        }
-
         // open the file
         ifstream infile (file_name);
 
         if (infile) {
+            // check if the extension is .json
+            if (file_name.substr(file_name.find_last_of(".") + 1) != "json") {
+                throw std::invalid_argument("File extension is not .json");
+            }
+            // read the file
             try {
                 std::cout << "Reading file: " << file_name << endl;
                 // parse json
@@ -30,27 +30,28 @@ namespace utils {
                 int num_nodes = data["Num_nodes"];
                 std::cout << "Number of nodes: " << num_nodes << endl;
 
-                nlohmann::json edges = data["Edges"];
+                nlohmann::json edges = data.at("Edges");
                 std::cout << "Number of edges: " << edges.size() << endl;
                 auto graph = make_shared<data_structures::Graph>(num_nodes);
                 int source, sink, capacity, cost;
                 for (auto& e : edges) {
-                    source = e["Source"];
-                    sink = e["Sink"];
-                    capacity = e["Capacity"];
-                    cost = e["Cost"];
-                    cout << "Adding edge: " << source << " -> " << sink << " (capacity: " << capacity << ", cost: " << cost << ")" << endl;
+                    cout << "Adding edge: " << e << endl;
+                    source = e.at("Source");
+                    sink = e.at("Sink");
+                    capacity = e.at("Capacity");
+                    cost = e.at("Cost");
 
+                    // add edge to graph
                     auto edge = data_structures::Edge(source, sink, capacity, cost);
                     graph->AddEdge(edge);
                 }
                 return graph;
                 // catch json parse error
-            } catch (json::parse_error& e) {
-                throw std::invalid_argument("File is not a valid JSON file: " + string(e.what()));
+            } catch (exception& e) {
+                throw std::invalid_argument("ERROR: File " + file_name + " is not a valid JSON file: " + string(e.what()));
             }
         } else {
-            throw std::invalid_argument("File not found");
+            throw std::invalid_argument("ERROR: File " + file_name + " not found");
         }
     }
 
@@ -59,8 +60,8 @@ namespace utils {
 
         for (int u = 0; u < graph->GetNumNodes(); u++) {
             for (auto e : *graph->GetNodeAdjList(u)) {
-                int head = e.GetHead();
-                int tail = e.GetTail();
+                int head = e.GetSource();
+                int tail = e.GetSink();
                 int ca = e.GetCapacity();
                 int cs = e.GetWeight();
 

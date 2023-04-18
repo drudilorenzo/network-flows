@@ -34,6 +34,16 @@ namespace  utils {
             static std::shared_ptr<data_structures::Graph> GetResidualGraph(std::shared_ptr<data_structures::Graph> graph);
 
             /**
+             * Get the optimal graph of the given graph.
+             *
+             * (see https://www.hackerearth.com/practice/algorithms/graphs/maximum-flow/tutorial/)
+             *
+             * @param graph the graph to get the optimal graph from
+             * @return the optimal graph
+             */
+            static std::shared_ptr<data_structures::Graph> GetOptimalGraph(std::shared_ptr<data_structures::Graph> graph);
+
+            /**
              * Retrieve the path from the node to the source (node with -1 as parent).
              *
              * @param parent

@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <memory>
+#include <string>
 
 #include "data_structures/graph/Edge.h"
 
@@ -20,18 +21,6 @@ namespace data_structures {
              * @param V Number of vertices
              */
             Graph(const int V);
-
-            /**
-             * Add the direct edge to the graph.
-             *
-             * @param e The edge to add
-             */
-            void AddEdge(Edge e);
-
-            /**
-             * Pretty print the graph.
-             */
-            void PrintGraph();
 
             /**
              * Get the number of nodes.
@@ -75,6 +64,18 @@ namespace data_structures {
              * @throws invalid_argument if the edge does not exist
              */
             void SetEdgeCapacity(int u, int v, int capacity);
+
+            /**
+            * Add the direct edge to the graph.
+            *
+            * @param e The edge to add
+            */
+            void AddEdge(Edge e);
+
+            /**
+            * Print the graph in JSON format.
+            */
+            std::string ToString();
 
             /**
              * Overload of the == operator

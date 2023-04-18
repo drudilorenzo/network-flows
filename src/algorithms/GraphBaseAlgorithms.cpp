@@ -22,13 +22,13 @@ namespace algorithms {
             u = q.front();
             q.pop();
             for (auto e : *graph->GetNodeAdjList(u)) {
-                if (!visited[e.GetTail()] && e.GetCapacity() > 0) {
-                    parent->at(e.GetTail()) = u;
-                    if (e.GetTail() == sink) {
+                if (!visited[e.GetSink()] && e.GetCapacity() > 0) {
+                    parent->at(e.GetSink()) = u;
+                    if (e.GetSink() == sink) {
                         return true;
                     }
-                    visited[e.GetTail()] = true;
-                    q.push(e.GetTail());
+                    visited[e.GetSink()] = true;
+                    q.push(e.GetSink());
                 }
             }
         }
@@ -51,7 +51,7 @@ namespace algorithms {
         for (int i = 0; i < num_nodes - 1; i++) {
             for (int u = 0; u < num_nodes; u++) {
                 for (auto e : *graph->GetNodeAdjList(u)) {
-                    int v = e.GetTail();
+                    int v = e.GetSink();
                     int weight = e.GetWeight();
                     if (dist->at(u) != numeric_limits<int>::max() && dist->at(u) + weight < dist->at(v)) {
                         dist->at(v) = dist->at(u) + weight;
@@ -64,7 +64,7 @@ namespace algorithms {
         // Check for negative-weight cycles
         for (int u = 0; u < num_nodes; u++) {
             for (auto e : *graph->GetNodeAdjList(u)) {
-                int v = e.GetTail();
+                int v = e.GetSink();
                 int weight = e.GetWeight();
 
                 // Found a negative-weight cycle, get the cycle and return it
