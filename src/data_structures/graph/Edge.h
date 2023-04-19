@@ -8,8 +8,8 @@ namespace data_structures {
      * Class representing an edge of the graph.
      * All the value are integer.
      * Each edge has:
-     *  - head (the start node)
-     *  - tail (the end node)
+     *  - source (the start node)
+     *  - sink (the end node)
      *  - capacity (maximum amount that can flow on the edge)
      *  - weight (weight per unit flow on the edge).
      */
@@ -82,8 +82,8 @@ namespace data_structures {
         bool operator!=(const Edge& other) const;
 
     private:
-        int head; // head of the edge
-        int tail; // tail of the edge
+        int source; // source of the edge
+        int sink; // sink of the edge
         int capacity; // capacity of the edge
         int weight; // weight of the edge
     };

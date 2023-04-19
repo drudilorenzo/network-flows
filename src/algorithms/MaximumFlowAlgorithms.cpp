@@ -1,7 +1,6 @@
 #include "MaximumFlowAlgorithms.h"
 
 #include <queue>
-#include <limits>
 #include <memory>
 
 #include "GraphBaseAlgorithms.h"
@@ -10,31 +9,26 @@
 namespace algorithms {
      std::shared_ptr<dto::EdmondsKarpResult> MaximumFlowAlgorithms::EdmondsKarp(std::shared_ptr<data_structures::Graph> graph, int source, int sink) {
         int max_flow = 0; // the maximum flow
-        int u, v;
         int num_nodes = graph->GetNumNodes();
-        auto  parent = make_shared<vector<int>>(num_nodes); // used to reconstruct the path (filled by BFS)
+        auto parent = std::make_shared<std::vector<int>>(num_nodes); // used to reconstruct the path (filled by BFS)
         auto residual_graph = utils::GraphUtils::GetResidualGraph(graph); // the residual graph
 
         while (GraphBaseAlgorithms::BFS(residual_graph, source, sink, parent)) {
+            // construct the path from the parent array
+            auto path = utils::GraphUtils::RetrievePath(parent, sink);
 
             // find the minimum residual capacity of the edges in the path
-            int path_flow = numeric_limits<int>::max();
-            for (v = sink; v != source; v = parent->at(v)) {
-                u = parent->at(v);
-                path_flow = min(path_flow, residual_graph->GetEdge(u, v).GetCapacity());
-            }
+            auto path_flow = utils::GraphUtils::GetResidualCapacity(residual_graph, path);
 
             // update the residual capacities of the edges and reverse edges along the path
-            for (v = sink; v != source; v = parent->at(v)) {
-                u = parent->at(v);
-                residual_graph->SetEdgeCapacity(u, v, residual_graph->GetEdge(u, v).GetCapacity() - path_flow);
-                residual_graph->SetEdgeCapacity(v, u, residual_graph->GetEdge(v, u).GetCapacity() + path_flow);
-            }
+            utils::GraphUtils::SendFlowInPath(residual_graph, path, path_flow);
 
             // update the max flow
             max_flow += path_flow;
-            }
+        }
 
-        return make_shared<dto::EdmondsKarpResult>(residual_graph, max_flow);
+        // Build the graph with the optimal flow
+        auto flow_graph = utils::GraphUtils::GetOptimalGraph(residual_graph);
+        return std::make_shared<dto::EdmondsKarpResult>(flow_graph, max_flow);
     }
 }

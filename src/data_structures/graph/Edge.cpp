@@ -1,21 +1,19 @@
 #include "Edge.h"
 
-#include <iostream>
-
 namespace data_structures {
     Edge::Edge(const int source, const int sink, const int capacity, const int weight) :
-            head(source),
-            tail(sink),
+            source(source),
+            sink(sink),
             capacity(capacity),
             weight(weight) {}
 
 
     int Edge::GetSource() {
-        return this->head;
+        return this->source;
     }
 
     int Edge::GetSink() {
-        return this->tail;
+        return this->sink;
     }
 
     int Edge::GetCapacity() {
@@ -32,8 +30,8 @@ namespace data_structures {
 
     std::string Edge::ToString() {
         std::string s = "{";
-        s += "\"Source\": " + std::to_string(this->head) + ", ";
-        s += "\"Sink\": " + std::to_string(this->tail) + ", ";
+        s += "\"Source\": " + std::to_string(this->source) + ", ";
+        s += "\"Sink\": " + std::to_string(this->sink) + ", ";
         s += "\"Capacity\": " + std::to_string(this->capacity) + ", ";
         s += "\"Weight\": " + std::to_string(this->weight);
         s += "}";
@@ -47,7 +45,7 @@ namespace data_structures {
         if (this == nullptr || &other == nullptr) {
             return false;
         }
-        return this->head == other.head && this->tail == other.tail && this->capacity == other.capacity && this->weight == other.weight;
+        return this->source == other.source && this->sink == other.sink && this->capacity == other.capacity && this->weight == other.weight;
     }
 
     bool Edge::operator!=(const Edge& other) const {

@@ -7,8 +7,6 @@
 
 #include "data_structures/graph/Edge.h"
 
-using namespace std;
-
 namespace data_structures {
     /**
      * Class representing a graph stored using adjacent list.
@@ -46,6 +44,15 @@ namespace data_structures {
             std::shared_ptr<std::vector<Edge>> GetNodeAdjList(int i) const;
 
             /**
+             * Check if the edge source -> tail exists.
+             *
+             * @param source the source node
+             * @param tail the tail node
+             * @return true if the edge exists, false otherwise
+             */
+            bool HasEdge(int source, int tail) const;
+
+            /**
              * Get the edge between the nodes u and v.
              *
              * @param u the first node
@@ -73,6 +80,15 @@ namespace data_structures {
             void AddEdge(Edge e);
 
             /**
+             * Remove the direct edge source -> sink from the graph.
+             *
+             * @param source the source node
+             * @param sink the sink node
+             * @throws invalid_argument if the edge does not exist
+             */
+            void RemoveEdge(int source, int sink);
+
+            /**
             * Print the graph in JSON format.
             */
             std::string ToString();
@@ -88,7 +104,8 @@ namespace data_structures {
             /**
              * Overload of the != operator
              *
-             * @param other the other graph to compare
+             * @param other the other graparc.flow === flow) {
+            node.removeArc(adjacentNode.id)h to compare
              * @return true if the two graphs are not equal, false otherwise
              */
             bool operator!=(const Graph& other) const;
