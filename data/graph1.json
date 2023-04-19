@@ -5,55 +5,55 @@
       "Source": 0,
       "Sink": 1,
       "Capacity": 7,
-      "Cost": 1
+      "Weight": 1
     },
     {
       "Source": 2,
       "Sink": 1,
       "Capacity": 3,
-      "Cost": 1
+      "Weight": 1
     },
     {
       "Source": 0,
       "Sink": 2,
       "Capacity": 4,
-      "Cost": 1
+      "Weight": 1
     },
     {
       "Source": 1,
       "Sink": 3,
       "Capacity": 3,
-      "Cost": 1
+      "Weight": 1
     },
     {
       "Source": 2,
       "Sink": 3,
       "Capacity": 2,
-      "Cost": 1
+      "Weight": 1
     },
     {
       "Source": 3,
       "Sink": 4,
       "Capacity": 3,
-      "Cost": 1
+      "Weight": 1
     },
     {
       "Source": 1,
       "Sink": 4,
       "Capacity": 5,
-      "Cost": 1
+      "Weight": 1
     },
     {
       "Source": 4,
       "Sink": 5,
       "Capacity": 8,
-      "Cost": 1
+      "Weight": 1
     },
     {
       "Source": 3,
       "Sink": 5,
       "Capacity": 5,
-      "Cost": 1
+      "Weight": 1
     }
   ]
 }

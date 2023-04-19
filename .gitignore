@@ -33,6 +33,7 @@
 
 # CLion project files
 .idea
+.vscode
 
 # CMake files
 cmake-build-debug

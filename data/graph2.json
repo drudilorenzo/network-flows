@@ -1,0 +1,54 @@
+{
+    "Num_nodes": 6,
+    "Edges": [
+      {
+        "Source": 0,
+        "Sink": 1,
+        "Capacity": 8,
+        "Weight": 1
+      },
+      {
+        "Source": 0,
+        "Sink": 2,
+        "Capacity": 10,
+        "Weight": 1
+      },
+      {
+        "Source": 1,
+        "Sink": 3,
+        "Capacity": 4,
+        "Weight": 1
+      },
+      {
+        "Source": 1,
+        "Sink": 4,
+        "Capacity": 2,
+        "Weight": 1
+      },
+      {
+        "Source": 2,
+        "Sink": 4,
+        "Capacity": 5,
+        "Weight": 1
+      },
+      {
+        "Source": 3,
+        "Sink": 5,
+        "Capacity": 5,
+        "Weight": 1
+      },
+      {
+        "Source": 4,
+        "Sink": 3,
+        "Capacity": 3,
+        "Weight": 1
+      },
+      {
+        "Source": 4,
+        "Sink": 5,
+        "Capacity": 8,
+        "Weight": 1
+      }
+    ]
+}
+  
