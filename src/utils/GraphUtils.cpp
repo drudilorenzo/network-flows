@@ -137,11 +137,19 @@ namespace utils {
             int source = path->at(u);
             int sink = path->at(v);
 
-            // Update the residual graph
-            int capacity = residual_graph->GetEdge(source, sink).GetCapacity() - flow;
-            int weight = residual_graph->GetEdge(source, sink).GetWeight();
+            auto edge = residual_graph->GetEdge(source, sink);
+            int weight = edge.GetWeight();
+            int capacity = 0;
+
+            // If the edge is traversed backword, subtract the flow
+            if (weight < 0) {
+                capacity = residual_graph->GetEdge(source, sink).GetCapacity() - flow;
+            } else {
+                capacity = residual_graph->GetEdge(source, sink).GetCapacity() + flow;
+            }
 
             residual_graph->SetEdgeCapacity(source, sink, capacity);
+
             // if residual capacity is 0, remove the edge
             if (residual_graph->GetEdge(source, sink).GetCapacity() == 0) {
                 residual_graph->RemoveEdge(source, sink);
