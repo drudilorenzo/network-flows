@@ -27,8 +27,7 @@ namespace algorithms {
             max_flow += path_flow;
         }
 
-        // Build the graph with the optimal flow
-        auto flow_graph = utils::GraphUtils::GetOptimalGraph(residual_graph);
-        return std::make_shared<dto::EdmondsKarpResult>(flow_graph, max_flow);
+        // Build the result with: residual graph and max flow
+        return std::make_shared<dto::EdmondsKarpResult>(residual_graph, max_flow);
     }
 }
