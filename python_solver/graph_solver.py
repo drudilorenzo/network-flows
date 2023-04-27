@@ -10,6 +10,11 @@ if len(sys.argv) < 2:
     print("No json file specified.")
     exit(1)
     
+# If more than one argument is specified, end the program with an error message
+if len(sys.argv) > 2:
+    print("Too many arguments, only filename accepted.")
+    exit(1)
+    
 # Get the filename from the command line
 filename = sys.argv[1]
 
@@ -45,12 +50,12 @@ source = 0
 sink = num_nodes - 1
 
 # Compute the maximum flow. Default algorithm is highest-label preflow-push algorithm.
-flow_value, flow_dict = nx.maximum_flow(graph, source, 5)
+flow_value, flow_dict = nx.maximum_flow(graph, source, sink)
 print("Maximum flow graph:\n" + str(flow_dict) + "\n")
 print("Maximum flow value:\n" + str(flow_value) + "\n")
 
 # Compute the minimum cost flow. Default algorithm is Edmonds-Karp
-min_cost_flow = nx.max_flow_min_cost(graph, source, 5)
+min_cost_flow = nx.max_flow_min_cost(graph, source, sink)
 print("Minimum cost flow graph:\n" + str(min_cost_flow) + "\n")
 min_cost = nx.cost_of_flow(graph, min_cost_flow)
 print("Minimum cost flow cost:\n" + str(min_cost))
