@@ -83,7 +83,7 @@ namespace data_structures {
     void graph::removeEdge(int source, int sink) {
         auto adj_list = this->getNodeAdjList(source);
 
-        for (int i = 0; i < adj_list->size(); i++) {
+        for (unsigned i = 0; i < adj_list->size(); i++) {
             auto e = adj_list->at(i);
             if (e.getSink() == sink) {
                 // remove edge

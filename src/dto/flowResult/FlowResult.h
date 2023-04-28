@@ -5,36 +5,37 @@
 
 namespace dto {
     /**
-     * Class that represents the result of the Edmonds-Karp algorithm.
-     *
+     * Class that represents the result of the flow's algorithms.
+     * It contains the graph and the flow.
+     * Each edge contains the current flow. 
      */
-    class EdmondsKarpResult {
+    class FlowResult {
     public:
         /**
          * Constructor.
          *
          * @param graph    the graph
-         * @param max_flow the maximum flow
+         * @param flow the flow
          */
-        EdmondsKarpResult(std::shared_ptr<data_structures::graph> graph, int max_flow);
+        FlowResult(std::shared_ptr<data_structures::graph> graph, int flow);
 
         /**
          * Getter for the graph.
          *
-         * @return the graph
+         * @return the graphwith the cuurent flow for each edge
          */
         std::shared_ptr<data_structures::graph> getGraph() const;
 
         /**
-         * Getter for the maximum flow.
+         * Getter for the flow.
          *
-         * @return the maximum flow
+         * @return the flow
          */
-        int getMaxFlow() const;
+        int getFlow() const;
 
     private:
         std::shared_ptr<data_structures::graph> graph;
-        int max_flow;
+        int flow;
     };
 }
 

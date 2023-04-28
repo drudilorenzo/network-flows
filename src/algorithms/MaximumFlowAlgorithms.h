@@ -2,7 +2,7 @@
 #define MINIMUM_COST_FLOWS_PROBLEM_MAXIMUMFLOWALGORITHMS_H
 
 #include "data_structures/graph/Graph.h"
-#include "dto/EdmondsKarp/EdmondsKarpResult.h"
+#include "dto/flowResult/FlowResult.h"
 
 namespace algorithms {
     /**
@@ -25,7 +25,7 @@ namespace algorithms {
              * 
              * @return the graph and the maximum flow
              */
-            static std::shared_ptr<dto::EdmondsKarpResult> EdmondsKarp(std::shared_ptr<data_structures::graph> graph, int source, int sink);
+            static std::shared_ptr<dto::FlowResult> EdmondsKarp(std::shared_ptr<data_structures::graph> graph, int source, int sink);
     };
 }
 

@@ -127,7 +127,7 @@ namespace utils {
         }
 
         // find the minimum capacity in the path
-        for (int u = 0; u < path->size()-1; u++) {
+        for (unsigned u = 0; u < path->size()-1; u++) {
             int v { u + 1 };
             int source { path->at(u) };
             int sink { path->at(v) };
@@ -138,7 +138,7 @@ namespace utils {
     }
 
     void GraphUtils::SendFlowInPath(std::shared_ptr<data_structures::graph> residual_graph, std::shared_ptr<std::vector<int>> path, int flow) {
-        for (int u = 0; u < path->size()-1; u++) {
+        for (unsigned u = 0; u < path->size()-1; u++) {
             int v { u + 1 };
             int source { path->at(u) };
             int sink { path->at(v) };

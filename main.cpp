@@ -6,9 +6,11 @@
 #endif
 
 #include "utils/GraphUtils.h"
+#include "dto/flowResult/FlowResult.h"
+#include "data_structures/graph/Graph.h"
+#include "algorithms/GraphBaseAlgorithms.h"
 #include "algorithms/MaximumFlowAlgorithms.h"
 #include "algorithms/MinimumCostFlowAlgorithms.h"
-#include "algorithms/GraphBaseAlgorithms.h"
 
 int main(int argc, char **argv) {
 
@@ -42,9 +44,9 @@ int main(int argc, char **argv) {
                 int sink { graph->getNumNodes() - 1 };
                 auto result = algorithms::MaximumFlowAlgorithms::EdmondsKarp(graph, source, sink);
 
-                std::cout << "Maximum flow: " << result->getMaxFlow() << std::endl;
                 std::cout << "Graph with flow: " << std::endl;
                 std::cout << result->getGraph()->toString() << std::endl;
+                std::cout << "Maximum flow: " << result->getFlow() << std::endl;
                 break;
             }
             case 2: {
