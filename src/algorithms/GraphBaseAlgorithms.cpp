@@ -3,11 +3,10 @@
 #include "utils/GraphUtils.h"
 
 #include <queue>
-#include <cstring>
 #include <limits>
 
 namespace algorithms {
-    bool GraphBaseAlgorithms::BFS(std::shared_ptr<data_structures::graph> graph, int source, int sink, std::shared_ptr<std::vector<int>> parent) {
+    bool GraphBaseAlgorithms::BFS(std::shared_ptr<data_structures::Graph> graph, int source, int sink, std::shared_ptr<std::vector<int>> parent) {
         int u {};
         std::queue<int> q {};
         int num_nodes { graph->getNumNodes() };
@@ -43,7 +42,7 @@ namespace algorithms {
         return false;
     }
 
-     std::shared_ptr<dto::BellmanFordResult> GraphBaseAlgorithms::BellmanFord(std::shared_ptr<data_structures::graph> graph, int source) {
+     std::shared_ptr<dto::BellmanFordResult> GraphBaseAlgorithms::BellmanFord(std::shared_ptr<data_structures::Graph> graph, int source) {
         int num_nodes { graph->getNumNodes() };
         auto dist = std::make_shared<std::vector<int>>(num_nodes);
         auto parent = std::make_shared<std::vector<int>>(num_nodes);

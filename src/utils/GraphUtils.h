@@ -22,7 +22,7 @@ namespace  utils {
              * @throws invalid_argument if the file does not exist
              * @throws invalid_argument if the json is not formatted correctly
              */
-            static std::shared_ptr<data_structures::graph> CreateGraphFromJSON(const std::string& filename);
+            static std::shared_ptr<data_structures::Graph> CreateGraphFromJSON(const std::string& filename);
 
             /**
              * Get the residual graph of the given graph.
@@ -33,7 +33,7 @@ namespace  utils {
              * 
              * @return the residual graph
              */
-            static std::shared_ptr<data_structures::graph> GetResidualGraph(const std::shared_ptr<data_structures::graph>& graph);
+            static std::shared_ptr<data_structures::Graph> GetResidualGraph(const std::shared_ptr<data_structures::Graph>& graph);
 
             /**
              * Get the optimal graph of the given graph.
@@ -44,7 +44,7 @@ namespace  utils {
              * 
              * @return the optimal graph
              */
-            static std::shared_ptr<data_structures::graph> GetOptimalGraph(const std::shared_ptr<data_structures::graph>& graph);
+            static std::shared_ptr<data_structures::Graph> GetOptimalGraph(const std::shared_ptr<data_structures::Graph>& graph);
 
             /**
              * Retrieve the path from the node to the source (node with -1 as parent).
@@ -65,7 +65,7 @@ namespace  utils {
              * 
              * @return the residual capacity of the path
              */
-            static int GetResidualCapacity(const std::shared_ptr<data_structures::graph>& residual_graph, const std::shared_ptr<std::vector<int>>& path);
+            static int GetResidualCapacity(const std::shared_ptr<data_structures::Graph>& residual_graph, const std::shared_ptr<std::vector<int>>& path);
 
             /**
              * Send flow in a path of edges of a residual residual_graph.
@@ -76,7 +76,7 @@ namespace  utils {
              * 
              * @throws invalid_argument if an edge residual capacity is less than the flow to send
              */
-            static void SendFlowInPath(const std::shared_ptr<data_structures::graph>& residual_graph, const std::shared_ptr<std::vector<int>>& path, int flow);
+            static void SendFlowInPath(const std::shared_ptr<data_structures::Graph>& residual_graph, const std::shared_ptr<std::vector<int>>& path, int flow);
     };
 }
 

@@ -1,34 +1,34 @@
 #include "Edge.h"
 
 namespace data_structures {
-    edge::edge(const int source, const int sink, const int capacity, const int weight) :
+    Edge::Edge(const int source, const int sink, const int capacity, const int weight) :
             source(source),
             sink(sink),
             capacity(capacity),
             weight(weight) {}
 
 
-    int edge::getSource() {
+    int Edge::getSource() {
         return this->source;
     }
 
-    int edge::getSink() {
+    int Edge::getSink() {
         return this->sink;
     }
 
-    int edge::getCapacity() {
+    int Edge::getCapacity() {
         return this->capacity;
     }
 
-    int edge::getWeight() {
+    int Edge::getWeight() {
         return this->weight;
     }
 
-    void edge::setCapacity(int capacity) {
+    void Edge::setCapacity(int capacity) {
         this->capacity = capacity;
     }
 
-    std::string edge::toString() {
+    std::string Edge::toString() {
         std::string s = "{";
         s += "\"Source\": " + std::to_string(this->source) + ", ";
         s += "\"Sink\": " + std::to_string(this->sink) + ", ";
@@ -38,7 +38,7 @@ namespace data_structures {
         return s;
     }
 
-    bool edge::operator==(const edge& other) const {
+    bool Edge::operator==(const Edge& other) const {
         if (this == &other) {
             return true;
         }
@@ -48,7 +48,7 @@ namespace data_structures {
         return this->source == other.source && this->sink == other.sink && this->capacity == other.capacity && this->weight == other.weight;
     }
 
-    bool edge::operator!=(const edge& other) const {
+    bool Edge::operator!=(const Edge& other) const {
         return !(*this == other);
     }
 }

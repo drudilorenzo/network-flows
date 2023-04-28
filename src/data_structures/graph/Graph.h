@@ -2,6 +2,7 @@
 #define MINIMUM_COST_FLOWS_PROBLEM_GRAPH_H
 
 #include <vector>
+#include <map>
 #include <memory>
 #include <string>
 
@@ -11,79 +12,84 @@ namespace data_structures {
     /**
      * Class representing a graph stored using adjacent list.
      */
-    class graph {
+    class Graph {
         public:
             /**
-             * Graph constructor.
-             *
-             * @param V Number of vertices
+             * Graph empty constructor.
              */
-            graph(const int V);
+            Graph();
 
             /**
-             * Get the number of nodes.
+             * Return the number of nodes of the graph.
+             * Max node id + 1.
+             * The node's id are added consecutively without missing numbers.
              *
-             * @return the num of nodes of the graph
+             * @param num_nodes the number of nodes
              */
             int getNumNodes() const;
 
             /**
-             * Get the adjacent list of the graph.
+             * Get the graph.
              *
-             * @return the adjacent list of the graph
+             * @return the graph
              */
-            std::vector<std::shared_ptr<std::vector<edge>>> getAdjList() const;
+            [[maybe_unused]] std::shared_ptr<std::map<int, std::shared_ptr<std::vector<Edge>>>> getGraph() const;
 
             /**
-             * Get the adjacent list of the node u.
+             * Get the adjacent list of the node i.
              *
-             * @param u the node
+             * @param i the node
              * 
              * @return the adjacent list of the node u
              * 
              * @throws invalid_argument if the node does not exist
              */
-            std::shared_ptr<std::vector<edge>> getNodeAdjList(int i) const;
+            std::shared_ptr<std::vector<Edge>> getNodeAdjList(int i) const;
 
             /**
              * Check if the edge source -> tail exists.
              *
              * @param source the source node
-             * @param tail   the tail node
+             * @param sink   the tail node
              * 
              * @return true if the edge exists, false otherwise
+             * 
+             * @throws invalid_argument if the node does not exist
              */
-            bool hasEdge(int source, int tail) const;
+            bool hasEdge(int source, int sink) const;
 
             /**
              * Get the edge between the nodes u and v.
              *
-             * @param u the first node
-             * @param b the second node
+             * @param source the first node
+             * @param sink   the second node
              * 
              * @return the edge between the nodes u and v
              * 
              * @throws invalid_argument if the edge does not exist
              */
-            data_structures::edge getEdge(int u, int v) const;
+            data_structures::Edge getEdge(int source, int sink) const;
 
             /**
              * Set the capacity of the edge between the nodes u and v.
              *
-             * @param u        the first node
-             * @param v        the second node
+             * @param source   the first node
+             * @param sink     the second node
              * @param capacity the new capacity of the edge
              * 
              * @throws invalid_argument if the edge does not exist
              */
-            void setEdgeCapacity(int u, int v, int capacity);
+            void setEdgeCapacity(int source, int sink, int capacity);
 
             /**
             * Add the direct edge to the graph.
             *
             * @param e The edge to add
+            * 
+            * @throws invalid_argument if the nodes are negative
+            * @throws invalid_argument if the edge already exists
             */
-            void addEdge(edge e);
+            void addEdge(Edge e);
 
             /**
              * Remove the direct edge source -> sink from the graph.
@@ -107,7 +113,7 @@ namespace data_structures {
              * 
              * @return true if the two graphs are equal, false otherwise
              */
-            bool operator==(const graph& other) const;
+            bool operator==(const Graph& other) const;
 
             /**
              * Overload of the != operator.
@@ -116,11 +122,30 @@ namespace data_structures {
              * 
              * @return true if the two graphs are not equal, false otherwise
              */
-            bool operator!=(const graph& other) const;
+            bool operator!=(const Graph& other) const;
 
         private:
-            int num_nodes; // num of vertices of the graph
-            std::vector<std::shared_ptr<std::vector<edge>>> adj_list; // adjacent list used to store the graph
+            /**
+             * Get the string representing the no-edge message between the nodes u and v.
+             *
+             * @param source the source node
+             * @param sink   the sink node
+             * 
+             * @return the string representing the no-edge message between the nodes u and v
+             */
+            static std::string getNoEdgeString(int source, int sink) ;
+
+            /**
+             * Get the string representing the no-node message.
+             *
+             * @param node the node
+             * 
+             * @return the string representing the no-node message
+             */
+            static std::string getNoNodeString(int node) ;
+
+            // graph represented using map of adjacent list
+            std::shared_ptr<std::map<int, std::shared_ptr<std::vector<Edge>>>> g;
     };
 }
 #endif //MINIMUM_COST_FLOWS_PROBLEM_GRAPH_H

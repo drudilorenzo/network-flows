@@ -29,7 +29,7 @@ namespace algorithms {
          * 
          * @return true if there is a path from source to sink, false otherwise
          */
-        static bool BFS(std::shared_ptr<data_structures::graph> graph, int source, int sink, std::shared_ptr<std::vector<int>> parent);
+        static bool BFS(std::shared_ptr<data_structures::Graph> graph, int source, int sink, std::shared_ptr<std::vector<int>> parent);
 
         /**
          * Bellman-Ford algorithm used to detect negative cycles.
@@ -44,7 +44,7 @@ namespace algorithms {
          * 
          * @return the result of the algorithm (see BellmanFordResult.h
          */
-        static std::shared_ptr<dto::BellmanFordResult> BellmanFord(std::shared_ptr<data_structures::graph> graph, int source);
+        static std::shared_ptr<dto::BellmanFordResult> BellmanFord(std::shared_ptr<data_structures::Graph> graph, int source);
     };
 }
 

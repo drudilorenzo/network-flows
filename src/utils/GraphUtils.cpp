@@ -10,7 +10,7 @@
 using json = nlohmann::ordered_json;
 
 namespace utils {
-    std::shared_ptr<data_structures::graph> GraphUtils::CreateGraphFromJSON(const std::string& filename) {
+    std::shared_ptr<data_structures::Graph> GraphUtils::CreateGraphFromJSON(const std::string& filename) {
         // open the file
         std::ifstream infile { filename };
 
@@ -33,7 +33,7 @@ namespace utils {
                 // create edges
                 nlohmann::json edges = data.at("Edges");
                 std::cout << "Number of edges: " << edges.size() << std::endl;
-                auto graph = std::make_shared<data_structures::graph>(num_nodes);
+                auto graph = std::make_shared<data_structures::Graph>();
 
                 for (auto& e : edges) {
                     int source { e.at("Source") };
@@ -42,27 +42,27 @@ namespace utils {
                     int weight { e.at("Weight") };
 
                     // add edge to graph
-                    auto edge = data_structures::edge(source, sink, capacity, weight);
+                    auto edge = data_structures::Edge(source, sink, capacity, weight);
                     graph->addEdge(edge);
-                    std::cout << "Edge added: "  << edge.toString() << std::endl;
+                    std::cout << "Edge added: " << edge.toString() << std::endl;
                 }
                 return graph;
                 
                 // catch json parse error
             } catch (std::exception& e) {
-                throw std::invalid_argument("ERROR: File " + filename + " is not a valid JSON file: " + std::string(e.what()));
+                throw std::invalid_argument("File " + filename + " is not a valid JSON file: " + std::string(e.what()));
             }
         } else {
-            throw std::invalid_argument("ERROR: File " + filename + " not found");
+            throw std::invalid_argument("File " + filename + " not found");
         }
     }
 
-    std::shared_ptr<data_structures::graph> GraphUtils::GetResidualGraph(const std::shared_ptr<data_structures::graph>& graph) {
-        auto residual_graph = std::make_shared<data_structures::graph>(graph->getNumNodes());
+    std::shared_ptr<data_structures::Graph> GraphUtils::GetResidualGraph(const std::shared_ptr<data_structures::Graph>& graph) {
+        auto residual_graph = std::make_shared<data_structures::Graph>();
 
-        for (int u = 0; u < graph->getNumNodes(); u++) {
-            for (auto e : *graph->getNodeAdjList(u)) {
-                int tail { e.getSink() };
+        for (int source = 0; source < graph->getNumNodes(); source++) {
+            for (auto e : *graph->getNodeAdjList(source)) {
+                int sink { e.getSink() };
                 int capacity { e.getCapacity() };
                 int weight { e.getWeight() };
 
@@ -71,41 +71,64 @@ namespace utils {
                     continue;
                 }
 
-                // add the edge to the residual graph
-                auto  edge = data_structures::edge(u, tail, capacity, weight);
-                residual_graph->addEdge(edge);
+                // handle anti-parallel edges adding an artificial node between source and sink.
+                // the value of the artificial node is the value of source node plus the number of nodes,
+                // it will be easy to retrieve the original source node from the artificial node doing a simple subtraction
+
+                // check if the edge is anti-parallel, and it is not already in the residual graph (source < sink)
+                if (source < sink && graph->hasEdge(sink, source)) {
+                    // add the artificial node
+                    int artificial_node { graph->getNumNodes() + source };
+                    auto artificial_edge = data_structures::Edge(source, artificial_node, capacity, weight);
+                    residual_graph->addEdge(artificial_edge);
+
+                    auto edge = data_structures::Edge(artificial_node, sink, capacity, weight);
+                    residual_graph->addEdge(edge);
+                } else {
+                    // else simply add the edge to the residual graph
+                    auto edge = data_structures::Edge(source, sink, capacity, weight);
+                    residual_graph->addEdge(edge);
+                }
             }
         }
 
+        std::cout << residual_graph->toString() << std::endl;
         return residual_graph;
     }
 
-    std::shared_ptr<data_structures::graph> GraphUtils::GetOptimalGraph(const std::shared_ptr<data_structures::graph>& graph) {
-        auto optimal_graph = std::make_shared<data_structures::graph>(graph->getNumNodes());
+    std::shared_ptr<data_structures::Graph> GraphUtils::GetOptimalGraph(const std::shared_ptr<data_structures::Graph>& graph) {
+        auto optimal_graph = std::make_shared<data_structures::Graph>();
 
-        for (int u = 0; u < graph->getNumNodes(); u++) {
-            for (auto e : *graph->getNodeAdjList(u)) {
+        for (int source = 0; source < graph->getNumNodes(); source++) {
+            for (auto e : *graph->getNodeAdjList(source)) {
                 // get only the graph with negative cost edges
                 if (e.getWeight() >= 0) {
                     continue;
                 }
-                int source { e.getSource() };
                 int sink { e.getSink() };
                 int capacity { e.getCapacity() };
                 int weight { e.getWeight() };
 
-                // add the edge to the optimal graph
-                auto  rev_edge = data_structures::edge(sink, source, capacity, -weight);
-                optimal_graph->addEdge(rev_edge);
+                // remove the artificial node added to handle anti-parallel edges
+                if (sink >= graph->getNumNodes()) {
+                    int start_source { sink - graph->getNumNodes() };
+                    auto rev_edge = data_structures::Edge(start_source, source, capacity, -weight);
+                    optimal_graph->addEdge(rev_edge);
+                } else {
+                    // add the edge to the optimal graph
+                    auto rev_edge = data_structures::Edge(sink, source, capacity, -weight);
+                    optimal_graph->addEdge(rev_edge);
+                }
+
             }
         }
 
         return optimal_graph;
     }
 
-    std::shared_ptr<std::vector<int>> GraphUtils::RetrievePath(const std::shared_ptr<std::vector<int>>& parent, int node) {
+    std::shared_ptr<std::vector<int>> GraphUtils::RetrievePath(const std::shared_ptr<std::vector<int>>& parent, int start_node) {
         auto path = std::make_shared<std::vector<int>>();
-        int tmp { node };
+        int tmp { start_node };
         path->push_back(tmp);
         tmp = parent->at(tmp);
 
@@ -118,7 +141,7 @@ namespace utils {
         return path;
     }
 
-    int GraphUtils::GetResidualCapacity(const std::shared_ptr<data_structures::graph>& residual_graph, const std::shared_ptr<std::vector<int>>& path) {
+    int GraphUtils::GetResidualCapacity(const std::shared_ptr<data_structures::Graph>& residual_graph, const std::shared_ptr<std::vector<int>>& path) {
         int path_flow { std::numeric_limits<int>::max() }; 
 
         // if the path is empty or has only one node, return 0
@@ -137,7 +160,7 @@ namespace utils {
         return path_flow;
     }
 
-    void GraphUtils::SendFlowInPath(const std::shared_ptr<data_structures::graph>& residual_graph, const std::shared_ptr<std::vector<int>>& path, int flow) {
+    void GraphUtils::SendFlowInPath(const std::shared_ptr<data_structures::Graph>& residual_graph, const std::shared_ptr<std::vector<int>>& path, int flow) {
         for (unsigned u = 0; u < path->size()-1; u++) {
             int v { static_cast<int>(u + 1) };
             int source { path->at(u) };
@@ -153,7 +176,7 @@ namespace utils {
             } else {
                 // check if the flow is greater than the residual capacity of the edge
                 if (residual_graph->getEdge(source, sink).getCapacity() < flow) {
-                    throw std::invalid_argument("ERROR: The flow is greater than the residual capacity of the edge");
+                    throw std::invalid_argument("The flow is greater than the residual capacity of the edge");
                 }
 
                 // if the edge is traversed forward, update the residual capacity
@@ -169,7 +192,7 @@ namespace utils {
 
             // if the reverse edge does not exist, add it
             if (!residual_graph->hasEdge(sink, source)) {
-                residual_graph->addEdge(data_structures::edge(sink, source, flow, -weight));
+                residual_graph->addEdge(data_structures::Edge(sink, source, flow, -weight));
             } else {
                 residual_graph->setEdgeCapacity(sink, source, residual_graph->getEdge(sink, source).getCapacity() + flow);
             }

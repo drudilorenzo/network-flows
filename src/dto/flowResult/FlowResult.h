@@ -17,14 +17,14 @@ namespace dto {
          * @param graph    the graph
          * @param flow the flow
          */
-        FlowResult(std::shared_ptr<data_structures::graph> graph, int flow);
+        FlowResult(std::shared_ptr<data_structures::Graph> graph, int flow);
 
         /**
          * Getter for the graph.
          *
          * @return the graphwith the cuurent flow for each edge
          */
-        std::shared_ptr<data_structures::graph> getGraph() const;
+        std::shared_ptr<data_structures::Graph> getGraph() const;
 
         /**
          * Getter for the flow.
@@ -34,7 +34,7 @@ namespace dto {
         int getFlow() const;
 
     private:
-        std::shared_ptr<data_structures::graph> graph;
+        std::shared_ptr<data_structures::Graph> graph;
         int flow;
     };
 }

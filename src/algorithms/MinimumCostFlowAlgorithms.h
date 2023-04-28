@@ -22,7 +22,7 @@ namespace algorithms {
              *
              * @return the residual graph and the minimum weight flow
              */
-            static std::shared_ptr<dto::FlowResult> CycleCancelling(std::shared_ptr<data_structures::graph> graph);
+            static std::shared_ptr<dto::FlowResult> CycleCancelling(std::shared_ptr<data_structures::Graph> graph);
 
             /**
              * Successive Shortest Path algorithm.
@@ -31,7 +31,7 @@ namespace algorithms {
              * 
              * @return the minimum weight flow
              */
-            static int SuccessiveShortestPath(std::shared_ptr<data_structures::graph> graph);
+            static int SuccessiveShortestPath(std::shared_ptr<data_structures::Graph> graph);
 
             /**
              * Primal-Dual algorithm.
@@ -40,7 +40,7 @@ namespace algorithms {
              * 
              * @return the minimum weight flow
              */
-            static int PrimalDual(std::shared_ptr<data_structures::graph> graph);
+            static int PrimalDual(std::shared_ptr<data_structures::Graph> graph);
     };
 }
 

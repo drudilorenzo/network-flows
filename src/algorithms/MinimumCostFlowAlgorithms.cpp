@@ -7,7 +7,7 @@
 #include <iostream>
 
 namespace algorithms {
-    std::shared_ptr<dto::FlowResult> MinimumCostFlowAlgorithms::CycleCancelling(std::shared_ptr<data_structures::graph> graph) {
+    std::shared_ptr<dto::FlowResult> MinimumCostFlowAlgorithms::CycleCancelling(std::shared_ptr<data_structures::Graph> graph) {
         int source {};
         int sink { graph->getNumNodes() - 1 };
 

@@ -13,7 +13,7 @@ namespace data_structures {
      *  - capacity (maximum amount that can flow on the edge)
      *  - weight (weight per unit flow on the edge).
      */
-    class edge {
+    class Edge {
     public:
         /**
          * Edge constructor.
@@ -23,7 +23,7 @@ namespace data_structures {
          * @param capacity The capacity of the edge
          * @param cost     The weight of the edge
          */
-        edge(const int source, const int sink, const int capacity, const int cost);
+        Edge(const int source, const int sink, const int capacity, const int cost);
 
         /**
          * Get the source of the edge.
@@ -72,7 +72,7 @@ namespace data_structures {
          * 
          * @return true if the two edges are equal, false otherwise
          */
-        bool operator==(const edge& other) const;
+        bool operator==(const Edge& other) const;
 
         /**
          * Overload of the != operator.
@@ -81,7 +81,7 @@ namespace data_structures {
          * 
          * @return true if the two edges are not equal, false otherwise
          */
-        bool operator!=(const edge& other) const;
+        bool operator!=(const Edge& other) const;
 
     private:
         int source; // source of the edge

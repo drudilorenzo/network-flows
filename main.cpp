@@ -6,9 +6,6 @@
 #endif
 
 #include "utils/GraphUtils.h"
-#include "dto/flowResult/FlowResult.h"
-#include "data_structures/graph/Graph.h"
-#include "algorithms/GraphBaseAlgorithms.h"
 #include "algorithms/MaximumFlowAlgorithms.h"
 #include "algorithms/MinimumCostFlowAlgorithms.h"
 
@@ -29,7 +26,7 @@ int main(int argc, char **argv) {
         auto graph = utils::GraphUtils::CreateGraphFromJSON(filename);
 
         std::cout << std::endl;
-        std::cout << "What do you want to do?" << std::endl;
+        std::cout << "Select the problem:" << std::endl;
         std::cout << "1. Maximum flow (EdmondsKarp)" << std::endl;
         std::cout << "2. Minimum cost flow (Choose algorithm...)" << std::endl;
         std::cout << "3. Exit" << std::endl;
@@ -52,7 +49,7 @@ int main(int argc, char **argv) {
             }
             case 2: {
                 std::cout << std::endl;
-                std::cout << "Select the algorithm" << std::endl;
+                std::cout << "Select the algorithm:" << std::endl;
                 std::cout << "1. Cycle-cancelling" << std::endl;
                 std::cout << "2. Successive shortest path" << std::endl;
                 std::cout << "3. Primal-dual" << std::endl;
