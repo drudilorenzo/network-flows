@@ -130,7 +130,7 @@ namespace data_structures {
             if (this->adj_list[u]->size() != other.adj_list[u]->size()) {
                 return false;
             }
-            for (int i = 0; i < this->adj_list[u]->size(); i++) {
+            for (unsigned i = 0; i < this->adj_list[u]->size(); i++) {
                 if (this->adj_list.at(u)->at(i) != other.adj_list.at(u)->at(i)) {
                     return false;
                 }
