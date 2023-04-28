@@ -39,6 +39,6 @@
 cmake-build-debug
 
 # Ignore venv files
-python_solver
-!python_solver/graph_solver.py
-!python_solver/requirements.txt
+py-test/*
+!py-test/graph_solver.py
+!py-test/requirements.txt

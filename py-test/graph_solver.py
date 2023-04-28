@@ -33,7 +33,7 @@ with open(filename) as f:
         
 # Draw the graph
 pos=nx.spring_layout(graph)
-nx.draw_networkx(graph,pos, with_labels=True)
+nx.draw_networkx(graph, pos, with_labels=True)
 
 # Add the labels to the edges
 weight=nx.get_edge_attributes(graph,'weight')

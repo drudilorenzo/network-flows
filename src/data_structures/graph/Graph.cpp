@@ -9,42 +9,42 @@ using json = nlohmann::ordered_json;
 
 namespace data_structures {
 
-    Graph::Graph(const int V) :
+    graph::graph(const int V) :
             num_nodes(V) {
-            this->adj_list = std::vector<std::shared_ptr<std::vector<Edge>>>(num_nodes);
+            this->adj_list = std::vector<std::shared_ptr<std::vector<edge>>>(num_nodes);
 
             for (int i = 0; i < num_nodes; i++) {
-                this->adj_list[i] = std::make_shared<std::vector<Edge>>();
+                this->adj_list[i] = std::make_shared<std::vector<edge>>();
             }
     }
 
-    int Graph::GetNumNodes() const {
+    int graph::getNumNodes() const {
         return this->num_nodes;
     }
 
-    std::vector<std::shared_ptr<std::vector<Edge>>> Graph::GetAdjList() const {
+    std::vector<std::shared_ptr<std::vector<edge>>> graph::getAdjList() const {
         return this->adj_list;
     }
 
-    std::shared_ptr<std::vector<Edge>> Graph::GetNodeAdjList(int i) const {
+    std::shared_ptr<std::vector<edge>> graph::getNodeAdjList(int i) const {
         if (i < 0 || i >= this->num_nodes) {
             throw std::invalid_argument("node is out of range");
         }
         return this->adj_list.at(i);
     }
 
-    bool Graph::HasEdge(int source, int tail) const {
+    bool graph::hasEdge(int source, int tail) const {
         for (auto e : *this->adj_list.at(source)) {
-            if (e.GetSink() == tail) {
+            if (e.getSink() == tail) {
                 return true;
             }
         }
         return false;
     }
 
-    Edge Graph::GetEdge(int u, int v) const {
+    edge graph::getEdge(int u, int v) const {
         for (auto e : *this->adj_list.at(u)) {
-            if (e.GetSink() == v) {
+            if (e.getSink() == v) {
                 return e;
             }
         }
@@ -52,10 +52,10 @@ namespace data_structures {
         throw std::invalid_argument(s);
     }
 
-    void Graph::SetEdgeCapacity(int u, int v, int capacity) {
+    void graph::setEdgeCapacity(int u, int v, int capacity) {
         for (auto &e : *this->adj_list.at(u)) {
-            if (e.GetSink() == v) {
-                e.SetCapacity(capacity);
+            if (e.getSink() == v) {
+                e.setCapacity(capacity);
                 return;
             }
         }
@@ -63,16 +63,16 @@ namespace data_structures {
         throw std::invalid_argument(s);
     }
 
-    void Graph::AddEdge(Edge e) {
-        int head = e.GetSource();
-        int tail = e.GetSink();
+    void graph::addEdge(edge e) {
+        int head { e.getSource() };
+        int tail { e.getSink() };
 
-        // Check if the source of the edge is out of range
+        // check if the source of the edge is out of range
         if (head < 0 || head >= this->num_nodes) {
             throw std::invalid_argument("source of the edge is out of range");
         }
 
-        // Check if the sink of the edge is out of range
+        // check if the sink of the edge is out of range
         if (tail < 0 || tail >= this->num_nodes) {
             throw std::invalid_argument("sink of the edge is out of range");
         }
@@ -80,38 +80,43 @@ namespace data_structures {
         this->adj_list[head]->push_back(e);
     }
 
-    void Graph::RemoveEdge(int source, int sink) {
-        auto adj_list = this->GetNodeAdjList(source);
+    void graph::removeEdge(int source, int sink) {
+        auto adj_list = this->getNodeAdjList(source);
+
         for (int i = 0; i < adj_list->size(); i++) {
             auto e = adj_list->at(i);
-            if (e.GetSink() == sink) {
+            if (e.getSink() == sink) {
                 // remove edge
                 adj_list->erase(adj_list->begin() + i);
                 return;
             }
         }
-        std::string s = "no edge between " + std::to_string(source) + " and " + std::to_string(sink);
-        throw std::invalid_argument(s);    }
 
-    std::string Graph::ToString() {
+        std::string s = "no edge between " + std::to_string(source) + " and " + std::to_string(sink);
+        throw std::invalid_argument(s);
+    }
+
+    std::string graph::toString() {
         std::string s = "{";
         s += "\"Num_nodes\": " + std::to_string(this->num_nodes) + ", ";
         s += "\"Edges\": [";
         for (int u = 0; u < this->num_nodes; u++) {
             for (auto e : *this->adj_list.at(u)) {
-                s += e.ToString();
+                s += e.toString();
                 s += ", ";
             }
         }
-        // Remove the last comma
+
+        // remove the last comma
         s = s.substr(0, s.size() - 2);
         s += "]}";
-        // Beautify the json
+        
+        // beautify the json
         s = json::parse(s).dump(4);
         return s;
     }
 
-    bool Graph::operator==(const data_structures::Graph &other) const {
+    bool graph::operator==(const data_structures::graph &other) const {
         if (this == &other) {
             return true;
         }
@@ -134,7 +139,7 @@ namespace data_structures {
         return true;
     }
 
-    bool Graph::operator!=(const data_structures::Graph &other) const {
+    bool graph::operator!=(const data_structures::graph &other) const {
         return !(*this == other);
     }
 }

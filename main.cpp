@@ -12,7 +12,7 @@
 
 int main(int argc, char **argv) {
 
-    std::string filename;
+    std::string filename {};
 
     // Check if file name was given else ask for it
     if (argc < 2) {
@@ -22,8 +22,8 @@ int main(int argc, char **argv) {
         filename = argv[1];
     }
 
-    // Read graph from file
     try {
+        // read graph from file
         auto graph = utils::GraphUtils::CreateGraphFromJSON(filename);
 
         std::cout << std::endl;
@@ -32,19 +32,19 @@ int main(int argc, char **argv) {
         std::cout << "2. Minimum cost flow (Choose algorithm...)" << std::endl;
         std::cout << "3. Exit" << std::endl;
         std::cout << "Enter your choice: ";
-        int choice;
+        int choice {};
         std::cin >> choice;
         std::cout << std::endl;
 
         switch (choice) {
             case 1: {
-                int source = 0;
-                int sink = graph->GetNumNodes()-1;
+                int source {};
+                int sink { graph->getNumNodes() - 1 };
                 auto result = algorithms::MaximumFlowAlgorithms::EdmondsKarp(graph, source, sink);
-                std::cout << "Maximum flow: " << result->getMaxFlow() << std::endl;
 
-                //std::cout << "Graph with flow: " << std::endl;
-                // std::cout << result->getGraph()->ToString() << std::endl;
+                std::cout << "Maximum flow: " << result->getMaxFlow() << std::endl;
+                std::cout << "Graph with flow: " << std::endl;
+                std::cout << result->getGraph()->toString() << std::endl;
                 break;
             }
             case 2: {
@@ -58,7 +58,7 @@ int main(int argc, char **argv) {
                 std::cin >> choice;
                 std::cout << std::endl;
 
-                int minimum_cost;
+                int minimum_cost {};
                 switch (choice) {
                     case 1 : {
                         std::cout << "Cycle-cancelling selected" << std::endl;

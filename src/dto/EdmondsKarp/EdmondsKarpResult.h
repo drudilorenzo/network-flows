@@ -11,28 +11,29 @@ namespace dto {
     class EdmondsKarpResult {
     public:
         /**
-         * Constructor
+         * Constructor.
          *
-         * @param graph the graph
+         * @param graph    the graph
          * @param max_flow the maximum flow
          */
-        EdmondsKarpResult(std::shared_ptr<data_structures::Graph> graph, int max_flow);
+        EdmondsKarpResult(std::shared_ptr<data_structures::graph> graph, int max_flow);
 
         /**
-         * Getter for the graph
+         * Getter for the graph.
          *
          * @return the graph
          */
-        std::shared_ptr<data_structures::Graph> getGraph() const;
+        std::shared_ptr<data_structures::graph> getGraph() const;
 
         /**
-         * Getter for the maximum flow
+         * Getter for the maximum flow.
          *
          * @return the maximum flow
          */
         int getMaxFlow() const;
+
     private:
-        std::shared_ptr<data_structures::Graph> graph;
+        std::shared_ptr<data_structures::graph> graph;
         int max_flow;
     };
 }

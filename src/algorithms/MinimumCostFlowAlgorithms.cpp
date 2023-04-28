@@ -7,35 +7,40 @@
 #include <iostream>
 
 namespace algorithms {
-    int MinimumCostFlowAlgorithms::CycleCancelling(std::shared_ptr<data_structures::Graph> graph) {
-        int source = 0;
-        int sink = graph->GetNumNodes()-1;
+    int MinimumCostFlowAlgorithms::CycleCancelling(std::shared_ptr<data_structures::graph> graph) {
+        int source {};
+        int sink { graph->getNumNodes() - 1 };
+
+        // get the maximum flow using Edmonds-Karp (feasible flow)
         auto edmonds_karps_result = MaximumFlowAlgorithms::EdmondsKarp(graph, source, sink);
         auto residual_graph = edmonds_karps_result->getGraph();
 
-        auto bellman_ford_result = GraphBaseAlgorithms::BellmanFord(graph, source);
+        // get the negative cycle using Bellman-Ford
+        auto bellman_ford_result = GraphBaseAlgorithms::BellmanFord(residual_graph, source);
+
+        // while there is a negative cycle in the residual graph augment the flow
         while (bellman_ford_result->hasNegativeCycle()) {
-            std::cout << "Negative cycle found" << std::endl;
             auto negative_cycle = bellman_ford_result->getNegativeCycle();
             int residual_capacity = utils::GraphUtils::GetResidualCapacity(residual_graph, negative_cycle);
 
+            // update the residual capacities and the current flow (augment flow)
             utils::GraphUtils::SendFlowInPath(residual_graph, negative_cycle, residual_capacity);
 
             bellman_ford_result = GraphBaseAlgorithms::BellmanFord(residual_graph, source);
         }
 
-        std::cout << residual_graph->ToString() << std::endl;
+        std::cout << residual_graph->toString() << std::endl;
 
         // get minimum cost
-        int minimum_cost = 0;
-        for (int u = 0; u < residual_graph->GetNumNodes(); u++) {
-            for (auto edge: *residual_graph->GetNodeAdjList(u)) {
-                if (edge.GetWeight() < 0) {
-                    int weight = edge.GetWeight();
-                    minimum_cost -= weight;
+        int minimum_cost {};
+        for (int u = 0; u < residual_graph->getNumNodes(); u++) {
+            for (auto edge: *residual_graph->getNodeAdjList(u)) {
+                if (edge.getWeight() < 0) {
+                    minimum_cost +=  -edge.getWeight() * edge.getCapacity();
                 }
             }
         }
+
         return minimum_cost;
     }
 

@@ -1,9 +1,9 @@
 #ifndef MINIMUM_COST_FLOWS_PROBLEM_MINIMUMCOSTFLOWALGORITHMS_H
 #define MINIMUM_COST_FLOWS_PROBLEM_MINIMUMCOSTFLOWALGORITHMS_H
 
-#include <memory>
-
 #include "data_structures/graph/Graph.h"
+
+#include <memory>
 
 namespace algorithms {
     /**
@@ -15,28 +15,31 @@ namespace algorithms {
     class MinimumCostFlowAlgorithms {
         public:
             /**
-             * Cycle-Cancelling algorithm
+             * Cycle-Cancelling algorithm.
              *
-             * @param graph the graph to solve
+             * @param graph the graph to solve.
+             * 
              * @return the minimum weight flow
              */
-            static int CycleCancelling(std::shared_ptr<data_structures::Graph> graph);
+            static int CycleCancelling(std::shared_ptr<data_structures::graph> graph);
 
             /**
-             * Successive Shortest Path algorithm
+             * Successive Shortest Path algorithm.
              *
              * @param graph the graph to solve
+             * 
              * @return the minimum weight flow
              */
-            static int SuccessiveShortestPath(std::shared_ptr<data_structures::Graph> graph);
+            static int SuccessiveShortestPath(std::shared_ptr<data_structures::graph> graph);
 
             /**
-             * Primal-Dual algorithm
+             * Primal-Dual algorithm.
              *
              * @param graph the graph to solve
+             * 
              * @return the minimum weight flow
              */
-            static int PrimalDual(std::shared_ptr<data_structures::Graph> graph);
+            static int PrimalDual(std::shared_ptr<data_structures::graph> graph);
     };
 }
 
