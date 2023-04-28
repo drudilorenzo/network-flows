@@ -10,13 +10,13 @@
 using json = nlohmann::ordered_json;
 
 namespace utils {
-    std::shared_ptr<data_structures::graph> GraphUtils::CreateGraphFromJSON(std::string filename) {
+    std::shared_ptr<data_structures::graph> GraphUtils::CreateGraphFromJSON(const std::string& filename) {
         // open the file
         std::ifstream infile { filename };
 
         if (infile) {
             // check if the extension is .json
-            if (filename.substr(filename.find_last_of(".") + 1) != "json") {
+            if (filename.substr(filename.find_last_of('.') + 1) != "json") {
                 throw std::invalid_argument("File extension is not .json");
             }
 
@@ -57,7 +57,7 @@ namespace utils {
         }
     }
 
-    std::shared_ptr<data_structures::graph> GraphUtils::GetResidualGraph(std::shared_ptr<data_structures::graph> graph) {
+    std::shared_ptr<data_structures::graph> GraphUtils::GetResidualGraph(const std::shared_ptr<data_structures::graph>& graph) {
         auto residual_graph = std::make_shared<data_structures::graph>(graph->getNumNodes());
 
         for (int u = 0; u < graph->getNumNodes(); u++) {
@@ -80,7 +80,7 @@ namespace utils {
         return residual_graph;
     }
 
-    std::shared_ptr<data_structures::graph> GraphUtils::GetOptimalGraph(std::shared_ptr<data_structures::graph> graph) {
+    std::shared_ptr<data_structures::graph> GraphUtils::GetOptimalGraph(const std::shared_ptr<data_structures::graph>& graph) {
         auto optimal_graph = std::make_shared<data_structures::graph>(graph->getNumNodes());
 
         for (int u = 0; u < graph->getNumNodes(); u++) {
@@ -92,10 +92,10 @@ namespace utils {
                 int source { e.getSource() };
                 int sink { e.getSink() };
                 int capacity { e.getCapacity() };
-                int weight { -e.getWeight() };
+                int weight { e.getWeight() };
 
                 // add the edge to the optimal graph
-                auto  rev_edge = data_structures::edge(sink, source, capacity, weight);
+                auto  rev_edge = data_structures::edge(sink, source, capacity, -weight);
                 optimal_graph->addEdge(rev_edge);
             }
         }
@@ -103,7 +103,7 @@ namespace utils {
         return optimal_graph;
     }
 
-    std::shared_ptr<std::vector<int>> GraphUtils::RetrievePath(std::shared_ptr<std::vector<int>> parent, int node) {
+    std::shared_ptr<std::vector<int>> GraphUtils::RetrievePath(const std::shared_ptr<std::vector<int>>& parent, int node) {
         auto path = std::make_shared<std::vector<int>>();
         int tmp { node };
         path->push_back(tmp);
@@ -118,7 +118,7 @@ namespace utils {
         return path;
     }
 
-    int GraphUtils::GetResidualCapacity(std::shared_ptr<data_structures::graph> residual_graph, std::shared_ptr<std::vector<int>> path) {
+    int GraphUtils::GetResidualCapacity(const std::shared_ptr<data_structures::graph>& residual_graph, const std::shared_ptr<std::vector<int>>& path) {
         int path_flow { std::numeric_limits<int>::max() }; 
 
         // if the path is empty or has only one node, return 0
@@ -128,7 +128,7 @@ namespace utils {
 
         // find the minimum capacity in the path
         for (unsigned u = 0; u < path->size()-1; u++) {
-            int v { u + 1 };
+            int v { static_cast<int>(u + 1) };
             int source { path->at(u) };
             int sink { path->at(v) };
             path_flow = std::min(path_flow, residual_graph->getEdge(source, sink).getCapacity());
@@ -137,17 +137,17 @@ namespace utils {
         return path_flow;
     }
 
-    void GraphUtils::SendFlowInPath(std::shared_ptr<data_structures::graph> residual_graph, std::shared_ptr<std::vector<int>> path, int flow) {
+    void GraphUtils::SendFlowInPath(const std::shared_ptr<data_structures::graph>& residual_graph, const std::shared_ptr<std::vector<int>>& path, int flow) {
         for (unsigned u = 0; u < path->size()-1; u++) {
-            int v { u + 1 };
+            int v { static_cast<int>(u + 1) };
             int source { path->at(u) };
             int sink { path->at(v) };
 
             auto edge = residual_graph->getEdge(source, sink);
             int weight { edge.getWeight() };
-            int capacity {};
+            int capacity;
 
-            // if the edge is traversed backword, subtract the flow
+            // if the edge is traversed backward, subtract the flow
             if (weight < 0) {
                 capacity = residual_graph->getEdge(source, sink).getCapacity() + flow;
             } else {

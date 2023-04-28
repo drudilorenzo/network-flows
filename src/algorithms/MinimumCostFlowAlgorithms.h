@@ -2,6 +2,7 @@
 #define MINIMUM_COST_FLOWS_PROBLEM_MINIMUMCOSTFLOWALGORITHMS_H
 
 #include "data_structures/graph/Graph.h"
+#include "dto/flowResult/FlowResult.h"
 
 #include <memory>
 
@@ -18,10 +19,10 @@ namespace algorithms {
              * Cycle-Cancelling algorithm.
              *
              * @param graph the graph to solve.
-             * 
-             * @return the minimum weight flow
+             *
+             * @return the residual graph and the minimum weight flow
              */
-            static int CycleCancelling(std::shared_ptr<data_structures::graph> graph);
+            static std::shared_ptr<dto::FlowResult> CycleCancelling(std::shared_ptr<data_structures::graph> graph);
 
             /**
              * Successive Shortest Path algorithm.
