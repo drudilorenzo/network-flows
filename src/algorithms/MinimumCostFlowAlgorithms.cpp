@@ -6,10 +6,8 @@
 #include "MaximumFlowAlgorithms.h"
 
 namespace algorithms {
-    std::shared_ptr<dto::FlowResult> MinimumCostFlowAlgorithms::CycleCancelling(const std::shared_ptr<data_structures::Graph>& graph) {
-        int source { consts::source };
-        int sink { graph->getNumNodes() - 1 };
-
+    std::shared_ptr<dto::FlowResult> MinimumCostFlowAlgorithms::CycleCancelling(const std::shared_ptr<data_structures::Graph>& graph,
+        int source, int sink) {
         // get the maximum flow using Edmonds-Karp (feasible flow)
         auto edmonds_karps_result = MaximumFlowAlgorithms::EdmondsKarp(graph, source, sink);
         auto residual_graph = edmonds_karps_result->getGraph();
@@ -39,6 +37,11 @@ namespace algorithms {
         }
 
         return std::make_shared<dto::FlowResult>(residual_graph, minimum_cost);
+    }
+
+    std::shared_ptr<dto::FlowResult> MinimumCostFlowAlgorithms::SuccessiveShortestPath(std::shared_ptr<data_structures::Graph> graph,
+        int source, int sink) {
+
     }
 
 }

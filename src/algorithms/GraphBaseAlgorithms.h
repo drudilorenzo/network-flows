@@ -21,8 +21,10 @@ namespace algorithms {
          * Return true if there is a path from source to sink, false otherwise.
          * Also it fills the parent array with the path from source to sink.
          *
-         * https://en.wikipedia.org/wiki/Breadth-first_search
+         * (see: https://en.wikipedia.org/wiki/Breadth-first_search)
          * 
+         * V: number of nodes
+         * E: number of edges
          * Time complexity: O(V + E)
          *
          * @param graph  the graph to solve
@@ -42,6 +44,8 @@ namespace algorithms {
          *
          * (see https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm)
          *
+         * V: number of nodes
+         * E: number of edges
          * Time complexity: O(V * E)
          * 
          * @param graph  the graph to solve

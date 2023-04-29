@@ -19,6 +19,8 @@ namespace algorithms {
              *
              * https://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm
              * 
+             * V: number of nodes
+             * E: number of edges
              * Time complexity: O(V * E^2)
              *
              * @param graph  the graph to solve

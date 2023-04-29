@@ -31,10 +31,11 @@ int main(int argc, char **argv) {
         std::cin >> choice;
         std::cout << std::endl;
 
+        int source {};
+        int sink { graph->getNumNodes() - 1 };
+
         switch (choice) {
             case 1: {
-                int source {};
-                int sink { graph->getNumNodes() - 1 };
                 auto result = algorithms::MaximumFlowAlgorithms::EdmondsKarp(graph, source, sink);
                 std::cout << "Graph with flow: " << std::endl;
                 auto opt_graph = utils::GraphUtils::GetOptimalGraph(result->getGraph(), graph);
@@ -56,7 +57,7 @@ int main(int argc, char **argv) {
                 switch (choice) {
                     case 1 : {
                         std::cout << "Cycle-cancelling selected" << std::endl;
-                        auto result = algorithms::MinimumCostFlowAlgorithms::CycleCancelling(graph);
+                        auto result = algorithms::MinimumCostFlowAlgorithms::CycleCancelling(graph, source, sink);
                         auto opt_graph = utils::GraphUtils::GetOptimalGraph(result->getGraph(), graph);
                         std::cout << "Graph with flow: " << std::endl;
                         std::cout << opt_graph->toString() << std::endl;
