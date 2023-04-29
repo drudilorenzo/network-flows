@@ -13,7 +13,25 @@ namespace  utils {
         public:
             /**
              * Create graph from json and return it.
-             * (See data folder to see how to format the json file).
+             * USE THE FOLLOWING FORMAT:
+             * {
+             *  "Num_nodes": -,
+             *    "Edges": [
+             *        {
+             *        "Source": -,
+             *        "Sink": -,
+             *        "Capacity": -,
+             *        "Weight": -
+             *       },
+             *      ...
+             *   ]
+             * }
+             * 
+             * The graph is directed.
+             * All the nodes must be numbered from 0 to Num_nodes - 1 using consecutive numbers.
+             * All the values must be positive integer.
+             * 
+             * (See data folder to see some examples of json file).
              *
              * @param filename name of the file to read
              * 
@@ -26,8 +44,12 @@ namespace  utils {
 
             /**
              * Get the residual graph of the given graph.
+             * The residual graph is a graph that indicates how much flow can be pushed through the edges.
+             * For each edge u -> v, the residual graph has an edge v -> u with capacity equal to the current pushed flow.
+             * Residual graph cannot contains anti-parallels edges, they are handled using artificial nodes.
+             * (Anti-parallel explained: https://www.hackerearth.com/practice/algorithms/graphs/maximum-flow/tutorial/)
              * 
-             * (see https://www.hackerearth.com/practice/algorithms/graphs/maximum-flow/tutorial/)
+             * (see: https://www.hackerearth.com/practice/algorithms/graphs/maximum-flow/tutorial/)
              *
              * @param graph the graph to get the residual graph from
              * 
@@ -37,8 +59,10 @@ namespace  utils {
 
             /**
              * Get the optimal graph of the given graph.
+             * It converts te residual graph into the optimal graph.
+             * The optimal graph is the graph which contains only the starting edges. 
              *
-             * (see https://www.hackerearth.com/practice/algorithms/graphs/maximum-flow/tutorial/)
+             * (see: https://www.hackerearth.com/practice/algorithms/graphs/maximum-flow/tutorial/)
              *
              * @param graph the graph to get the optimal graph from
              * 
@@ -47,12 +71,12 @@ namespace  utils {
             static std::shared_ptr<data_structures::Graph> GetOptimalGraph(const std::shared_ptr<data_structures::Graph>& graph);
 
             /**
-             * Retrieve the path from the node to the source (node with -1 as parent).
+             * Retrieve the path from the input node to the source (node with -1 as parent).
              *
              * @param parent the parent vector, where parent[i] is the parent of node i
              * @param node   the start node
              * 
-             * @return the path from node to the source node (node with -1 as parent)
+             * @return the path from input node to the source node (node with -1 as parent)
              */
             static std::shared_ptr<std::vector<int>> RetrievePath(const std::shared_ptr<std::vector<int>>& parent, int node);
 
@@ -68,7 +92,7 @@ namespace  utils {
             static int GetResidualCapacity(const std::shared_ptr<data_structures::Graph>& residual_graph, const std::shared_ptr<std::vector<int>>& path);
 
             /**
-             * Send flow in a path of edges of a residual residual_graph.
+             * Send flow in a path of edges of the input graph (residual_graph).
              *
              * @param residual_graph the residual residual_graph (IT MUST BE A RESIDUAL GRAPH, see the function above)
              * @param path           the path of the edge to update

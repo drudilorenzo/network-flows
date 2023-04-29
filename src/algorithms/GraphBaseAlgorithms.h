@@ -21,6 +21,8 @@ namespace algorithms {
          * Also it fills the parent array with the path from source to sink.
          *
          * https://en.wikipedia.org/wiki/Breadth-first_search
+         * 
+         * Time complexity: O(V + E)
          *
          * @param graph  the graph to solve
          * @param source the source node
@@ -39,6 +41,8 @@ namespace algorithms {
          *
          * (see https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm)
          *
+         * Time complexity: O(V * E)
+         * 
          * @param graph  the graph to solve
          * @param source the source node
          * 

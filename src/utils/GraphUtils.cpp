@@ -33,7 +33,7 @@ namespace utils {
                 // create edges
                 nlohmann::json edges = data.at("Edges");
                 std::cout << "Number of edges: " << edges.size() << std::endl;
-                auto graph = std::make_shared<data_structures::Graph>();
+                auto graph = std::make_shared<data_structures::Graph>(num_nodes);
 
                 for (auto& e : edges) {
                     int source { e.at("Source") };
@@ -58,7 +58,7 @@ namespace utils {
     }
 
     std::shared_ptr<data_structures::Graph> GraphUtils::GetResidualGraph(const std::shared_ptr<data_structures::Graph>& graph) {
-        auto residual_graph = std::make_shared<data_structures::Graph>();
+        auto residual_graph = std::make_shared<data_structures::Graph>(graph->getNumNodes());
 
         for (int source = 0; source < graph->getNumNodes(); source++) {
             for (auto e : *graph->getNodeAdjList(source)) {
@@ -78,7 +78,8 @@ namespace utils {
                 // check if the edge is anti-parallel, and it is not already in the residual graph (source < sink)
                 if (source < sink && graph->hasEdge(sink, source)) {
                     // add the artificial node
-                    int artificial_node { graph->getNumNodes() + source };
+                    int artificial_node { residual_graph->getNumNodes() };
+
                     auto artificial_edge = data_structures::Edge(source, artificial_node, capacity, weight);
                     residual_graph->addEdge(artificial_edge);
 
@@ -92,14 +93,13 @@ namespace utils {
             }
         }
 
-        std::cout << residual_graph->toString() << std::endl;
         return residual_graph;
     }
 
     std::shared_ptr<data_structures::Graph> GraphUtils::GetOptimalGraph(const std::shared_ptr<data_structures::Graph>& graph) {
-        auto optimal_graph = std::make_shared<data_structures::Graph>();
+        auto optimal_graph = std::make_shared<data_structures::Graph>(graph->getStartingNumNodes());
 
-        for (int source = 0; source < graph->getNumNodes(); source++) {
+        for (int source = 0; source < graph->getStartingNumNodes(); source++) {
             for (auto e : *graph->getNodeAdjList(source)) {
                 // get only the graph with negative cost edges
                 if (e.getWeight() >= 0) {
@@ -110,8 +110,11 @@ namespace utils {
                 int weight { e.getWeight() };
 
                 // remove the artificial node added to handle anti-parallel edges
-                if (sink >= graph->getNumNodes()) {
-                    int start_source { sink - graph->getNumNodes() };
+                if (sink >= graph->getStartingNumNodes()) {
+
+                    // get the original source node by getting the sink of
+                    // the only edge of the artificial node
+                    int start_source { graph->getNodeAdjList(sink)->at(0).getSink() };
                     auto rev_edge = data_structures::Edge(start_source, source, capacity, -weight);
                     optimal_graph->addEdge(rev_edge);
                 } else {

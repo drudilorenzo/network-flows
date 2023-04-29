@@ -1,8 +1,5 @@
 #include "Graph.h"
 
-#include <vector>
-#include <memory>
-#include <iostream>
 #include <stdexcept>
 #include <utils/json.hpp>
 
@@ -10,8 +7,18 @@ using json = nlohmann::ordered_json;
 
 namespace data_structures {
 
-    Graph::Graph() {
+    Graph::Graph(int num_nodes) 
+        : num_nodes(num_nodes) {
         this->g = std::make_shared<std::map<int, std::shared_ptr<std::vector<Edge>>>>();
+
+        // insert the nodes
+        for (int node = 0; node < num_nodes; node++) {
+            this->g->insert({node, std::make_shared<std::vector<Edge>>()});
+        }
+    }
+
+    int Graph::getStartingNumNodes() const {
+        return this->num_nodes;
     }
 
     int Graph::getNumNodes() const {
@@ -22,18 +29,15 @@ namespace data_structures {
         return this->g;
     }
 
-    std::shared_ptr<std::vector<Edge>> Graph::getNodeAdjList(int i) const {
-        if (this->g->find(i) == this->g->end()) {
-            throw std::invalid_argument(data_structures::Graph::getNoNodeString(i));
-        }
+    std::shared_ptr<std::vector<Edge>> Graph::getNodeAdjList(int node) const {
+        Graph::checkNodeExistence(node);
 
-        return this->g->at(i);
+        return this->g->at(node);
     }
 
     bool Graph::hasEdge(int source, int sink) const {
-        if (this->g->find(source) == this->g->end()) {
-            throw std::invalid_argument(data_structures::Graph::getNoNodeString(source));
-        }
+        Graph::checkNodeExistence(source);
+        Graph::checkNodeExistence(sink);
         
         for (auto e : *this->g->at(source)) {
             if (e.getSink() == sink) {
@@ -44,9 +48,8 @@ namespace data_structures {
     }
 
     Edge Graph::getEdge(int source, int sink) const {
-        if (this->g->find(source) == this->g->end()) {
-            throw std::invalid_argument(data_structures::Graph::getNoNodeString(source));
-        }
+        Graph::checkNodeExistence(source);
+        Graph::checkNodeExistence(sink);
 
         for (auto e : *this->g->at(source)) {
             if (e.getSink() == sink) {
@@ -58,8 +61,11 @@ namespace data_structures {
     }
 
     void Graph::setEdgeCapacity(int source, int sink, int capacity) {
-        if (this->g->find(source) == this->g->end()) {
-            throw std::invalid_argument(data_structures::Graph::getNoNodeString(source));
+        Graph::checkNodeExistence(source);
+        Graph::checkNodeExistence(sink);
+
+        if (capacity < 0) {
+            throw std::invalid_argument("capacity must be positive");
         }
 
         for (auto &e : *this->g->at(source)) {
@@ -75,8 +81,14 @@ namespace data_structures {
     void Graph::addEdge(Edge e) {
         int source { e.getSource() };
         int sink { e.getSink() };
+
+        // check if the source of the edge is out of range
+        if (source < 0 || sink < 0) {
+            std::string s = "nodes must be positive integers";
+            throw std::invalid_argument(s);
+        }
              
-        // if it is the first edge create the adj list
+        // if it is the first source edge create the adj list
         if (this->g->find(source) == this->g->end()) {
             this->g->insert({ source, std::make_shared<std::vector<Edge>>() });
         } else {
@@ -85,12 +97,6 @@ namespace data_structures {
                 std::string s = "edge " + std::to_string(source) + " -> " + std::to_string(sink) + " already exists";
                 throw std::invalid_argument(s);
             }
-        } 
-
-        // check if the source of the edge is out of range
-        if (source < 0 || sink < 0) {
-            std::string s = "nodes must be positive integers";
-            throw std::invalid_argument(s);
         }
 
         // if the sink node does not exist create it
@@ -101,10 +107,11 @@ namespace data_structures {
         this->g->at(source)->push_back(e);
     }
 
+    
+
     void Graph::removeEdge(int source, int sink) {
-        if (this->g->find(source) == this->g->end()) {
-            throw std::invalid_argument(data_structures::Graph::getNoNodeString(source));
-        }
+        Graph::checkNodeExistence(source);
+        Graph::checkNodeExistence(sink);
 
         auto adj_list = this->g->at(source);
 
@@ -179,5 +186,11 @@ namespace data_structures {
     std::string Graph::getNoNodeString(int node) {
         std::string s = "no node " + std::to_string(node);
         return s;
+    }
+    
+    void Graph::checkNodeExistence(int node) const {
+        if (this->g->find(node) == this->g->end()) {
+            throw std::invalid_argument(data_structures::Graph::getNoNodeString(node));
+        }
     }
 }

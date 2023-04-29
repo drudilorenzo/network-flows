@@ -1,12 +1,12 @@
 #ifndef MINIMUM_COST_FLOWS_PROBLEM_GRAPH_H
 #define MINIMUM_COST_FLOWS_PROBLEM_GRAPH_H
 
-#include <vector>
+#include "data_structures/graph/Edge.h"
+
 #include <map>
+#include <vector>
 #include <memory>
 #include <string>
-
-#include "data_structures/graph/Edge.h"
 
 namespace data_structures {
     /**
@@ -16,15 +16,27 @@ namespace data_structures {
         public:
             /**
              * Graph empty constructor.
+             * 
+             * @param num_nodes the starting number of nodes
              */
-            Graph();
+            explicit Graph(int num_nodes);
 
             /**
-             * Return the number of nodes of the graph.
-             * Max node id + 1.
-             * The node's id are added consecutively without missing numbers.
+             * Return the starting number of nodes of the graph.
+             * The starting number of nodes is the number of nodes that the graph has when it is created.
+             * The node's id are added consecutively without missing numbers, so the starting number of nodes
+             * is also the maximum node id + 1.
              *
-             * @param num_nodes the number of nodes
+             * @return num_nodes the starting number of nodes
+             */
+            int getStartingNumNodes() const;
+
+            /**
+             * Return the current number of nodes of the graph.
+             * It is possible that the current number of nodes is different from the starting number of nodes
+             * because of the addition of new nodes.
+             *
+             * @return the current number of nodes
              */
             int getNumNodes() const;
 
@@ -33,18 +45,18 @@ namespace data_structures {
              *
              * @return the graph
              */
-            [[maybe_unused]] std::shared_ptr<std::map<int, std::shared_ptr<std::vector<Edge>>>> getGraph() const;
+            [[maybe_unused]] [[maybe_unused]] std::shared_ptr<std::map<int, std::shared_ptr<std::vector<Edge>>>> getGraph() const;
 
             /**
              * Get the adjacent list of the node i.
              *
-             * @param i the node
+             * @param node the node
              * 
              * @return the adjacent list of the node u
              * 
              * @throws invalid_argument if the node does not exist
              */
-            std::shared_ptr<std::vector<Edge>> getNodeAdjList(int i) const;
+            std::shared_ptr<std::vector<Edge>> getNodeAdjList(int node) const;
 
             /**
              * Check if the edge source -> tail exists.
@@ -66,6 +78,7 @@ namespace data_structures {
              * 
              * @return the edge between the nodes u and v
              * 
+             * @throws invalid_argument if the nodes do not exist
              * @throws invalid_argument if the edge does not exist
              */
             data_structures::Edge getEdge(int source, int sink) const;
@@ -77,7 +90,9 @@ namespace data_structures {
              * @param sink     the second node
              * @param capacity the new capacity of the edge
              * 
+             * @throws invalid_argument if the nodes do not exist
              * @throws invalid_argument if the edge does not exist
+             * @throws invalid_argument if the capacity is negative
              */
             void setEdgeCapacity(int source, int sink, int capacity);
 
@@ -97,6 +112,7 @@ namespace data_structures {
              * @param source the source node
              * @param sink   the sink node
              * 
+             * @throws invalid_argument if the nodes do not exist
              * @throws invalid_argument if the edge does not exist
              */
             void removeEdge(int source, int sink);
@@ -143,6 +159,18 @@ namespace data_structures {
              * @return the string representing the no-node message
              */
             static std::string getNoNodeString(int node) ;
+
+            /**
+             * Check if the node exists.
+             *
+             * @param node the node
+             * 
+             * @throws invalid_argument if the node does not exist
+             */
+            void checkNodeExistence(int node) const;
+
+            // the starting number of nodes of the graph
+            int num_nodes;
 
             // graph represented using map of adjacent list
             std::shared_ptr<std::map<int, std::shared_ptr<std::vector<Edge>>>> g;

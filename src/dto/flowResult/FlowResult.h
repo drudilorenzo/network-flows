@@ -7,7 +7,6 @@ namespace dto {
     /**
      * Class that represents the result of the flow's algorithms.
      * It contains the graph and the flow.
-     * Each edge contains the current flow. 
      */
     class FlowResult {
     public:
@@ -15,14 +14,14 @@ namespace dto {
          * Constructor.
          *
          * @param graph    the graph
-         * @param flow the flow
+         * @param flow     the flow
          */
         FlowResult(std::shared_ptr<data_structures::Graph> graph, int flow);
 
         /**
          * Getter for the graph.
          *
-         * @return the graphwith the cuurent flow for each edge
+         * @return the graph with the curent flow for each edge
          */
         std::shared_ptr<data_structures::Graph> getGraph() const;
 
@@ -34,8 +33,8 @@ namespace dto {
         int getFlow() const;
 
     private:
-        std::shared_ptr<data_structures::Graph> graph;
         int flow;
+        std::shared_ptr<data_structures::Graph> graph;
     };
 }
 

@@ -62,9 +62,9 @@ namespace dto {
         std::shared_ptr<std::vector<int>> getParent();
         
     private:
-        std::shared_ptr<std::vector<int>> negative_cycle;
-        std::shared_ptr<std::vector<int>> distance;
         std::shared_ptr<std::vector<int>> parent;
+        std::shared_ptr<std::vector<int>> distance;
+        std::shared_ptr<std::vector<int>> negative_cycle;
     };
 }
 

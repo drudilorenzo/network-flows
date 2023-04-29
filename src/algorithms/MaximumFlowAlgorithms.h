@@ -18,6 +18,8 @@ namespace algorithms {
              * Return the graph and the maximum flow.
              *
              * https://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm
+             * 
+             * Time complexity: O(V * E^2)
              *
              * @param graph  the graph to solve
              * @param source the source node

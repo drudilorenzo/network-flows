@@ -17,8 +17,18 @@ namespace algorithms {
         public:
             /**
              * Cycle-Cancelling algorithm.
+             * Cycle-cancelling algorithm is a method for finding a minimum-cost flow in a flow network.
+             * The cycle-canceling algorithm is one of the earliest algorithms to solve the minimum cost flow problem. 
+             * This algorithm maintains a feasible solution x in the network G and proceeds by augmenting flows along negative 
+             * cost directed cycles in the residual network G(x) and thereby canceling them
+             * Return the residual graph and the minimum weight flow.
              *
+             * https://complex-systems-ai.com/en/maximum-flow-problem/cycle-canceling-algorithm/
+             * 
+             * Time complexity: O(V * E^2)
+             * 
              * @param graph the graph to solve.
+             * 
              *
              * @return the residual graph and the minimum weight flow
              */
