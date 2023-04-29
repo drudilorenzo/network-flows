@@ -98,7 +98,7 @@ See [data](data) directory for more examples.
 
 ### Build
 Build the project using [cmake](https://preshing.com/20170511/how-to-build-a-cmake-based-project/). \
-Either you can easily run build it using an IDE such as [CLion](https://www.jetbrains.com/clion/).
+Either you can easily build it using an IDE such as [CLion](https://www.jetbrains.com/clion/).
 
 ### Run
 Enter the build directory (it depends on how you build the program). \
