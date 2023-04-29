@@ -1,9 +1,4 @@
 #include <iostream>
-#ifdef _WIN32
-#include <Windows.h>
-#else
-#include <unistd.h>
-#endif
 
 #include "utils/GraphUtils.h"
 #include "algorithms/MaximumFlowAlgorithms.h"
@@ -15,7 +10,9 @@ int main(int argc, char **argv) {
 
     // Check if file name was given else ask for it
     if (argc < 2) {
-        std::cout << "Insert input file name: ";
+        // Filename must be with extension and without spaces
+        // If the file is not in the same directory as the executable, the full path must be given
+        std::cout << "Insert input filename: ";
         std::cin >> filename;
     } else {
         filename = argv[1];
@@ -25,7 +22,6 @@ int main(int argc, char **argv) {
         // read graph from file
         auto graph = utils::GraphUtils::CreateGraphFromJSON(filename);
 
-        std::cout << std::endl;
         std::cout << "Select the problem:" << std::endl;
         std::cout << "1. Maximum flow (EdmondsKarp)" << std::endl;
         std::cout << "2. Minimum cost flow (Choose algorithm...)" << std::endl;
@@ -47,7 +43,6 @@ int main(int argc, char **argv) {
                 break;
             }
             case 2: {
-                std::cout << std::endl;
                 std::cout << "Select the algorithm:" << std::endl;
                 std::cout << "1. Cycle-cancelling" << std::endl;
                 std::cout << "2. Successive shortest path" << std::endl;
@@ -81,27 +76,25 @@ int main(int argc, char **argv) {
                         break;
                     }
                     case 4: {
-                        return 0;
+                        return EXIT_SUCCESS;
                     }
                     default: {
-                        std::cout << "ERROR: Invalid choice" << std::endl;
-                        return 1;
+                        throw std::invalid_argument("Invalid choice");
                     }
                 }
                 break;
             }
             case 3: {
-                return 0;
+                return EXIT_SUCCESS;
             }
             default: {
-                std::cout << "ERROR: Invalid choice" << std::endl;
-                return 1;
+                throw std::invalid_argument("Invalid choice");
             }
         }
     } catch (std::invalid_argument& e) {
         std::cout << "ERROR: " << e.what() << std::endl;
-        return -1;
+        return EXIT_FAILURE;
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }

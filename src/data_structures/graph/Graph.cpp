@@ -64,9 +64,7 @@ namespace data_structures {
         Graph::checkNodeExistence(source);
         Graph::checkNodeExistence(sink);
 
-        if (capacity < 0) {
-            throw std::invalid_argument("capacity must be positive");
-        }
+        Graph::checkNegativeCapacity(capacity);
 
         for (auto &e : *this->g->at(source)) {
             if (e.getSink() == sink) {
@@ -87,6 +85,13 @@ namespace data_structures {
             std::string s = "nodes must be positive integers";
             throw std::invalid_argument(s);
         }
+
+        Graph::checkNegativeCapacity(e.getCapacity());
+
+        // if the sink node does not exist create it
+        if (this->g->find(sink) == this->g->end()) {
+            this->g->insert({ sink, std::make_shared<std::vector<Edge>>() });
+        }
              
         // if it is the first source edge create the adj list
         if (this->g->find(source) == this->g->end()) {
@@ -99,12 +104,12 @@ namespace data_structures {
             }
         }
 
-        // if the sink node does not exist create it
-        if (this->g->find(sink) == this->g->end()) {
-            this->g->insert({ sink, std::make_shared<std::vector<Edge>>() });
-        }
-
         this->g->at(source)->push_back(e);
+    }
+
+    void Graph::addEdge(int source, int sink, int capacity, int cost) {
+        auto edge = data_structures::Edge(source, sink, capacity, cost);
+        this->addEdge(edge);
     }
 
     
@@ -191,6 +196,12 @@ namespace data_structures {
     void Graph::checkNodeExistence(int node) const {
         if (this->g->find(node) == this->g->end()) {
             throw std::invalid_argument(data_structures::Graph::getNoNodeString(node));
+        }
+    }
+
+    void Graph::checkNegativeCapacity(int capacity) const {
+        if (capacity < 0) {
+            throw std::invalid_argument("capacity must be positive");
         }
     }
 }

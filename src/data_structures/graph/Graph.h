@@ -97,14 +97,30 @@ namespace data_structures {
             void setEdgeCapacity(int source, int sink, int capacity);
 
             /**
-            * Add the direct edge to the graph.
+            * Add the direct edge e to the graph.
             *
             * @param e The edge to add
             * 
             * @throws invalid_argument if the nodes are negative
             * @throws invalid_argument if the edge already exists
+            * @throws invalid_argument if the nodes does not exist
+            * @throws invalid_argument if the capacity is negative
             */
             void addEdge(Edge e);
+
+            /**
+             * Add the direct edge source -> sink to the graph.
+             *
+             * @param source   the source node
+             * @param sink     the sink node
+             * @param capacity the capacity of the edge
+             * @param cost     the cost of the edge
+             * 
+             * @throws invalid_argument if the nodes are negative
+             * @throws invalid_argument if the edge already exists
+             * @throws invalid_argument if the capacity is negative
+             */
+            void addEdge(int source, int sink, int capacity, int cost);
 
             /**
              * Remove the direct edge source -> sink from the graph.
@@ -168,6 +184,15 @@ namespace data_structures {
              * @throws invalid_argument if the node does not exist
              */
             void checkNodeExistence(int node) const;
+
+            /**
+             * Check if the capacity is negative.
+             *
+             * @param capacity the capacity
+             * 
+             * @throws invalid_argument if the capacity is negative
+             */
+            void checkNegativeCapacity(int capacity) const;
 
             // the starting number of nodes of the graph
             int num_nodes;

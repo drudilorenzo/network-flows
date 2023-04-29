@@ -22,17 +22,13 @@ namespace utils {
 
             // read the json file
             try {
-
-                std::cout << "Reading file: " << filename << std::endl;
                 json data = json::parse(infile);
 
                 // create graph
                 int num_nodes { data["Num_nodes"] };
-                std::cout << "Number of nodes: " << num_nodes << std::endl;
 
                 // create edges
                 nlohmann::json edges = data.at("Edges");
-                std::cout << "Number of edges: " << edges.size() << std::endl;
                 auto graph = std::make_shared<data_structures::Graph>(num_nodes);
 
                 for (auto& e : edges) {
@@ -42,9 +38,7 @@ namespace utils {
                     int weight { e.at("Weight") };
 
                     // add edge to graph
-                    auto edge = data_structures::Edge(source, sink, capacity, weight);
-                    graph->addEdge(edge);
-                    std::cout << "Edge added: " << edge.toString() << std::endl;
+                    graph->addEdge(source, sink, capacity, weight);
                 }
                 return graph;
                 
@@ -79,16 +73,11 @@ namespace utils {
                 if (source < sink && graph->hasEdge(sink, source)) {
                     // add the artificial node
                     int artificial_node { residual_graph->getNumNodes() };
-
-                    auto artificial_edge = data_structures::Edge(source, artificial_node, capacity, weight);
-                    residual_graph->addEdge(artificial_edge);
-
-                    auto edge = data_structures::Edge(artificial_node, sink, capacity, weight);
-                    residual_graph->addEdge(edge);
+                    residual_graph->addEdge(source, artificial_node, capacity, weight);
+                    residual_graph->addEdge(artificial_node, sink, capacity, weight);
                 } else {
                     // else simply add the edge to the residual graph
-                    auto edge = data_structures::Edge(source, sink, capacity, weight);
-                    residual_graph->addEdge(edge);
+                    residual_graph->addEdge(source, sink, capacity, weight);
                 }
             }
         }
@@ -115,14 +104,11 @@ namespace utils {
                     // get the original source node by getting the sink of
                     // the only edge of the artificial node
                     int start_source { graph->getNodeAdjList(sink)->at(0).getSink() };
-                    auto rev_edge = data_structures::Edge(start_source, source, capacity, -weight);
-                    optimal_graph->addEdge(rev_edge);
+                    optimal_graph->addEdge(start_source, source, capacity, -weight);
                 } else {
                     // add the edge to the optimal graph
-                    auto rev_edge = data_structures::Edge(sink, source, capacity, -weight);
-                    optimal_graph->addEdge(rev_edge);
+                    optimal_graph->addEdge(sink, source, capacity, -weight);
                 }
-
             }
         }
 
@@ -195,7 +181,7 @@ namespace utils {
 
             // if the reverse edge does not exist, add it
             if (!residual_graph->hasEdge(sink, source)) {
-                residual_graph->addEdge(data_structures::Edge(sink, source, flow, -weight));
+                residual_graph->addEdge(sink, source, flow, -weight);
             } else {
                 residual_graph->setEdgeCapacity(sink, source, residual_graph->getEdge(sink, source).getCapacity() + flow);
             }
