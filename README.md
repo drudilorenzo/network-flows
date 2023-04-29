@@ -6,9 +6,10 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 1. [Description](#description)
-2. [Algorithms](#algorithms)
-3. [How to use](#how-to-use)
-4. [Python Tester](#python-tester)
+2. [Project structure](#project-structure)
+3. [Algorithms](#algorithms)
+4. [How to use](#how-to-use)
+5. [Python Tester](#python-tester)
 
 ## Description
 Command-line solver of the following network flows optimization problems:
@@ -31,7 +32,15 @@ Command-line solver of the following network flows optimization problems:
 
 (*See the implementations [here](src/algorithms)*)
 
+## Project structure
+- [data](data): example graphs
+- [docs](docs): report of the project and results of the algorithms applied to the graphs inside *data* directory
+- [pyTest](pyTest): python tester which permits to easily solve the network flow problems and to **draw a graph using matplotlib**
+- [src](src): the command-line tool source files
+
 ## How to use
+**The following commands are for a generic linux system, you may need to adapt them depending on your os**
+
 ### JSON Format 
 Both the c++ command line tool and the Python solver requires an input graph described by a well-formed JSON file. \
 Here is an example of how you can create yours:
@@ -111,6 +120,7 @@ I used it as a tester for my tool. It gave me the possibility firstly to see a p
 `Python3`: see [here](https://realpython.com/installing-python/) how to install
 
 ### How to use:
+**The following commands are for a generic linux system, you may need to adapt them depending on your os**
 
 1. First of all move inside the directory:
 ```bash
