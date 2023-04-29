@@ -6,7 +6,7 @@
 #include "MaximumFlowAlgorithms.h"
 
 namespace algorithms {
-    std::shared_ptr<dto::FlowResult> MinimumCostFlowAlgorithms::CycleCancelling(std::shared_ptr<data_structures::Graph> graph) {
+    std::shared_ptr<dto::FlowResult> MinimumCostFlowAlgorithms::CycleCancelling(const std::shared_ptr<data_structures::Graph>& graph) {
         int source { consts::source };
         int sink { graph->getNumNodes() - 1 };
 
@@ -30,8 +30,8 @@ namespace algorithms {
 
         // get minimum cost
         int minimum_cost {};
-        for (int source = 0; source < graph->getNumNodes(); source++) {
-            for (auto edge: *residual_graph->getNodeAdjList(source)) {
+        for (int u = 0; u < graph->getNumNodes(); u++) {
+            for (auto edge: *residual_graph->getNodeAdjList(u)) {
                 if (edge.getWeight() < 0) {
                     minimum_cost +=  -edge.getWeight() * edge.getCapacity();
                 }

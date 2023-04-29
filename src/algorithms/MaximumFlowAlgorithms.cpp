@@ -3,20 +3,21 @@
 #include "utils/GraphUtils.h"
 #include "GraphBaseAlgorithms.h"
 
-#include <queue>
 #include <memory>
 
 namespace algorithms {
-     std::shared_ptr<dto::FlowResult> MaximumFlowAlgorithms::EdmondsKarp(std::shared_ptr<data_structures::Graph> graph, int source, int sink) {
+     std::shared_ptr<dto::FlowResult> MaximumFlowAlgorithms::EdmondsKarp(const std::shared_ptr<data_structures::Graph>& graph, int source, int sink) {
         int max_flow {};
 
         // the residual graph (if needed anti-parallel edges are removed using artificial nodes)
         auto residual_graph = utils::GraphUtils::GetResidualGraph(graph);
 
-         // used to reconstruct the path (filled by BFS)
-         auto parent = std::make_shared<std::vector<int>>(residual_graph->getNumNodes() );
+        auto bfs_result = GraphBaseAlgorithms::BFS(residual_graph, source, sink);
 
-        while (GraphBaseAlgorithms::BFS(residual_graph, source, sink, parent)) {
+        // while there is a path from source to sink
+        while (bfs_result->isPathFound()) {
+
+            auto parent = bfs_result->getParent();
             
             // reconstruct the path from source to sink
             auto path = utils::GraphUtils::RetrievePath(parent, sink);
@@ -29,6 +30,9 @@ namespace algorithms {
 
             // update the max flow
             max_flow += path_flow;
+
+            // find a new path from source to sink
+            bfs_result = GraphBaseAlgorithms::BFS(residual_graph, source, sink);
         }
 
         // Build the result with residual graph and max flow

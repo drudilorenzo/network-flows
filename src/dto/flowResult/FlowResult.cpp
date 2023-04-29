@@ -3,10 +3,9 @@
 #include <utility>
 
 namespace dto {
-    FlowResult::FlowResult(std::shared_ptr<data_structures::Graph> graph, int flow) {
-        this->graph = std::move(graph);
-        this->flow = flow;
-    }
+    FlowResult::FlowResult(std::shared_ptr<data_structures::Graph> graph, int flow) :
+        flow(flow),
+        graph(std::move(graph)) {}
 
     std::shared_ptr<data_structures::Graph> FlowResult::getGraph() const {
         return this->graph;

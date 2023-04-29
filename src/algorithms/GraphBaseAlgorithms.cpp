@@ -5,12 +5,12 @@
 
 #include <queue>
 #include <limits>
-#include <iostream>
 
 namespace algorithms {
-    bool GraphBaseAlgorithms::BFS(std::shared_ptr<data_structures::Graph> graph, int source, int sink, std::shared_ptr<std::vector<int>> parent) {
+    std::shared_ptr<dto::BfsResult> GraphBaseAlgorithms::BFS(const std::shared_ptr<data_structures::Graph>& graph, int source, int sink) {
         int num_nodes { graph->getNumNodes() };
-        
+        auto parent = std::make_shared<std::vector<int>>(num_nodes);
+
         std::vector<bool> visited(num_nodes, false);
         visited.at(source) = true;
         
@@ -29,7 +29,7 @@ namespace algorithms {
                     parent->at(e.getSink()) = current_node;
 
                     if (e.getSink() == sink) {
-                        return true;
+                        return std::make_shared<dto::BfsResult>(true, parent);
                     }
 
                     visited.at(e.getSink()) = true;
@@ -39,10 +39,10 @@ namespace algorithms {
         }
 
         // If we reach here, then there is no path from source to sink
-        return false;
+        return std::make_shared<dto::BfsResult>(false, parent);
     }
 
-     std::shared_ptr<dto::BellmanFordResult> GraphBaseAlgorithms::BellmanFord(std::shared_ptr<data_structures::Graph> graph, int source) {
+     std::shared_ptr<dto::BellmanFordResult> GraphBaseAlgorithms::BellmanFord(const std::shared_ptr<data_structures::Graph>& graph, int source) {
         int num_nodes { graph->getNumNodes() };
 
         auto dist = std::make_shared<std::vector<int>>(num_nodes);

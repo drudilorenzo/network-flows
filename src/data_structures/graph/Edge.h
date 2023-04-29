@@ -23,47 +23,47 @@ namespace data_structures {
          * @param capacity The capacity of the edge
          * @param cost     The weight of the edge
          */
-        Edge(const int source, const int sink, const int capacity, const int cost);
+        Edge(int source, int sink, int capacity, int cost);
 
         /**
          * Get the source of the edge.
          *
          * @return the source of the edge
          */
-        int getSource();
+        [[nodiscard]] int getSource() const;
 
         /**
          * Get the sink of the edge.
          *
          * @return the sink of the edge
          */
-        int getSink();
+        [[nodiscard]] int getSink() const;
 
         /**
          * Get the capacity of the edge.
          *
          * @return the capacity of the edge
          */
-        int getCapacity();
+        [[nodiscard]] int getCapacity() const;
 
         /**
          * Get the weight of the edge.
          *
          * @return the weight of the edge
          */
-        int getWeight();
+        [[nodiscard]] int getWeight() const;
 
         /**
          * Set the capacity of the edge.
          *
-         * @param capacity the new capacity of the edge
+         * @param new_capacity the new capacity of the edge
          */
-        void setCapacity(int capacity);
+        void setCapacity(int new_capacity);
 
         /**
          * Print the edge in JSON format.
          */
-        std::string toString();
+        [[nodiscard]] std::string toString() const;
 
         /**
          * Overload of the == operator.

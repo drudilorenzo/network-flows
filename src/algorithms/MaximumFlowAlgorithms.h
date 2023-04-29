@@ -27,7 +27,7 @@ namespace algorithms {
              * 
              * @return the residual graph and the maximum flow
              */
-            static std::shared_ptr<dto::FlowResult> EdmondsKarp(std::shared_ptr<data_structures::Graph> graph, int source, int sink);
+            static std::shared_ptr<dto::FlowResult> EdmondsKarp(const std::shared_ptr<data_structures::Graph>& graph, int source, int sink);
     };
 }
 

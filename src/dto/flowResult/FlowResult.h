@@ -23,14 +23,14 @@ namespace dto {
          *
          * @return the graph with the curent flow for each edge
          */
-        std::shared_ptr<data_structures::Graph> getGraph() const;
+        [[nodiscard]] std::shared_ptr<data_structures::Graph> getGraph() const;
 
         /**
          * Getter for the flow.
          *
          * @return the flow
          */
-        int getFlow() const;
+        [[nodiscard]] int getFlow() const;
 
     private:
         int flow;

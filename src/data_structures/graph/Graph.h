@@ -29,7 +29,7 @@ namespace data_structures {
              *
              * @return num_nodes the starting number of nodes
              */
-            int getStartingNumNodes() const;
+            [[nodiscard]] int getStartingNumNodes() const;
 
             /**
              * Return the current number of nodes of the graph.
@@ -38,14 +38,14 @@ namespace data_structures {
              *
              * @return the current number of nodes
              */
-            int getNumNodes() const;
+            [[nodiscard]] int getNumNodes() const;
 
             /**
              * Get the graph.
              *
              * @return the graph
              */
-            [[maybe_unused]] [[maybe_unused]] std::shared_ptr<std::map<int, std::shared_ptr<std::vector<Edge>>>> getGraph() const;
+            [[maybe_unused]] [[maybe_unused]] [[nodiscard]] std::shared_ptr<std::map<int, std::shared_ptr<std::vector<Edge>>>> getGraph() const;
 
             /**
              * Get the adjacent list of the node i.
@@ -56,7 +56,7 @@ namespace data_structures {
              * 
              * @throws invalid_argument if the node does not exist
              */
-            std::shared_ptr<std::vector<Edge>> getNodeAdjList(int node) const;
+            [[nodiscard]] std::shared_ptr<std::vector<Edge>> getNodeAdjList(int node) const;
 
             /**
              * Check if the edge source -> tail exists.
@@ -68,7 +68,7 @@ namespace data_structures {
              * 
              * @throws invalid_argument if the node does not exist
              */
-            bool hasEdge(int source, int sink) const;
+            [[nodiscard]] bool hasEdge(int source, int sink) const;
 
             /**
              * Get the edge between the nodes u and v.
@@ -81,7 +81,7 @@ namespace data_structures {
              * @throws invalid_argument if the nodes do not exist
              * @throws invalid_argument if the edge does not exist
              */
-            data_structures::Edge getEdge(int source, int sink) const;
+            [[nodiscard]] data_structures::Edge getEdge(int source, int sink) const;
 
             /**
              * Set the capacity of the edge between the nodes u and v.
@@ -192,7 +192,7 @@ namespace data_structures {
              * 
              * @throws invalid_argument if the capacity is negative
              */
-            void checkNegativeCapacity(int capacity) const;
+            static void checkNegativeCapacity(int capacity) ;
 
             // the starting number of nodes of the graph
             int num_nodes;

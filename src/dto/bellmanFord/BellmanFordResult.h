@@ -11,7 +11,7 @@ namespace dto {
      * Otherwise, the result contains the distance of each vertex from the source vertex.
      *  
      */
-    class  BellmanFordResult {
+    class BellmanFordResult {
     public:
         /**
          * Constructor for the case when the graph contains a negative cycle.
@@ -19,7 +19,7 @@ namespace dto {
          * 
          * @param negative_cycle the negative cycle
          */
-        BellmanFordResult(std::shared_ptr<std::vector<int>> negative_cycle);
+        explicit BellmanFordResult(std::shared_ptr<std::vector<int>> negative_cycle);
 
         /**
          * Constructor for the case when the graph contains no negative cycle.
@@ -51,7 +51,7 @@ namespace dto {
          * 
          * @return the distance of each vertex from the source vertex
          */
-        std::shared_ptr<std::vector<int>> getDistance();
+        [[maybe_unused]] [[maybe_unused]] std::shared_ptr<std::vector<int>> getDistance();
 
         /**
          * Returns the parent of each vertex.
@@ -59,7 +59,7 @@ namespace dto {
          * 
          * @return the the parent of each vertex
          */
-        std::shared_ptr<std::vector<int>> getParent();
+        [[maybe_unused]] [[maybe_unused]] std::shared_ptr<std::vector<int>> getParent();
         
     private:
         std::shared_ptr<std::vector<int>> parent;

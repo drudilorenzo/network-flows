@@ -112,8 +112,6 @@ namespace data_structures {
         this->addEdge(edge);
     }
 
-    
-
     void Graph::removeEdge(int source, int sink) {
         Graph::checkNodeExistence(source);
         Graph::checkNodeExistence(sink);
@@ -199,7 +197,7 @@ namespace data_structures {
         }
     }
 
-    void Graph::checkNegativeCapacity(int capacity) const {
+    void Graph::checkNegativeCapacity(int capacity) {
         if (capacity < 0) {
             throw std::invalid_argument("capacity must be positive");
         }

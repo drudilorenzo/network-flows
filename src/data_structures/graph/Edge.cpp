@@ -8,27 +8,27 @@ namespace data_structures {
             weight(weight) {}
 
 
-    int Edge::getSource() {
+    int Edge::getSource() const {
         return this->source;
     }
 
-    int Edge::getSink() {
+    int Edge::getSink() const {
         return this->sink;
     }
 
-    int Edge::getCapacity() {
+    int Edge::getCapacity() const {
         return this->capacity;
     }
 
-    int Edge::getWeight() {
+    int Edge::getWeight() const {
         return this->weight;
     }
 
-    void Edge::setCapacity(int capacity) {
-        this->capacity = capacity;
+    void Edge::setCapacity(int new_capacity) {
+        this->capacity = new_capacity;
     }
 
-    std::string Edge::toString() {
+    std::string Edge::toString() const {
         std::string s = "{";
         s += "\"Source\": " + std::to_string(this->source) + ", ";
         s += "\"Sink\": " + std::to_string(this->sink) + ", ";

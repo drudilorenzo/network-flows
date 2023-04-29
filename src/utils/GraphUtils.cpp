@@ -85,11 +85,12 @@ namespace utils {
         return residual_graph;
     }
 
-    std::shared_ptr<data_structures::Graph> GraphUtils::GetOptimalGraph(const std::shared_ptr<data_structures::Graph>& graph) {
-        auto optimal_graph = std::make_shared<data_structures::Graph>(graph->getStartingNumNodes());
+    std::shared_ptr<data_structures::Graph> GraphUtils::GetOptimalGraph(const std::shared_ptr<data_structures::Graph>& residual_graph,
+        const std::shared_ptr<data_structures::Graph>& graph) {
+        auto optimal_graph = std::make_shared<data_structures::Graph>(residual_graph->getStartingNumNodes());
 
-        for (int source = 0; source < graph->getStartingNumNodes(); source++) {
-            for (auto e : *graph->getNodeAdjList(source)) {
+        for (int source = 0; source < residual_graph->getStartingNumNodes(); source++) {
+            for (auto e : *residual_graph->getNodeAdjList(source)) {
                 // get only the graph with negative cost edges
                 if (e.getWeight() >= 0) {
                     continue;
@@ -99,11 +100,11 @@ namespace utils {
                 int weight { e.getWeight() };
 
                 // remove the artificial node added to handle anti-parallel edges
-                if (sink >= graph->getStartingNumNodes()) {
+                if (sink >= residual_graph->getStartingNumNodes()) {
 
                     // get the original source node by getting the sink of
                     // the only edge of the artificial node
-                    int start_source { graph->getNodeAdjList(sink)->at(0).getSink() };
+                    int start_source { residual_graph->getNodeAdjList(sink)->at(0).getSink() };
                     optimal_graph->addEdge(start_source, source, capacity, -weight);
                 } else {
                     // add the edge to the optimal graph
@@ -111,6 +112,16 @@ namespace utils {
                 }
             }
         }
+
+        // add the edges of the original graph that are not in the residual graph
+       for (int source = 0; source < graph->getNumNodes(); source++) {
+            for (auto e : *graph->getNodeAdjList(source)) {
+                // if the optimal graph does not contain the edge, add it with 0 flow
+                if ( !optimal_graph->hasEdge(source, e.getSink()) ) {
+                    optimal_graph->addEdge(source, e.getSink(), 0, e.getWeight());
+                }
+            }
+       }
 
         return optimal_graph;
     }

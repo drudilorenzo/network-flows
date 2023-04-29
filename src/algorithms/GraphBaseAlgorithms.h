@@ -2,7 +2,8 @@
 #define MINIMUM_COST_FLOWS_PROBLEM_GRAPHBASEALGORITHMS_H
 
 #include "data_structures/graph/Graph.h"
-#include "dto/BellmanFord/BellmanFordResult.h"
+#include "dto/bfsResult/BfsResult.h"
+#include "dto/bellmanFord/BellmanFordResult.h"
 
 namespace algorithms {
     /**
@@ -31,7 +32,7 @@ namespace algorithms {
          * 
          * @return true if there is a path from source to sink, false otherwise
          */
-        static bool BFS(std::shared_ptr<data_structures::Graph> graph, int source, int sink, std::shared_ptr<std::vector<int>> parent);
+        static std::shared_ptr<dto::BfsResult> BFS(const std::shared_ptr<data_structures::Graph>& graph, int source, int sink);
 
         /**
          * Bellman-Ford algorithm used to detect negative cycles.
@@ -48,7 +49,7 @@ namespace algorithms {
          * 
          * @return the result of the algorithm (see BellmanFordResult.h
          */
-        static std::shared_ptr<dto::BellmanFordResult> BellmanFord(std::shared_ptr<data_structures::Graph> graph, int source);
+        static std::shared_ptr<dto::BellmanFordResult> BellmanFord(const std::shared_ptr<data_structures::Graph>& graph, int source);
     };
 }
 
