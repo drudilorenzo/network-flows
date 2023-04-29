@@ -38,13 +38,10 @@ namespace data_structures {
     bool Graph::hasEdge(int source, int sink) const {
         Graph::checkNodeExistence(source);
         Graph::checkNodeExistence(sink);
-        
-        for (auto e : *this->g->at(source)) {
-            if (e.getSink() == sink) {
-                return true;
-            }
-        }
-        return false;
+
+        return std::any_of(this->g->at(source)->begin(), this->g->at(source)->end(), [sink](Edge e) {
+            return e.getSink() == sink;
+        });
     }
 
     Edge Graph::getEdge(int source, int sink) const {
@@ -155,9 +152,6 @@ namespace data_structures {
     bool Graph::operator==(const data_structures::Graph &other) const {
         if (this == &other) {
             return true;
-        }
-        if (this == nullptr || &other == nullptr) {
-            return false;
         }
         if (this->getNumNodes() != other.getNumNodes()) {
             return false;

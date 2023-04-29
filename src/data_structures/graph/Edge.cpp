@@ -42,9 +42,6 @@ namespace data_structures {
         if (this == &other) {
             return true;
         }
-        if (this == nullptr || &other == nullptr) {
-            return false;
-        }
         return this->source == other.source && this->sink == other.sink && this->capacity == other.capacity && this->weight == other.weight;
     }
 
