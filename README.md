@@ -44,7 +44,7 @@ Command-line solver of the following network flows optimization problems:
 **The following commands are for a generic Linux system, you may need to adapt them depending on your os**
 
 ### Requirements
-`CMake`: minimum versione `3.20`, see [here](https://cmake.org/install/) how to install it
+`CMake`: minimum version `3.20`, see [here](https://cmake.org/install/) how to install it
 
 ### Use your own graph
 Both the c++ command line tool and the Python solver requires an input graph described by a well-formed JSON file. \
