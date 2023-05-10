@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
         // read graph from file
         auto graph = utils::GraphUtils::CreateGraphFromJSON(filename);
 
-        std::cout << "Select the problem:" << std::endl;
+        std::cout << "Select the network flow problem:" << std::endl;
         std::cout << "1. Maximum flow (EdmondsKarp)" << std::endl;
         std::cout << "2. Minimum cost flow (Choose algorithm...)" << std::endl;
         std::cout << "3. Exit" << std::endl;
@@ -31,16 +31,18 @@ int main(int argc, char **argv) {
         std::cin >> choice;
         std::cout << std::endl;
 
+        // for semplicity we assume that the source is the first node and the sink is the last node
         int source {};
         int sink { graph->getNumNodes() - 1 };
+        std::shared_ptr<dto::FlowResult> result;
 
         switch (choice) {
             case 1: {
-                auto result = algorithms::MaximumFlowAlgorithms::EdmondsKarp(graph, source, sink);
+                result = algorithms::MaximumFlowAlgorithms::EdmondsKarp(graph, source, sink);
                 std::cout << "Graph with flow: " << std::endl;
-                auto opt_graph = utils::GraphUtils::GetOptimalGraph(result->getGraph(), graph);
+                auto opt_graph = utils::GraphUtils::GetOptimalGraphFromNegativeWeights(result->getGraph(), graph);
                 std::cout << opt_graph->toString() << std::endl;
-                std::cout << "Maximum flow: " << result->getFlow() << std::endl;
+                std::cout << "Maximum flow: " << result->getFlow() << std::endl << std::endl;
                 break;
             }
             case 2: {
@@ -56,37 +58,35 @@ int main(int argc, char **argv) {
                 int minimum_cost {};
                 switch (choice) {
                     case 1 : {
-                        std::cout << "Cycle-cancelling selected" << std::endl;
-                        auto result = algorithms::MinimumCostFlowAlgorithms::CycleCancelling(graph, source, sink);
-                        auto opt_graph = utils::GraphUtils::GetOptimalGraph(result->getGraph(), graph);
-                        std::cout << "Graph with flow: " << std::endl;
-                        std::cout << opt_graph->toString() << std::endl;
-                        std::cout << "Minimum cost flow: " << result->getFlow() << std::endl;
+                        std::cout << "Cycle-cancelling selected!" << std::endl;
+                        result = algorithms::MinimumCostFlowAlgorithms::CycleCancelling(graph, source, sink);
                         break;
                     }
                     case 2 : {
-                        std::cout << "Successive shortest path selected" << std::endl;
-                        //minimum_cost = algorithms::MinimumCostFlowAlgorithms::SuccessiveShortestPath(graph);
-                        std::cout << "Minimum cost flow: " << minimum_cost << std::endl;
+                        std::cout << "Successive shortest path selected!" << std::endl;
+                        result = algorithms::MinimumCostFlowAlgorithms::SuccessiveShortestPath(graph, source, sink);
                         break;
                     }
                     case 3 : {
-                        std::cout << "Primal-dual selected" << std::endl;
+                        std::cout << "Primal-dual selected!" << std::endl;
                         //minimum_cost = algorithms::MinimumCostFlowAlgorithms::PrimalDual(graph);
                         std::cout << "Minimum cost flow: " << minimum_cost << std::endl;
                         break;
                     }
                     case 4: {
-                        return EXIT_SUCCESS;
+                        break;
                     }
                     default: {
-                        throw std::invalid_argument("Invalid choice");
+                        throw std::invalid_argument("Invalid choice!");
                     }
                 }
+                std::cout << "Graph with flow: " << std::endl;
+                std::cout << result->getGraph()->toString() << std::endl;
+                std::cout << "Minimum cost flow: " << result->getFlow() << std::endl << std::endl;
                 break;
             }
             case 3: {
-                return EXIT_SUCCESS;
+                break;
             }
             default: {
                 throw std::invalid_argument("Invalid choice");
@@ -97,5 +97,6 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
 
+    std::cout << "EXIT" << std::endl;
     return EXIT_SUCCESS;
 }
