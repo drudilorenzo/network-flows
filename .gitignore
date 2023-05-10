@@ -35,8 +35,11 @@
 .idea
 .vscode
 
-# CMake files
+# CMake debug directory
 cmake-build-debug
+
+# CMake build directory
+build
 
 # Ignore venv files
 pyTest/*
