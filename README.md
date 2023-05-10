@@ -14,8 +14,8 @@
 ## Description
 Command-line solver of the following network flows optimization problems:
 
-1. `Maximum Flow`: it seeks a feasible solution that sends the maximum amount of flow from a specified source note s to node t per unit of time
-2. `Minimum Cost Flow`: it is the most fundamental of all the network flow problems. It searches for the cheapest possible way of sending a certain amount of flow through a flow network. In particular, the solver solves the `minimum cost maximum flow problem, seeking the least-cost maximum flow
+1. `Maximum Flow`: it seeks a feasible solution that sends the maximum amount of flow from a specified source note s to node t per unit of time.
+2. `Minimum Cost Flow`: it is the most fundamental of all the network flow problems. It searches for the cheapest possible way of sending a certain amount of flow through a flow network. In particular, the solver solves the `minimum cost maximum flow problem`, seeking the least-cost maximum flow.
 
 ## Algorithms
 `Maximum Flow`:
@@ -23,12 +23,13 @@ Command-line solver of the following network flows optimization problems:
 
 `Minimum Cost Flow`:
 - [X] [Cycle Cancelling Algorithm](https://complex-systems-ai.com/en/maximum-flow-problem/cycle-canceling-algorithm/)
-- [ ] [Successive Shortest Path Algorithm](https://www.topcoder.com/thrive/articles/Minimum%20Cost%20Flow%20Part%20Two:%20Algorithms)
+- [X] [Successive Shortest Path Algorithm](https://www.topcoder.com/thrive/articles/Minimum%20Cost%20Flow%20Part%20Two:%20Algorithms)
 - [ ] [Primal-Dual Algorithm](https://www.topcoder.com/thrive/articles/Minimum%20Cost%20Flow%20Part%20Two:%20Algorithms)
 
 `Generic (base) algorithms`:
 - [X] [BFS](https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/)
 - [X] [Bellman-Ford](https://www.geeksforgeeks.org/bellman-ford-algorithm-dp-23/)
+- [X] [Dijkstra](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm)
 
 (*See the implementations [here](src/algorithms)*)
 
@@ -53,43 +54,43 @@ Here is an example of how you can create yours:
         "Source": 0,
         "Sink": 1,
         "Capacity": 3,
-        "Weight": 1
+        "Cost": 1
       },
       {
         "Source": 0,
         "Sink": 2,
         "Capacity": 2,
-        "Weight": 1
+        "Cost": 1
       },
       {
         "Source": 1,
         "Sink": 2,
         "Capacity": 2,
-        "Weight": 1
+        "Cost": 1
       },
       {
         "Source": 1,
         "Sink": 3,
         "Capacity": 2,
-        "Weight": 1
+        "Cost": 1
       },
       {
         "Source": 2,
         "Sink": 3,
         "Capacity": 3,
-        "Weight": 1
+        "Cost": 1
       },
       {
         "Source": 2,
         "Sink": 4,
         "Capacity": 1,
-        "Weight": 1
+        "Cost": 1
       },
       {
         "Source": 3,
         "Sink": 4,
         "Capacity": 3,
-        "Weight": 1
+        "Cost": 1
       }
     ]
  }
@@ -147,7 +148,7 @@ I used it as a tester for my tool. It gave me the possibility firstly to see a p
 ```bash
   python3 graph_solver.py path/filename.json
   ```
-  (e.g. ```python3 graph_solver.py ../data/graph1.json)
+  (e.g. ```python3 graph_solver.py ../data/graph1.json```)
 
 6. Then, when you don't need anymore the python solver, deactivate the virtual environment:
 ```bash
