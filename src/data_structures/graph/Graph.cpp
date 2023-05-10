@@ -7,8 +7,7 @@ using json = nlohmann::ordered_json;
 
 namespace data_structures {
 
-    Graph::Graph(int num_nodes) 
-        : num_nodes(num_nodes) {
+    Graph::Graph(int num_nodes) : num_nodes(num_nodes) {
         this->g = std::make_shared<std::map<int, std::shared_ptr<std::vector<Edge>>>>();
 
         // insert the nodes
@@ -36,9 +35,9 @@ namespace data_structures {
     }
 
     bool Graph::hasEdge(int source, int sink) const {
-        Graph::checkNodeExistence(source);
-        Graph::checkNodeExistence(sink);
-
+        if (this->g->find(source) == this->g->end() || this->g->find(sink) == this->g->end()) {
+            return false;
+        }
         return std::any_of(this->g->at(source)->begin(), this->g->at(source)->end(), [sink](Edge e) {
             return e.getSink() == sink;
         });
@@ -60,7 +59,6 @@ namespace data_structures {
     void Graph::setEdgeCapacity(int source, int sink, int capacity) {
         Graph::checkNodeExistence(source);
         Graph::checkNodeExistence(sink);
-
         Graph::checkNegativeCapacity(capacity);
 
         for (auto &e : *this->g->at(source)) {
@@ -69,8 +67,23 @@ namespace data_structures {
                 return;
             }
         }
-
+        
         throw std::invalid_argument(data_structures::Graph::getNoEdgeString(source, sink));
+    }
+
+    void Graph::setEdgeWeight(int source, int sink, int weight) {
+        Graph::checkNodeExistence(source);
+        Graph::checkNodeExistence(sink);
+        Graph::checkNegativeWeight(weight);
+
+        for (auto &e : *this->g->at(source)) {
+            if (e.getSink() == sink) {
+                e.setWeight(weight);
+                return;
+            }
+        }
+
+        throw std::invalid_argument(data_structures::Graph::getNoEdgeString(source, sink));    
     }
 
     void Graph::addEdge(Edge e) {
@@ -127,7 +140,7 @@ namespace data_structures {
         throw std::invalid_argument(data_structures::Graph::getNoEdgeString(source, sink));
     }
 
-    std::string Graph::toString() {
+    std::string Graph::toString() const {
         std::string s = "{";
         s += "\"Edges\": [";
 
@@ -194,6 +207,12 @@ namespace data_structures {
     void Graph::checkNegativeCapacity(int capacity) {
         if (capacity < 0) {
             throw std::invalid_argument("capacity must be positive");
+        }
+    }
+
+    void Graph::checkNegativeWeight(int weight) {
+        if (weight < 0) {
+            throw std::invalid_argument("weight must be positive");
         }
     }
 }

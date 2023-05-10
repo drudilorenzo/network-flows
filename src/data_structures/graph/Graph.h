@@ -97,6 +97,19 @@ namespace data_structures {
             void setEdgeCapacity(int source, int sink, int capacity);
 
             /**
+             * Set the weight of the edge between the nodes u and v.
+             *
+             * @param source   the first node
+             * @param sink     the second node
+             * @param weight   the new weight of the edge
+             * 
+             * @throws invalid_argument if the nodes do not exist
+             * @throws invalid_argument if the edge does not exist
+             * @throws invalid_argument if the weight is negative
+             */
+            void setEdgeWeight(int source, int sink, int weight);
+
+            /**
             * Add the direct edge e to the graph.
             *
             * @param e The edge to add
@@ -136,7 +149,7 @@ namespace data_structures {
             /**
             * Print the graph in JSON format.
             */
-            std::string toString();
+            [[nodiscard]] std::string toString() const;
 
             /**
              * Overload of the == operator.
@@ -192,7 +205,17 @@ namespace data_structures {
              * 
              * @throws invalid_argument if the capacity is negative
              */
-            static void checkNegativeCapacity(int capacity) ;
+            static void checkNegativeCapacity(int capacity);
+
+            /**
+             * Check if the weight is negative.
+             *
+             * @param cost the weight
+             * 
+             * @throws invalid_argument if the weight is negative
+             */
+            static void checkNegativeWeight(int weight);
+
 
             // the starting number of nodes of the graph
             int num_nodes;

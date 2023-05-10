@@ -28,6 +28,10 @@ namespace data_structures {
         this->capacity = new_capacity;
     }
 
+    void Edge::setWeight(int new_weight) {
+        this->weight = new_weight;
+    }
+
     std::string Edge::toString() const {
         std::string s = "{";
         s += "\"Source\": " + std::to_string(this->source) + ", ";

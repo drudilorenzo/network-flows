@@ -61,6 +61,13 @@ namespace data_structures {
         void setCapacity(int new_capacity);
 
         /**
+         * Set the weight of the edge.
+         *
+         * @param new_weight the new weight of the edge
+         */
+        void setWeight(int new_weight);
+
+        /**
          * Print the edge in JSON format.
          */
         [[nodiscard]] std::string toString() const;
