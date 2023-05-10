@@ -3,7 +3,10 @@
 #include "consts/Consts.h"
 #include "utils/GraphUtils.h"
 
+#include <set>
 #include <queue>
+#include <vector>
+#include <memory>
 #include <limits>
 
 namespace algorithms {
@@ -90,5 +93,61 @@ namespace algorithms {
         // Result in case no negative-weight cycle was found
         // It contains the distance from source to every other node and the parent array
         return std::make_shared<dto::BellmanFordResult>(dist, parent);
+    }
+
+    std::shared_ptr<dto::DijkstraResult> GraphBaseAlgorithms::Dijkstra(const std::shared_ptr<data_structures::Graph>& graph, int source) {
+        int num_nodes { graph->getNumNodes() };
+
+        auto dist = std::make_shared<std::vector<int>>(num_nodes);
+        auto parent = std::make_shared<std::vector<int>>(num_nodes);
+        std::vector<int> q {};    // q contains all the nodes that have not been visited yet
+        std::set<int> visited {}; // visited contains all the nodes that have been visited
+
+        // Initialize the distance array to infinity and the parent array to -1
+        for (int i = 0; i < num_nodes; i++) {
+            dist->at(i) = std::numeric_limits<int>::max();
+            parent->at(i) = -1;
+            q.push_back(i);
+        }
+        
+        // Set source distance and parent
+        dist->at(source) = 0;
+        parent->at(source) = consts::source_parent;
+
+        while (!q.empty()) {
+
+            // Find the node with the minimum distance
+            int min_dist { std::numeric_limits<int>::max() };
+            int current_node { -1 };  // node
+            int current_index { -1 }; // node index
+            for (unsigned i=0; i < q.size(); i++) {
+                int node { q.at(i) };
+                if (dist->at(node) < min_dist) {
+                    min_dist = dist->at(node);
+                    current_node = node;
+                    current_index = i;
+                }
+            }
+
+            // remove the node from the queue
+            q.erase(q.begin() + current_index);
+
+            // Mark the node as visited
+            visited.insert(current_node);
+
+            // Relax all edges going out of the current node
+            for (auto e : *graph->getNodeAdjList(current_node)) {
+                int sink { e.getSink() };
+                int cost { e.getCost() };
+
+                // Update dist[v] if dist[u] + weight < dist[v]
+                if (dist->at(current_node) != std::numeric_limits<int>::max() && dist->at(current_node) + cost < dist->at(sink)) {
+                    dist->at(sink) = dist->at(current_node) + cost;
+                    parent->at(sink) = current_node;
+                }
+            }
+        }
+
+        return std::make_shared<dto::DijkstraResult>(dist, parent);
     }
 }

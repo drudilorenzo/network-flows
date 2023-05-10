@@ -1,8 +1,9 @@
 #ifndef MINIMUM_COST_FLOWS_PROBLEM_GRAPHBASEALGORITHMS_H
 #define MINIMUM_COST_FLOWS_PROBLEM_GRAPHBASEALGORITHMS_H
 
-#include "data_structures/graph/Graph.h"
 #include "dto/bfsResult/BfsResult.h"
+#include "data_structures/graph/Graph.h"
+#include "dto/dijkstra/DijkstraResult.h"
 #include "dto/bellmanFord/BellmanFordResult.h"
 
 namespace algorithms {
@@ -51,9 +52,28 @@ namespace algorithms {
          * @param graph  the graph to solve
          * @param source the source node
          * 
-         * @return the result of the algorithm (see BellmanFordResult.h
+         * @return the result of the algorithm (see BellmanFordResult.h)
          */
         static std::shared_ptr<dto::BellmanFordResult> BellmanFord(const std::shared_ptr<data_structures::Graph>& graph, int source);
+
+        /**
+         * Dijkstra algorithm.
+         * Dijkstra's algorithm is an algorithm for finding the shortest paths between nodes in a graph.
+         * Return the the distance from source to every other node and the parent array.
+         *
+         * (see: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm)
+         *
+         * V: number of nodes
+         * E: number of edges
+         * Time complexity: O(V^2)
+         * (It is possible to improve the time complexity to O(E + V * log(V)) using a Fibonacci heap min-priority queue
+         * 
+         * @param graph  the graph to solve
+         * @param source the source node
+         * 
+         * @return the result of the algorithm (see DijkstraResult.h)
+         */
+        static std::shared_ptr<dto::DijkstraResult> Dijkstra(const std::shared_ptr<data_structures::Graph>& graph, int source);
     };
 }
 
