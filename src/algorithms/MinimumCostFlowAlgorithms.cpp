@@ -12,10 +12,16 @@
 namespace algorithms {
     std::shared_ptr<dto::FlowResult> MinimumCostFlowAlgorithms::CycleCancelling(const std::shared_ptr<data_structures::Graph>& graph,
         int source, int sink) {
+
         // get the maximum flow using Edmonds-Karp (feasible flow)
         auto edmonds_karps_result = MaximumFlowAlgorithms::EdmondsKarp(graph, source, sink);
+        
+        // get the residual graph
         auto residual_graph = edmonds_karps_result->getGraph();
 
+        // get the original graph
+        auto original_graph = std::make_shared<data_structures::Graph>(utils::GraphUtils::GetResidualGraph(graph));
+        
         // get the negative cycle using Bellman-Ford
         auto bellman_ford_result = GraphBaseAlgorithms::BellmanFord(residual_graph, source);
 
@@ -30,7 +36,8 @@ namespace algorithms {
             bellman_ford_result = GraphBaseAlgorithms::BellmanFord(residual_graph, source);
         }
 
-        auto optimal_graph = utils::GraphUtils::GetOptimalGraphFromNegativeCosts(residual_graph, graph);
+       // get the optimal graph
+        auto optimal_graph = utils::GraphUtils::GetOptimalGraph(residual_graph, original_graph);
 
         // get minimum cost
         int minimum_cost { MinimumCostFlowAlgorithms::getMinimumCost(optimal_graph) };
@@ -43,9 +50,11 @@ namespace algorithms {
 
         // get the residual graph
         auto residual_graph = utils::GraphUtils::GetResidualGraph(graph);
+
         // get the original graph
-        auto original_graph = utils::GraphUtils::GetResidualGraph(graph);
-        
+        auto original_graph = std::make_shared<data_structures::Graph>(residual_graph);
+
+
         // check if there is a negative cycle, if so Successive Shortest Path cannot be applied
         auto bellman_ford_result = GraphBaseAlgorithms::BellmanFord(residual_graph, source);
         if (bellman_ford_result->hasNegativeCycle()) {
@@ -140,7 +149,7 @@ namespace algorithms {
             throw std::runtime_error("Max flow not reached");
         }
 
-        auto optimal_graph = utils::GraphUtils::GetOptimalGraphFromReducedCosts(residual_graph, original_graph);
+        auto optimal_graph = utils::GraphUtils::GetOptimalGraph(residual_graph, original_graph);
         int minimum_cost { MinimumCostFlowAlgorithms::getMinimumCost(optimal_graph) };
 
         return std::make_shared<dto::FlowResult>(optimal_graph, minimum_cost);

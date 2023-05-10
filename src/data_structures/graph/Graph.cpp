@@ -16,6 +16,25 @@ namespace data_structures {
         }
     }
 
+    Graph::Graph(const std::shared_ptr<Graph> other) {
+        this->num_nodes = other->num_nodes;
+        this->g = std::make_shared<std::map<int, std::shared_ptr<std::vector<Edge>>>>();
+
+        // insert the nodes
+        for (int node = 0; node < other->getNumNodes(); node++) {
+            this->g->insert({node, std::make_shared<std::vector<Edge>>()});
+        }
+
+        // insert the edges
+        for (auto it : *other->g) {
+            int node = it.first;
+            auto adj_list = it.second;
+            for (auto edge : *adj_list) {
+                this->g->at(node)->push_back(edge);
+            }
+        }
+    }
+
     int Graph::getStartingNumNodes() const {
         return this->num_nodes;
     }

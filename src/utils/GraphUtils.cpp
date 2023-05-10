@@ -4,8 +4,10 @@
 #include "consts/Consts.h"
 #include "data_structures/graph/Edge.h"
 
+#include <string>
 #include <memory>
 #include <fstream>
+#include <stdexcept>
 #include <algorithm>
 
 using json = nlohmann::ordered_json;
@@ -86,51 +88,7 @@ namespace utils {
         return residual_graph;
     }
 
-    std::shared_ptr<data_structures::Graph> GraphUtils::GetOptimalGraphFromNegativeCosts(const std::shared_ptr<data_structures::Graph>& residual_graph,
-        const std::shared_ptr<data_structures::Graph>& graph) {
-        
-        auto optimal_graph = std::make_shared<data_structures::Graph>(residual_graph->getStartingNumNodes());
-
-        for (int sink = 0; sink < residual_graph->getStartingNumNodes(); sink++) {
-            for (auto e : *residual_graph->getNodeAdjList(sink)) {
-                
-                int cost { e.getCost() };
-                
-                // get only the graph with negative cost edges
-                if (cost >= 0) {
-                    continue;
-                }
-                
-                int source { e.getSink() };
-                int capacity { e.getCapacity() };
-                int start_node { source };
-
-                // remove the artificial node added to handle anti-parallel edges
-                if (source >= residual_graph->getStartingNumNodes()) {
-                    // get the original source node by getting the sink of
-                    // the only edge of the artificial node
-                    start_node = residual_graph->getNodeAdjList(source)->at(0).getSink();
-                }
-
-                // add the edge to the optimal graph
-                optimal_graph->addEdge(start_node, sink, capacity, -cost);
-            }
-        }
-
-        // add the edges of the original graph that are not in the residual graph
-        for (int source = 0; source < graph->getNumNodes(); source++) {
-            for (auto e : *graph->getNodeAdjList(source)) {
-                // if the optimal graph does not contain the edge, add it with 0 flow
-                if ( !optimal_graph->hasEdge(source, e.getSink()) ) {
-                    optimal_graph->addEdge(source, e.getSink(), 0, e.getCost());
-                }
-            }
-        }
-
-        return optimal_graph;
-    }
-
-    std::shared_ptr<data_structures::Graph> GraphUtils::GetOptimalGraphFromReducedCosts(const std::shared_ptr<data_structures::Graph>& residual_graph,
+    std::shared_ptr<data_structures::Graph> GraphUtils::GetOptimalGraph(const std::shared_ptr<data_structures::Graph>& residual_graph,
         const std::shared_ptr<data_structures::Graph>& graph) {
         
         auto optimal_graph = std::make_shared<data_structures::Graph>(residual_graph->getStartingNumNodes());
@@ -141,7 +99,7 @@ namespace utils {
                 int source { e.getSink() };
                 
                 // discard the edges present in the original graph
-                // since they contains the remaining capacity of the edge.
+                // since they contain the remaining capacity of the edge.
                 if (graph->hasEdge(sink, source)) {
                     continue;
                 }

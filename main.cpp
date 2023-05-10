@@ -40,9 +40,9 @@ int main(int argc, char **argv) {
             case 1: {
                 result = algorithms::MaximumFlowAlgorithms::EdmondsKarp(graph, source, sink);
                 std::cout << "Graph with flow: " << std::endl;
-                auto opt_graph = utils::GraphUtils::GetOptimalGraphFromNegativeCosts(result->getGraph(), graph);
+                auto opt_graph = utils::GraphUtils::GetOptimalGraph(result->getGraph(), utils::GraphUtils::GetResidualGraph(graph));
                 std::cout << opt_graph->toString() << std::endl;
-                std::cout << "Maximum flow: " << result->getFlow() << std::endl << std::endl;
+                std::cout << "Maximum flow: " << result->getFlow() << std::endl;
                 break;
             }
             case 2: {
@@ -82,7 +82,7 @@ int main(int argc, char **argv) {
                 }
                 std::cout << "Graph with flow: " << std::endl;
                 std::cout << result->getGraph()->toString() << std::endl;
-                std::cout << "Minimum cost flow: " << result->getFlow() << std::endl << std::endl;
+                std::cout << "Minimum cost flow: " << result->getFlow() << std::endl;
                 break;
             }
             case 3: {
@@ -97,6 +97,5 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
 
-    std::cout << "EXIT" << std::endl;
     return EXIT_SUCCESS;
 }

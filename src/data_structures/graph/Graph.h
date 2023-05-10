@@ -15,11 +15,18 @@ namespace data_structures {
     class Graph {
         public:
             /**
-             * Graph empty constructor.
+             * Graph basic constructor.
              * 
              * @param num_nodes the starting number of nodes
              */
             explicit Graph(int num_nodes);
+
+            /**
+             * Create a copy of the input graph.
+             * 
+             * @param other the graph to copy 
+             */
+            Graph(const std::shared_ptr<Graph> other);
 
             /**
              * Return the starting number of nodes of the graph.

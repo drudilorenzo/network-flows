@@ -58,12 +58,10 @@ namespace  utils {
             static std::shared_ptr<data_structures::Graph> GetResidualGraph(const std::shared_ptr<data_structures::Graph>& graph);
 
             /**
-             * Get the optimal graph from a residual graph built with negative costs (see Cycle Cancelling algorithm).
-             * Used for algorithms that use negative costs for detecting the residual edges.
-             * The residual edges are the edge containing the current flow in the opposite edge sink-source.
-             * 
+             * Get the optimal graph.
              * It converts te residual graph into the optimal graph.
-             * The optimal graph is the graph which contains only the starting edges. 
+             * The optimal graph is the graph which contains only the starting edges with the
+             * current flow. 
              *
              * (see: https://www.hackerearth.com/practice/algorithms/graphs/maximum-flow/tutorial/)
              *
@@ -72,27 +70,7 @@ namespace  utils {
              * 
              * @return the optimal graph
              */
-            static std::shared_ptr<data_structures::Graph> GetOptimalGraphFromNegativeCosts(const std::shared_ptr<data_structures::Graph>& residual_graph,
-                const std::shared_ptr<data_structures::Graph>& graph);
-
-            /**
-             * Get the optimal graph from a residual graph built with reduced costs (see Successive Shortest Path algorithm).
-             * When algorithms (as Successive Shortest Path) use reduced costs, in the residual networks there are no
-             * edges with negative costs.
-             * So, to the recognize the residual edges, we need to check if, in the original graph, there is the edge.
-             * If not, it means that the edge is a residual edge and the original graph contains its opposite.
-             * 
-             * It converts te residual graph into the optimal graph.
-             * The optimal graph is the graph which contains only the starting edges. 
-             *
-             * (see: https://www.hackerearth.com/practice/algorithms/graphs/maximum-flow/tutorial/)
-             *
-             * @param residual_graph the residual graph from which get the optimal graph
-             * @param graph          the original graph used for add the missing edges
-             * 
-             * @return the optimal graph
-             */
-            static std::shared_ptr<data_structures::Graph> GetOptimalGraphFromReducedCosts(const std::shared_ptr<data_structures::Graph>& residual_graph,
+            static std::shared_ptr<data_structures::Graph> GetOptimalGraph(const std::shared_ptr<data_structures::Graph>& residual_graph,
                 const std::shared_ptr<data_structures::Graph>& graph);
 
             /**
