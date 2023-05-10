@@ -45,7 +45,7 @@ namespace data_structures {
              *
              * @return the graph
              */
-            [[maybe_unused]] [[maybe_unused]] [[nodiscard]] std::shared_ptr<std::map<int, std::shared_ptr<std::vector<Edge>>>> getGraph() const;
+            [[maybe_unused]] [[nodiscard]] std::shared_ptr<std::map<int, std::shared_ptr<std::vector<Edge>>>> getGraph() const;
 
             /**
              * Get the adjacent list of the node i.
@@ -97,17 +97,17 @@ namespace data_structures {
             void setEdgeCapacity(int source, int sink, int capacity);
 
             /**
-             * Set the weight of the edge between the nodes u and v.
+             * Set the cost of the edge between the nodes u and v.
              *
              * @param source   the first node
              * @param sink     the second node
-             * @param weight   the new weight of the edge
+             * @param cost   the new cost of the edge
              * 
              * @throws invalid_argument if the nodes do not exist
              * @throws invalid_argument if the edge does not exist
              * @throws invalid_argument if the weight is negative
              */
-            void setEdgeWeight(int source, int sink, int weight);
+            void setEdgeCost(int source, int sink, int cost);
 
             /**
             * Add the direct edge e to the graph.
@@ -206,16 +206,6 @@ namespace data_structures {
              * @throws invalid_argument if the capacity is negative
              */
             static void checkNegativeCapacity(int capacity);
-
-            /**
-             * Check if the weight is negative.
-             *
-             * @param cost the weight
-             * 
-             * @throws invalid_argument if the weight is negative
-             */
-            static void checkNegativeWeight(int weight);
-
 
             // the starting number of nodes of the graph
             int num_nodes;

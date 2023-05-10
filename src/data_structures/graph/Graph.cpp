@@ -71,14 +71,13 @@ namespace data_structures {
         throw std::invalid_argument(data_structures::Graph::getNoEdgeString(source, sink));
     }
 
-    void Graph::setEdgeWeight(int source, int sink, int weight) {
+    void Graph::setEdgeCost(int source, int sink, int cost) {
         Graph::checkNodeExistence(source);
         Graph::checkNodeExistence(sink);
-        Graph::checkNegativeWeight(weight);
 
         for (auto &e : *this->g->at(source)) {
             if (e.getSink() == sink) {
-                e.setWeight(weight);
+                e.setCost(cost);
                 return;
             }
         }
@@ -207,12 +206,6 @@ namespace data_structures {
     void Graph::checkNegativeCapacity(int capacity) {
         if (capacity < 0) {
             throw std::invalid_argument("capacity must be positive");
-        }
-    }
-
-    void Graph::checkNegativeWeight(int weight) {
-        if (weight < 0) {
-            throw std::invalid_argument("weight must be positive");
         }
     }
 }

@@ -29,7 +29,7 @@ namespace algorithms {
              * E: number of edges
              * U: maximum capacity
              * C: maximum absolute value of cost
-             * Time complexity: O(O(V * E^2 * C * U))
+             * Time complexity: O(V * E^2 * C * U)
              * 
              * @param graph  the graph to solve.
              * @param source the source node
@@ -41,25 +41,46 @@ namespace algorithms {
 
             /**
              * Successive Shortest Path algorithm.
-             *
-             * @param graph the graph to solve
+             * It maintains a solution x that satisfies the nonnegativity  and capacity constraints,
+             * but violates the mass balance constraints of the nodes. At each step, the algorithm selects
+             * a node s with excess supply and a node t with unfulfilled demand and sends flow
+             * from s to t along a shortest path in the residual network. The algorithm terminates
+             * when the current solution satisfies all the mass balance constraints.
+             * 
+             * V: number of nodes
+             * U: maximum capacity
+             * Time complexity: O(V^3 * U) 
+             * (using the Djikstra simple implementation O(V^2), you can improve performance using Fibonacci heap O(E + V*log(V),
+             * so the total time complexity will be O(V*U * (E + V*log(V)) )
+             * 
+             * @param graph  the graph to solve
              * @param source the source node
-             * @param sink the sink node
+             * @param sink   the sink node
              * 
              * @return the residual graph and the minimum weight flow
              */
-            static std::shared_ptr<dto::FlowResult> SuccessiveShortestPath(std::shared_ptr<data_structures::Graph> graph, int source, int sink);
+            static std::shared_ptr<dto::FlowResult> SuccessiveShortestPath(const std::shared_ptr<data_structures::Graph>& graph, int source, int sink);
 
             /**
              * Primal-Dual algorithm.
              *
-             * @param graph the graph to solve
+             * @param graph  the graph to solve
              * @param source the source node
-             * @param sink the sink node
+             * @param sink   the sink node
              * 
              * @return the minimum weight flow
              */
             static std::shared_ptr<dto::FlowResult> PrimalDual(std::shared_ptr<data_structures::Graph> graph, int source, int sink);
+        
+        private:
+            /**
+             * Get the minimum cost of the residual graph after applying a minimum cost flow algorithm.
+             * 
+             * @param graph the graph from which to get the minimum cost
+             * 
+             * @return int the minimum cost 
+             */
+            static int getMinimumCost(const std::shared_ptr<data_structures::Graph>& graph);
     };
 }
 

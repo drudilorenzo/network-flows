@@ -8,7 +8,7 @@ namespace dto {
     /**
      * Class that represents the result of the Bellman-Ford algorithm.
      * In case the graph contains a negative cycle, the result contains the negative cycle.
-     * Otherwise, the result contains the distance of each vertex from the source vertex.
+     * Otherwise, the result contains the distance and the parent of each node.
      *  
      */
     class BellmanFordResult {
@@ -51,7 +51,7 @@ namespace dto {
          * 
          * @return the distance of each vertex from the source vertex
          */
-        [[maybe_unused]] [[maybe_unused]] std::shared_ptr<std::vector<int>> getDistance();
+        [[maybe_unused]] std::shared_ptr<std::vector<int>> getDistance();
 
         /**
          * Returns the parent of each vertex.
@@ -59,7 +59,7 @@ namespace dto {
          * 
          * @return the the parent of each vertex
          */
-        [[maybe_unused]] [[maybe_unused]] std::shared_ptr<std::vector<int>> getParent();
+        [[maybe_unused]] std::shared_ptr<std::vector<int>> getParent();
         
     private:
         std::shared_ptr<std::vector<int>> parent;

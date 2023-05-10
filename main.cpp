@@ -31,7 +31,7 @@ int main(int argc, char **argv) {
         std::cin >> choice;
         std::cout << std::endl;
 
-        // for semplicity we assume that the source is the first node and the sink is the last node
+        // for simplicity, we assume that the source is the first node and the sink is the last node
         int source {};
         int sink { graph->getNumNodes() - 1 };
         std::shared_ptr<dto::FlowResult> result;
@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
             case 1: {
                 result = algorithms::MaximumFlowAlgorithms::EdmondsKarp(graph, source, sink);
                 std::cout << "Graph with flow: " << std::endl;
-                auto opt_graph = utils::GraphUtils::GetOptimalGraphFromNegativeWeights(result->getGraph(), graph);
+                auto opt_graph = utils::GraphUtils::GetOptimalGraphFromNegativeCosts(result->getGraph(), graph);
                 std::cout << opt_graph->toString() << std::endl;
                 std::cout << "Maximum flow: " << result->getFlow() << std::endl << std::endl;
                 break;

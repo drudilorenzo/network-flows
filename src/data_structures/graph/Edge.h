@@ -21,7 +21,7 @@ namespace data_structures {
          * @param source   The source of the edge
          * @param sink     The sink of the edge
          * @param capacity The capacity of the edge
-         * @param cost     The weight of the edge
+         * @param cost     The cost of the edge
          */
         Edge(int source, int sink, int capacity, int cost);
 
@@ -47,11 +47,11 @@ namespace data_structures {
         [[nodiscard]] int getCapacity() const;
 
         /**
-         * Get the weight of the edge.
+         * Get the cost of the edge.
          *
-         * @return the weight of the edge
+         * @return the cost of the edge
          */
-        [[nodiscard]] int getWeight() const;
+        [[nodiscard]] int getCost() const;
 
         /**
          * Set the capacity of the edge.
@@ -61,11 +61,11 @@ namespace data_structures {
         void setCapacity(int new_capacity);
 
         /**
-         * Set the weight of the edge.
+         * Set the cost of the edge.
          *
-         * @param new_weight the new weight of the edge
+         * @param new_weight the new cost of the edge
          */
-        void setWeight(int new_weight);
+        void setCost(int new_cost);
 
         /**
          * Print the edge in JSON format.
@@ -94,7 +94,7 @@ namespace data_structures {
         int source; // source of the edge
         int sink; // sink of the edge
         int capacity; // capacity of the edge
-        int weight; // weight of the edge
+        int cost; // cost of the edge
     };
 }
 

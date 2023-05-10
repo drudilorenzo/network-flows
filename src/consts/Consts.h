@@ -7,7 +7,6 @@ namespace consts {
     
     // used to represent the source node parent
     inline constexpr int source_parent { -1 };
-
 }
 
 #endif //MINIMUM_COST_FLOWS_PROBLEM_CONSTS_H

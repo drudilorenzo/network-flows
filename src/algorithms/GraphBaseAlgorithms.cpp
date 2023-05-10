@@ -60,29 +60,29 @@ namespace algorithms {
             for (int node = 0; node < num_nodes; node++) {
                 for (auto e : *graph->getNodeAdjList(node)) {
                     int sink { e.getSink() };
-                    int weight { e.getWeight() };
+                    int cost { e.getCost() };
 
                     // Update dist[v] if dist[u] + weight < dist[v]
-                    if (dist->at(node) != std::numeric_limits<int>::max() && dist->at(node) + weight < dist->at(sink)) {
-                        dist->at(sink) = dist->at(node) + weight;
+                    if (dist->at(node) != std::numeric_limits<int>::max() && dist->at(node) + cost < dist->at(sink)) {
+                        dist->at(sink) = dist->at(node) + cost;
                         parent->at(sink) = node;
                     }
                 }
             }
         }
 
-        // Check for negative-weight cycles
+        // Check for negative-cost cycles
         for (int node = 0; node < num_nodes; node++) {
             for (auto e : *graph->getNodeAdjList(node)) {
                 int sink { e.getSink() };
-                int weight { e.getWeight() };
+                int cost { e.getCost() };
 
                 // Found a negative-weight cycle, get the cycle and return it
-                if (dist->at(node) != std::numeric_limits<int>::max() && dist->at(node) + weight < dist->at(sink)) {
+                if (dist->at(node) != std::numeric_limits<int>::max() && dist->at(node) + cost < dist->at(sink)) {
 
                     // Result in case a negative-weight cycle was found
                     // It contains the negative-weight cycle
-                    return std::make_shared<dto::BellmanFordResult>(utils::GraphUtils::RetrievePath(parent, sink));
+                    return std::make_shared<dto::BellmanFordResult>(utils::GraphUtils::RetrievePath(parent, consts::source_parent, sink));
                 }
             }
         }

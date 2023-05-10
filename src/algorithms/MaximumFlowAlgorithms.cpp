@@ -1,6 +1,7 @@
 #include "MaximumFlowAlgorithms.h"
 
 #include "utils/GraphUtils.h"
+#include "consts/Consts.h"
 #include "GraphBaseAlgorithms.h"
 
 #include <memory>
@@ -20,13 +21,13 @@ namespace algorithms {
             auto parent = bfs_result->getParent();
             
             // reconstruct the path from source to sink
-            auto path = utils::GraphUtils::RetrievePath(parent, sink);
+            auto path = utils::GraphUtils::RetrievePath(parent, consts::source_parent, sink);
 
             // find the minimum residual capacity of the edges in the path
             auto path_flow = utils::GraphUtils::GetResidualCapacity(residual_graph, path);
 
             // update the residual capacities and the current flow
-            utils::GraphUtils::SendFlowInPath(residual_graph, path, path_flow);
+            utils::GraphUtils::SendFlowInPathNegativeCosts(residual_graph, path, path_flow);
 
             // update the max flow
             max_flow += path_flow;

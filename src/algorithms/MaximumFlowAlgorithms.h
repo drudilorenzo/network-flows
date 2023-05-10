@@ -17,7 +17,7 @@ namespace algorithms {
              * for computing the maximum flow in a flow network.
              * Return the graph and the maximum flow.
              *
-             * https://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm
+             * (see: https://en.wikipedia.org/wiki/Edmonds%E2%80%93Karp_algorithm)
              * 
              * V: number of nodes
              * E: number of edges

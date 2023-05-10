@@ -21,7 +21,7 @@ namespace  utils {
              *        "Source": -,
              *        "Sink": -,
              *        "Capacity": -,
-             *        "Weight": -
+             *        "Cost": -
              *       },
              *      ...
              *   ]
@@ -58,7 +58,10 @@ namespace  utils {
             static std::shared_ptr<data_structures::Graph> GetResidualGraph(const std::shared_ptr<data_structures::Graph>& graph);
 
             /**
-             * Get the optimal graph from the residual graph.
+             * Get the optimal graph from a residual graph built with negative costs (see Cycle Cancelling algorithm).
+             * Used for algorithms that use negative costs for detecting the residual edges.
+             * The residual edges are the edge containing the current flow in the opposite edge sink-source.
+             * 
              * It converts te residual graph into the optimal graph.
              * The optimal graph is the graph which contains only the starting edges. 
              *
@@ -69,18 +72,39 @@ namespace  utils {
              * 
              * @return the optimal graph
              */
-            static std::shared_ptr<data_structures::Graph> GetOptimalGraph(const std::shared_ptr<data_structures::Graph>& residual_graph,
+            static std::shared_ptr<data_structures::Graph> GetOptimalGraphFromNegativeCosts(const std::shared_ptr<data_structures::Graph>& residual_graph,
+                const std::shared_ptr<data_structures::Graph>& graph);
+
+            /**
+             * Get the optimal graph from a residual graph built with reduced costs (see Successive Shortest Path algorithm).
+             * When algorithms (as Successive Shortest Path) use reduced costs, in the residual networks there are no
+             * edges with negative costs.
+             * So, to the recognize the residual edges, we need to check if, in the original graph, there is the edge.
+             * If not, it means that the edge is a residual edge and the original graph contains its opposite.
+             * 
+             * It converts te residual graph into the optimal graph.
+             * The optimal graph is the graph which contains only the starting edges. 
+             *
+             * (see: https://www.hackerearth.com/practice/algorithms/graphs/maximum-flow/tutorial/)
+             *
+             * @param residual_graph the residual graph from which get the optimal graph
+             * @param graph          the original graph used for add the missing edges
+             * 
+             * @return the optimal graph
+             */
+            static std::shared_ptr<data_structures::Graph> GetOptimalGraphFromReducedCosts(const std::shared_ptr<data_structures::Graph>& residual_graph,
                 const std::shared_ptr<data_structures::Graph>& graph);
 
             /**
              * Retrieve the path from the input node to the source (node with -1 as parent).
              *
              * @param parent the parent vector, where parent[i] is the parent of node i
-             * @param node   the start node
+             * @param source the source node of the path
+             * @param sink   the sink node of the path
              * 
              * @return the path from input node to the source node (node with -1 as parent)
              */
-            static std::shared_ptr<std::vector<int>> RetrievePath(const std::shared_ptr<std::vector<int>>& parent, int node);
+            static std::shared_ptr<std::vector<int>> RetrievePath(const std::shared_ptr<std::vector<int>>& parent, int source, int sink);
 
             /**
              * Get the residual capacity of the path in the residual_graph.
@@ -94,15 +118,31 @@ namespace  utils {
             static int GetResidualCapacity(const std::shared_ptr<data_structures::Graph>& residual_graph, const std::shared_ptr<std::vector<int>>& path);
 
             /**
-             * Send flow in a path of edges of the input graph (residual_graph).
+             * Send flow in a path of edges of a residual graph with negative cost edges.
+             * See the function above for more details about the graph.
              *
-             * @param residual_graph the residual residual_graph (IT MUST BE A RESIDUAL GRAPH, see the function above)
+             * @param residual_graph the residual residual_graph (IT MUST BE A RESIDUAL GRAPH WITH NEGATIVE COST EDGES, see the function above)
              * @param path           the path of the edge to update
              * @param flow           the flow to send
              * 
              * @throws invalid_argument if an edge residual capacity is less than the flow to send
              */
-            static void SendFlowInPath(const std::shared_ptr<data_structures::Graph>& residual_graph, const std::shared_ptr<std::vector<int>>& path, int flow);
+            static void SendFlowInPathNegativeCosts(const std::shared_ptr<data_structures::Graph>& residual_graph,
+                const std::shared_ptr<std::vector<int>>& path, int flow);
+    
+            /**
+             * Send flow in a path of edges of a residual graph with reduced cost edges.
+             * See the function above for more details about the graph.
+             *
+             * @param residual_graph the residual residual_graph (IT MUST BE A RESIDUAL GRAPH WITH REDUCED COSTS, see the function above)
+             * @param original_graph the original graph used to recognize the residual edges
+             * @param path           the path of the edge to update
+             * @param flow           the flow to send
+             * 
+             * @throws invalid_argument if an edge residual capacity is less than the flow to send
+             */
+            static void SendFlowInPathReducedCosts(const std::shared_ptr<data_structures::Graph>& residual_graph,
+                const std::shared_ptr<data_structures::Graph>& original_graph, const std::shared_ptr<std::vector<int>>& path, int flow);
     };
 }
 
