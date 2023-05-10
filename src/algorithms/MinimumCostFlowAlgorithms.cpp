@@ -54,7 +54,6 @@ namespace algorithms {
         // get the original graph
         auto original_graph = std::make_shared<data_structures::Graph>(residual_graph);
 
-
         // check if there is a negative cycle, if so Successive Shortest Path cannot be applied
         auto bellman_ford_result = GraphBaseAlgorithms::BellmanFord(residual_graph, source);
         if (bellman_ford_result->hasNegativeCycle()) {
@@ -88,16 +87,9 @@ namespace algorithms {
             int l { negative_imbalance.back() };
             negative_imbalance.pop_back();
 
-            // determine the shortest path from k to l using Bellman-Ford
-            bellman_ford_result = GraphBaseAlgorithms::BellmanFord(residual_graph, k);
-
-            // if a negative cycle is found, throw an exception
-            if (bellman_ford_result->hasNegativeCycle()) {
-                throw std::runtime_error("Negative cycle found in the residual graph");
-            }
-
-            auto distance = bellman_ford_result->getDistance();
-            auto parent = bellman_ford_result->getParent();
+            auto dijkstra_result = GraphBaseAlgorithms::Dijkstra(residual_graph, k);
+            auto distance = dijkstra_result->getDistance();
+            auto parent = dijkstra_result->getParent();
 
             // get path between k and l
             auto path = utils::GraphUtils::RetrievePath(parent, k, l);

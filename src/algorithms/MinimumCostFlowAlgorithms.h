@@ -47,10 +47,12 @@ namespace algorithms {
              * from s to t along a shortest path in the residual network. The algorithm terminates
              * when the current solution satisfies all the mass balance constraints.
              * 
+             * (see: https://www.topcoder.com/thrive/articles/Minimum%20Cost%20Flow%20Part%20Two:%20Algorithms)
+             * 
              * V: number of nodes
              * U: maximum capacity
              * Time complexity: O(V^3 * U) 
-             * (using the Djikstra simple implementation O(V^2), you can improve performance using Fibonacci heap O(E + V*log(V),
+             * (using the Dijkstra simple implementation O(V^2), you can improve performance using Fibonacci heap O(E + V*log(V),
              * so the total time complexity will be O(V*U * (E + V*log(V)) )
              * 
              * @param graph  the graph to solve
