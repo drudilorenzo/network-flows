@@ -120,7 +120,17 @@ namespace  utils {
              * @throws invalid_argument if an edge residual capacity is less than the flow to send
              */
             static void SendFlowInPathReducedCosts(const std::shared_ptr<data_structures::Graph>& residual_graph,
-                const std::shared_ptr<data_structures::Graph>& original_graph, const std::shared_ptr<std::vector<int>>& path, int flow);
+                const std::shared_ptr<std::vector<int>>& path, int flow);
+
+            /**
+             * Get the admissible graph from a reduced cost graph.
+             * The admissible graph is the graph which contains only the edges with zero reduced cost.
+             *
+             * @param graph the graph to get the admissible graph from (IT MUST BE A RESIDUAL GRAPH WITH REDUCED COSTS, see the function above)
+             * 
+             * @return the admissible graph
+             */
+            static std::shared_ptr<data_structures::Graph> GetAdmissibleGraph(const std::shared_ptr<data_structures::Graph>& graph);
     };
 }
 
