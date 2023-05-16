@@ -72,7 +72,7 @@ namespace algorithms {
              * 
              * @return the minimum weight flow
              */
-            static std::shared_ptr<dto::FlowResult> PrimalDual(std::shared_ptr<data_structures::Graph> graph, int source, int sink);
+            static std::shared_ptr<dto::FlowResult> PrimalDual(const std::shared_ptr<data_structures::Graph>& graph, int source, int sink);
         
         private:
             /**
