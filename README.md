@@ -4,6 +4,7 @@
 ![CMake](https://img.shields.io/badge/CMake-%23008FBA.svg?style=for-the-badge&logo=cmake&logoColor=white)
 ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
 
 1. [Description](#description)
 2. [Project structure](#project-structure)
@@ -26,7 +27,7 @@ Command-line solver of the following network flows optimization problems:
 - [X] [Successive Shortest Path Algorithm](https://www.topcoder.com/thrive/articles/Minimum%20Cost%20Flow%20Part%20Two:%20Algorithms)
 - [ ] [Primal-Dual Algorithm](https://www.topcoder.com/thrive/articles/Minimum%20Cost%20Flow%20Part%20Two:%20Algorithms)
 
-`Generic (base) algorithms`:
+`Basic algorithms`:
 - [X] [BFS](https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/)
 - [X] [Bellman-Ford](https://www.geeksforgeeks.org/bellman-ford-algorithm-dp-23/)
 - [X] [Dijkstra](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm)
@@ -40,11 +41,14 @@ Command-line solver of the following network flows optimization problems:
 - [src](src): the command-line tool source files
 
 ## How to use
-**The following commands are for a generic linux system, you may need to adapt them depending on your os**
+**The following commands are for a generic Linux system, you may need to adapt them depending on your os**
 
-### JSON Format 
+### Requirements
+`CMake`: minimum version `3.20`, see [here](https://cmake.org/install/) how to install it
+
+### Use your own graph
 Both the c++ command line tool and the Python solver requires an input graph described by a well-formed JSON file. \
-Here is an example of how you can create yours:
+**To run the algorithms on you own graph you have to create a JSON file formatted as following**:
 
 ```json
 {
@@ -95,31 +99,62 @@ Here is an example of how you can create yours:
     ]
  }
 ```
+
+- `Num_nodes`: number of nodes of the graph;
+- `Edges`: JSON array containing all the edges;
+- `Source`: source node of the direct edge;
+- `Sink`: sink node of the edge;
+- `Capacity`: maximum capacity of the edge;
+- `Cost`: cost (or weight) per unit flow of the edge,
+
+**Note**: \
 - The first node (`source`) has index 0; \
-- The last node (`sink`) has index num_nodes - 1; \
+- The last node (`sink`) has index Num_nodes - 1; \
 - Each edge must have positive (> 0) `capacity` and `cost`. \
 
 See [data](data) directory for more examples.
 
 ### Build
-Build the project using [cmake](https://preshing.com/20170511/how-to-build-a-cmake-based-project/). \
-Either you can easily build it using an IDE such as [CLion](https://www.jetbrains.com/clion/).
+
+1. Clone the repo:
+```bash
+    git clone git@github.com:LorenzoDrudi/network-flows.git
+```
+
+2. Enter the repo:
+```bash
+    cd network-flows
+```
+3. Generate project build system:
+```bash
+    cmake -S . -B build
+```
+This command creates a build folder containing all the cmake files and the executable.
+
+4. Build the project:
+```bash
+    cmake --build build
+```
 
 ### Run
-Enter the build directory (it depends on how you build the program). \
-The default directory is `cmake-build-debug`.
-
-Run with:
+1. After doing the build, enter the build folder:
+```bash
+  cd build
+```
+2. Run the project:
 ```bash
   ./network_flows path/filename.json
 ```
-(*e.g. `./network_flows ../data/graph1.json`*) \
+The argument passed to the executable is the full or relative path of the JSON file of the graph \
+(*e.g. `./network_flows ../data/graph1.json`*). \
 The filename argument is optional, you can enter it during the execution.
 
 ## Python Tester
 Inside the [pyTest](pyTest) directory there is a simple python solver developed using [Networkx](https://networkx.org/) library.
-The solver permits drawing a graph using `matplotlib` and solving the maximum flow and minimum cost maximum-flow problems.
-I used it as a tester for my tool. It gave me the possibility firstly to see a pretty drawing of the graphs I created and then to check the results of my algorithms.
+The solver permits to:
+- draw a graph using `matplotlib`
+- solve the maximum flow problem
+- solve the minimum cost maximum flow problem
 
 ### Requirements:
 `Python3`: see [here](https://realpython.com/installing-python/) how to install
@@ -127,13 +162,13 @@ I used it as a tester for my tool. It gave me the possibility firstly to see a p
 ### How to use:
 **The following commands are for a generic linux system, you may need to adapt them depending on your os**
 
-1. First of all move inside the directory:
+1. Enter the directory:
 ```bash
   cd pyTest
 ```
+(*You can ignore the next 2 steps (2, 3) if you want to install Python dependencies locally*)
 
-(*You can ignore the next 2 steps (2, 3) if you want to install Python dependencies locally*) \
-2. Then create a [python virtual environment](https://docs.python.org/3/library/venv.html) where install all the required dependencies:
+2. Create a [python virtual environment](https://docs.python.org/3/library/venv.html) where install all the required dependencies:
 ```bash
   python3 -m venv venv
 ```
