@@ -55,7 +55,6 @@ int main(int argc, char **argv) {
                 std::cin >> choice;
                 std::cout << std::endl;
 
-                int minimum_cost {};
                 switch (choice) {
                     case 1 : {
                         std::cout << "Cycle-cancelling selected!" << std::endl;
@@ -69,12 +68,12 @@ int main(int argc, char **argv) {
                     }
                     case 3 : {
                         std::cout << "Primal-dual selected!" << std::endl;
-                        //minimum_cost = algorithms::MinimumCostFlowAlgorithms::PrimalDual(graph);
-                        std::cout << "Minimum cost flow: " << minimum_cost << std::endl;
+                        result = algorithms::MinimumCostFlowAlgorithms::PrimalDual(graph, source, sink);
                         break;
                     }
                     case 4: {
-                        break;
+                        std::cout << "Exit selected!" << std::endl;
+                        return EXIT_SUCCESS;;
                     }
                     default: {
                         throw std::invalid_argument("Invalid choice!");
@@ -97,5 +96,6 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
 
+    std::cout << "Exit selected!" << std::endl;
     return EXIT_SUCCESS;
 }

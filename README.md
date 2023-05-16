@@ -95,6 +95,10 @@ Here is an example of how you can create yours:
     ]
  }
 ```
+- The first node (`source`) has index 0; \
+- The last node (`sink`) has index num_nodes - 1; \
+- Each edge must have positive (> 0) `capacity` and `cost`. \
+
 See [data](data) directory for more examples.
 
 ### Build
