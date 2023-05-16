@@ -14,6 +14,8 @@ namespace data_structures {
         for (int node = 0; node < num_nodes; node++) {
             this->g->insert({node, std::make_shared<std::vector<Edge>>()});
         }
+
+        this->artificial_nodes = std::make_shared<std::map<int, Edge>>();
     }
 
     Graph::Graph(const std::shared_ptr<Graph> other) {
@@ -32,6 +34,11 @@ namespace data_structures {
             for (auto edge : *adj_list) {
                 this->g->at(node)->push_back(edge);
             }
+        }
+
+        this->artificial_nodes = std::make_shared<std::map<int, Edge>>();
+        for (auto it : *other->artificial_nodes) {
+            this->artificial_nodes->insert({it.first, it.second});
         }
     }
 
@@ -156,6 +163,14 @@ namespace data_structures {
         }
 
         throw std::invalid_argument(data_structures::Graph::getNoEdgeString(source, sink));
+    }
+
+    std::shared_ptr<std::map<int, Edge>> Graph::getArtificialNodesMap() const {
+        return this->artificial_nodes;
+    }
+
+    void Graph::addArtificialNodes(int node, Edge edge) {
+        this->artificial_nodes->insert({node, edge});
     }
 
     std::string Graph::toString() const {

@@ -154,6 +154,29 @@ namespace data_structures {
             void removeEdge(int source, int sink);
 
             /**
+             * Get the artificial node map.
+             * Artificial nodes are nodes that are added to the graph to handle anti-parallel edges.
+             * The flow algorithms use the residual graph (with backward edges), so it is necessary to remove
+             * anti-parallel edges and to do so it is added, for each anti-parallel edge, a node (artificial node)
+             * in the middle of the edge with the smaller source id.
+             * The map has as:
+             *   - Key:   the id of the artificial node
+             *   - Value: the edge that the artificial node represents
+             * 
+             * @return the artificial node map
+             */
+            std::shared_ptr<std::map<int, Edge>> getArtificialNodesMap() const;
+
+            /**
+             * Add the artificial node to the graph.
+             * For an explanation of what an artificial node is, see the documentation of the method getArtificialNodesMap().
+             * 
+             * @param node the id of the artificial node
+             * @param edge the edge that the artificial node represents
+             */
+            void addArtificialNodes(int node, Edge edge);
+
+            /**
             * Print the graph in JSON format.
             */
             [[nodiscard]] std::string toString() const;
@@ -175,7 +198,6 @@ namespace data_structures {
              * @return true if the two graphs are not equal, false otherwise
              */
             bool operator!=(const Graph& other) const;
-
         private:
             /**
              * Get the string representing the no-edge message between the nodes u and v.
@@ -219,6 +241,11 @@ namespace data_structures {
 
             // graph represented using map of adjacent list
             std::shared_ptr<std::map<int, std::shared_ptr<std::vector<Edge>>>> g;
+
+            // map of artificial nodes
+            // artificial nodes are used for anti-parallel edges
+            // Key: artificial node / Value: the substitute edge
+            std::shared_ptr<std::map<int, Edge>> artificial_nodes;
     };
 }
 #endif //MINIMUM_COST_FLOWS_PROBLEM_GRAPH_H
