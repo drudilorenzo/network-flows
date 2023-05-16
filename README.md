@@ -16,7 +16,8 @@
 Command-line solver of the following network flows optimization problems:
 
 1. `Maximum Flow`: it seeks a feasible solution that sends the maximum amount of flow from a specified source note s to node t per unit of time.
-2. `Minimum Cost Flow`: it is the most fundamental of all the network flow problems. It searches for the cheapest possible way of sending a certain amount of flow through a flow network. In particular, the solver solves the `minimum cost maximum flow problem`, seeking the least-cost maximum flow.
+2. `Minimum Cost Flow`: it is the most fundamental of all the network flow problems. It searches for the cheapest possible way of sending a certain amount of flow through a flow network. \
+3.  In particular, the solver solves the `minimum cost maximum flow problem`, seeking the least-cost maximum flow.
 
 ## Algorithms
 `Maximum Flow`:
@@ -44,7 +45,7 @@ Command-line solver of the following network flows optimization problems:
 **The following commands are for a generic Linux system, you may need to adapt them depending on your os**
 
 ### Requirements
-`CMake`: minimum version `3.20`, see [here](https://cmake.org/install/) how to install it
+`CMake`: minimum version `3.20`, see [here](https://cmake.org/install/) how to install.
 
 ### Use your own graph
 Both the c++ command line tool and the Python solver requires an input graph described by a well-formed JSON file. \
@@ -107,10 +108,10 @@ Both the c++ command line tool and the Python solver requires an input graph des
 - `Capacity`: maximum capacity of the edge;
 - `Cost`: cost (or weight) per unit flow of the edge,
 
-**Note**: \
-- The first node (`source`) has index 0; \
-- The last node (`sink`) has index Num_nodes - 1; \
-- Each edge must have positive (> 0) `capacity` and `cost`. \
+**Note**:
+- The first node (`source`) has index 0;
+- The last node (`sink`) has index Num_nodes - 1;
+- Each edge must have positive (> 0) `capacity` and `cost`.
 
 See [data](data) directory for more examples.
 
