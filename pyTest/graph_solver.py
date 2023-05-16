@@ -29,15 +29,15 @@ with open(filename) as f:
     # Add nodes to the graph with the attributes weight and capacity
     # Look to the example in the documentation for more information on the json format
     for edge in js_graph["Edges"]:
-        graph.add_edge(edge["Source"], edge["Sink"], cost=edge["Cost"], capacity=edge["Capacity"]);
+        graph.add_edge(edge["Source"], edge["Sink"], weight=edge["Cost"], capacity=edge["Capacity"]);
         
 # Draw the graph
 pos=nx.spring_layout(graph)
 nx.draw_networkx(graph, pos, with_labels=True)
 
 # Add the labels to the edges
-cost=nx.get_edge_attributes(graph,'cost')
-capacity=nx.get_edge_attributes(graph,'capacity')
+cost=nx.get_edge_attributes(graph, "weight")
+capacity=nx.get_edge_attributes(graph, "capacity")
 labels = {}
 for e in cost.keys():
     labels[e] = str(cost[e]) + " / " + str(capacity[e])
