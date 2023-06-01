@@ -16,7 +16,7 @@
 Command-line solver of the following network flows optimization problems:
 
 1. `Maximum Flow`: it seeks a feasible solution that sends the maximum amount of flow from a specified source note s to node t per unit of time.
-2. `Minimum Cost Flow`: it is the most fundamental of all the network flow problems. It searches for the cheapest possible way of sending a certain amount of flow through a flow network. \
+2. `Minimum Cost Flow`: it is the most fundamental of all the network flow problems. It searches for the cheapest possible way of sending a certain amount of flow through a flow network.
 3.  In particular, the solver solves the `minimum cost maximum flow problem`, seeking the least-cost maximum flow.
 
 ## Algorithms
