@@ -48,12 +48,6 @@
             "Sink": 4,
             "Capacity": 4,
             "Cost": 1
-        },
-        {
-            "Source": 4,
-            "Sink": 3,
-            "Capacity": 4,
-            "Cost": 1
         }
     ]
 }

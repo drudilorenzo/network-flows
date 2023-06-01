@@ -72,7 +72,6 @@ int main(int argc, char **argv) {
                         break;
                     }
                     case 4: {
-                        std::cout << "Exit selected!" << std::endl;
                         return EXIT_SUCCESS;;
                     }
                     default: {
@@ -96,6 +95,5 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
 
-    std::cout << "Exit selected!" << std::endl;
     return EXIT_SUCCESS;
 }
