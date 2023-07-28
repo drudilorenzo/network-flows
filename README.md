@@ -26,7 +26,7 @@ Command-line solver of the following network flows optimization problems:
 `Minimum Cost Flow`:
 - [X] [Cycle Cancelling Algorithm](https://complex-systems-ai.com/en/maximum-flow-problem/cycle-canceling-algorithm/)
 - [X] [Successive Shortest Path Algorithm](https://www.topcoder.com/thrive/articles/Minimum%20Cost%20Flow%20Part%20Two:%20Algorithms)
-- [ ] [Primal-Dual Algorithm](https://www.topcoder.com/thrive/articles/Minimum%20Cost%20Flow%20Part%20Two:%20Algorithms)
+- [X] [Primal-Dual Algorithm](https://www.topcoder.com/thrive/articles/Minimum%20Cost%20Flow%20Part%20Two:%20Algorithms)
 
 `Basic algorithms`:
 - [X] [BFS](https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/)
